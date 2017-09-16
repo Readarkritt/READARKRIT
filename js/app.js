@@ -24,16 +24,20 @@ angular.module('readArkrit', ['ngRoute'])
 
         // ALUMNO
         .when('/alumno/crear', {
-            templateUrl: './html/libro/listarLibro.html',
+            templateUrl: './html/libro/formAlumno.html',
             controller: 'alumnoCrearCtrl'
         })
         .when('/alumno/modificar', {
-            templateUrl: './html/libro/listarLibro.html',
-            controller: 'LibroCtrl'
+            templateUrl: './html/alumno/formAlumno.html',
+            controller: 'alumnoModificarCtrl'
         })
-        .when('/libro', {
-            templateUrl: './html/libro/listarLibro.html',
-            controller: 'LibroCtrl'
+        .when('/profesor/crear', {
+            templateUrl: './html/profesor/formProfesor.html',
+            controller: 'profesorAltacTRL'
+        })
+        .when('/profesor/modificar', {
+            templateUrl: './html/libro/formProfesor.html',
+            controller: 'profesorModificarCtrl'
         })
 
 

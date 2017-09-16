@@ -1,0 +1,99 @@
+<div class="container-fluid">
+	<div class="card-content">
+		<form>
+		    <div class="row">
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Nombre</label>
+						<input type="text" class="form-control" id="nombre" name="nombre">
+					</div>
+		        </div>
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Primer Apellido</label>
+						<input type="text" class="form-control" id="primerApellido" name="primerApellido">
+					</div>
+		        </div>
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Segundo Apellido</label>
+						<input type="text" class="form-control" id="segundoApellido" name="segundoApellido">
+					</div>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Fecha de Nacimiento</label>
+						<input type="text" class="form-control" id="fNacimiento" name="fNacimiento" pattern="\d{1,2}/\d{1,2}/\d{4}">
+					</div>
+		        </div>
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Correo Electrónico</label>
+						<input type="text" class="form-control" id="correo" name="correo">
+					</div>
+		        </div>
+		        <div class="col-md-4">
+					<div class="form-group label-floating input-group">
+						<label class="control-label">Nombre de Usuario</label>
+					    <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario">
+					    <div class="input-group-btn">
+					      	<button class="btn btn-info" id="comprobarDisponibilidadNombreUsuario" style="padding: 6px 12px;">
+					        	<i class="fa fa-check-circle" aria-hidden="true"></i>
+					      	</button>
+					    </div>
+					</div>
+		        </div>
+		        
+		    </div>
+
+		    <div class="row">
+		        <div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Contraseña</label>
+						<input type="password" class="form-control" id="contrasena" name="contrasena">
+					</div>
+
+					<div class="alert alert-info hidden" id="infoContrasena">
+		                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+		                <span><b> Info - </b> La contraseña debe tener mas de ocho caracteres y tener como mínimo: un dígito, una minúscula y una mayúscula.</span>
+		            </div>
+		        </div>
+		        <div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Repetir Contraseña</label>
+						<input type="password" class="form-control" id="contrasenaRepetida" name="contrasenaRepetida">
+					</div>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		    	<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Número de Expediente</label>
+						<input type="text" class="form-control" id="numExpediente" name="numExpediente">
+					</div>
+		        </div>
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Titulación</label>
+						<select id="idTitulacion" name="idTitulacion">
+						  	<!-- Se cargarán los distintos valores -->
+						</select> 
+					</div>
+		        </div>
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Curso</label>
+						<select id="curso" name="curso">
+						  	<!-- Se cargarán los distintos valores -->
+						</select> 
+					</div>
+		        </div>                                      
+		    </div>
+		    <div class="clearfix"></div>
+		</form>
+	</div>
+</div>

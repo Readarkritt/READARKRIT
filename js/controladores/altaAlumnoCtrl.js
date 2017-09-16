@@ -265,10 +265,14 @@ function cargarCurso(elementoTitulacion, elementoCurso){
 	elementoCurso.html( html );
 }
 
+function cargarFormulario(){
+	$('#formulario').load('./formAlumno.html');
+}
+
 // ------------------ EVENTOS ------------------------
 
 $(function() {
-    	
+    cargarFormulario();
    	cargarTitulacion( $('#idTitulacion') );
    	cargarCurso( $('#idTitulacion') , $('#curso') );
 });
