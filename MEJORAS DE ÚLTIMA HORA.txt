@@ -1,0 +1,6 @@
+MEJORAS DE ÚLTIMA HORA
+
+1) Desactivar la autenticación
+2) Añadir la ruta de las páginas con sus privilegios
+3) Spinner entre la pantalla de Estadísticas y Mi biblioteca
+4) 

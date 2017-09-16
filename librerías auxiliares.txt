@@ -1,0 +1,4 @@
+slider para las votaciones de un libro --> http://rangeslider.js.org/
+sweet alert --> https://github.com/t4t5/sweetalert
+avatar google --> https://github.com/judesfernando/initial.js
+masked input --> http://digitalbush.com/projects/masked-input-plugin/

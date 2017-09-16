@@ -1,0 +1,92 @@
+form select{
+	font-size: 14px;
+  height: 36px;
+  line-height: 1.42857;
+  padding: 7px 0;
+  border: none;
+  border-bottom: 1px solid #d2d2d2;
+  width: 100%;
+}
+
+form select option {
+  margin: 5px;
+  color: #9c27b0;
+}
+
+.color-corporativo {
+  color: #9c27b0;
+}
+
+/* NAV BAR */
+
+.img-avatar.mini-avatar{
+
+	display: inline;
+}
+
+/* ICONOS */
+
+.fa{
+  margin: 0px 5px;
+  cursor: pointer;
+}
+
+/* DATATABLES */
+
+/* Input para buscar en la tabla (el buscador) */
+div.dataTables_filter label input[type="search"] {
+	width: 70%;
+}
+
+/* Texto que muestra los registros que hay en la tabla */
+div.dataTables_wrapper div.dataTables_info {
+	font-size: 12px;
+	white-space: pre-line;
+	color: #aaaaaa;
+}
+
+/* Cuando el dispositivo es pequeño, hace que el contenido oculto (-) se ajuste al ancho */
+table.dataTable td.child {
+  white-space: pre-line;
+
+ 	overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+}
+
+/* Cuando el dispositivo es pequeño, hace que el encabezado de la tabla oculta (-) tenga el espacio que necesita */
+/*table.dataTable > tbody > tr.child span.dtr-title {
+	display: block;
+}*/
+
+
+/* BOTONES */
+
+    /* Para añadir registro */
+.anadirRegistro{
+
+  border: 1px solid #ffffff;
+  float: right;
+  margin-top: -40px;
+}
+
+/* NAVBAR */
+.navBarDivisor{
+  position:relative;
+}
+.navBarDivisor:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+  height: 1px;
+  width: 80%;
+  background-color: rgba(180, 180, 180, 0.3);
+}
+#navBarGeneral > li:last-of-type > a{
+  margin-bottom:0px !important;
+}
+#navBarParticular{
+  margin-top:0px !important;
+}
