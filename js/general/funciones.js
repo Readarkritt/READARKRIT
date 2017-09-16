@@ -6,8 +6,8 @@ function peticionAJAX(phpUrl, parameterObject, async){
 		async = true; 
 	}
                 //alert(sessionStorage.getItem('token'));
-	if(sessionStorage.getItem('token') != null){
-		parameterObject.token = sessionStorage.getItem('token');
+	if(sessionStorage.getItem('tokenREADARKRIT') != null){
+		parameterObject.token = sessionStorage.getItem('tokenREADARKRIT');
 	}
 
     return $.ajax({
@@ -104,7 +104,8 @@ function cargarMenu(){
 
         respuesta.done(function( data, textStatus, jqXHR ) {
         	if(data.error){
-        		window.location = "/";
+        		sessionStorage.removeItem('tokenREADARKRIT');
+       			window.location.replace('./');
         	} else{
         		if(data.menu != ''){
         			$('#navBarGeneral').addClass('navBarDivisor');
@@ -121,3 +122,5 @@ function cerrarAlerta(elemento){
 
 	$(elemento).closest('div.alert').addClass('hidden');
 }
+
+// Cerrar sesión

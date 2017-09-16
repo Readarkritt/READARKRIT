@@ -16,6 +16,11 @@ angular.module('readArkrit')
         $(this).addClass('active');
       });
 
+      $("#cerrarSesion").click(function(){
+        sessionStorage.removeItem('tokenREADARKRIT');
+        window.location.replace('./');
+      });
+
 });
 
 
