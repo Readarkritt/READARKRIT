@@ -6,7 +6,7 @@
 	define("DURACION" , (60*10)); //Duración de la validez del token
 
 	//Genera un token a través de los parámetros proporcionados
-	function generarToken($idUsuario,$rol,$correo){
+	function generarToken($idUsuario,$nombreUsuario,$rol,$correo){
 		$tiempo = time();
 
 		$data = array(
@@ -14,8 +14,9 @@
 			'exp' => $tiempo + DURACION,
 			'data' =>[
 				'id' => $idUsuario,
-				'correo' => $correo,
-				'rol' => $rol
+				'nombre' => $nombreUsuario,
+				'rol' => $rol,
+				'correo' => $correo
 			]
 		);
 
@@ -39,6 +40,20 @@
 		return $acierto;
 	}
 
+	// Intenta recuperar el token de las cabeceras o de POST. Devuelve null si no lo consigue.
+	function recuperarToken(){
+		$token = null;
+		$headers = apache_request_headers();
+		$obj = $_POST;
+		
+		if($headers && isset($headers['token'])){
+			$token = $headers['token'];
+		} else if(isset($obj['token'])){
+			$token = $obj['token'];
+		}
+		return $token;
+	}
+
 	// Recupera el rol del token. Si hay algún error al decodificar el token devuelve null.
 	function getRol($token){
 		$rol = null;
@@ -52,16 +67,13 @@
 		return $rol;
 	}
 
-	// Intenta recuperar el token de las cabeceras o de POST. Devuelve null si no lo consigue.
-	function recuperarToken(){
-		$token = null;
-		$headers = apache_request_headers();
-		$obj = $_POST;
-		
-		if($headers && isset($headers['token'])){
-			$token = $headers['token'];
-		} else if(isset($obj['token'])){
-			$token = $obj['token'];
+	function getNombre($token){
+		$nombre = null;
+		try{
+			$data = JWT::decode($token, KEY, array(ENCRYPT));
+			$nombre = $data->data->nombre;
+		} catch(Exception $e){
 		}
-		return $token;
+
+		return $nombre;
 	}

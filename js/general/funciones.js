@@ -96,9 +96,9 @@ function marcarMenu(){
 	$("#"+actual).addClass('active');
 }
 
-// Carga el menú asociado al rol del usuario
+// Carga el menú asociado al rol del usuario y el nickname
 
-function cargarMenu(){
+function cargarMenu($scope){
 	var parametros = {};
     var respuesta = peticionAJAX('php/cargarMenu.php', parametros);
 
@@ -110,6 +110,11 @@ function cargarMenu(){
         		if(data.menu != ''){
         			$('#navBarGeneral').addClass('navBarDivisor');
         			$('#navBarParticular').append(data.menu);
+        		}
+
+        		if(data.nombre != ''){
+        			$scope.nombreUsuario = data.nombre;
+        			crearAvatar(data.nombre);
         		}
         	}
         });

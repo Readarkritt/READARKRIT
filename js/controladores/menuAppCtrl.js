@@ -3,7 +3,7 @@ angular.module('readArkrit')
 
 
       // MENÚ
-      cargarMenu();
+      cargarMenu($scope);
       marcarMenu();
 
       $(".sidebar-wrapper > .nav > li").click(function(e){

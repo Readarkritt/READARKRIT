@@ -66,7 +66,7 @@
 					}
 					
 					//CREAR TOKEN
-					$respuesta['token'] = generarToken(1, $rol, $obj['correo']);
+					$respuesta['token'] = generarToken($idUsuario, $usuario->obtenerNombre(), $rol, $obj['correo']);
 					
 
 					$respuesta['error'] = false;
