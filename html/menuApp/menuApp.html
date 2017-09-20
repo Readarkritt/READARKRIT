@@ -27,6 +27,9 @@
     <link rel="stylesheet" type="text/css" href="./css/dataTables.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/responsive.bootstrap.min.css"/>
 
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="./css/sweetalert2.min.css">
+
      <!-- Personal Material Dashboard CSS    -->
     <link href="./css/personal-material-dashboard.css" rel="stylesheet"/>
 
@@ -119,8 +122,8 @@
 										<p class="hidden-lg hidden-md">Opciones</p>
 								  </a>
 								  <ul class="dropdown-menu">
-								  	<li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp; Ajustes</a></li>
 									<li><a href="#" id="cerrarSesion"><i class="fa fa-power-off" aria-hidden="true"></i>&nbsp; Cerrar Sesión</a></li>
+								  	<li><a href="#"><i class="fa fa-cogs" aria-hidden="true" id="ajustesUsuario"></i>&nbsp; Ajustes</a></li>
 								  </ul>
 							</li>
 						</ul>
@@ -151,10 +154,6 @@
 <script src="./js/librerias/angular-route.min.js" type="text/javascript"></script>
 <script src="./js/librerias/material.min.js" type="text/javascript"></script>
 
-<!-- Angular -->
-<script src="./js/app.js"></script>
-<script src="./js/controladores/menuAppCtrl.js"></script>
-
 <!--  Notifications Plugin    -->
 <script src="./js/librerias/bootstrap-notify.js"></script>
 
@@ -164,6 +163,12 @@
 <!-- Avatar -->
 <script src="./js/librerias/initial.min.js"></script>
 
+<!-- Masked Input -->
+<script src="./js/librerias/maskedinput.min.js"></script>
+
+<!-- Sweet Alert -->
+<script src="./js/librerias/sweetalert2.min.js"></script>
+
 <!-- DataTables -->
 <script src="./js/librerias/dataTables.min.js"></script>
 <script src="./js/librerias/dataTables.responsive.min.js"></script>
@@ -171,5 +176,10 @@
 <script src="./js/general/funciones.js"></script>
 <script src="./js/general/readarkrit.js"></script>
 <script src="./js/libro.js"></script>
+
+<!-- Angular -->
+<script src="./js/app.js"></script>
+<script src="./js/controladores/menuAppCtrl.js"></script>
+<script src="./js/controladores/profesorCtrl.js"></script>
 
 </html>

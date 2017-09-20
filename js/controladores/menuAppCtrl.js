@@ -3,7 +3,6 @@ angular.module('readArkrit')
 
 
       // MENÚ
-      cargarMenu($scope);
       marcarMenu();
 
       $(".sidebar-wrapper > .nav > li").click(function(e){
@@ -14,11 +13,6 @@ angular.module('readArkrit')
         $("li.active").removeClass('active');
 
         $(this).addClass('active');
-      });
-
-      $("#cerrarSesion").click(function(){
-        sessionStorage.removeItem('tokenREADARKRIT');
-        window.location.replace('./');
       });
 
 });

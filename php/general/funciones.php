@@ -61,4 +61,12 @@
 	    return true;
 	}
 
+
+	function generarContrasenaAleatoria(){
+
+		// Generar una contrseña única y de forma aleatoria
+
+		return substr( md5(microtime()), 1, 10 );
+	}
+
 ?>

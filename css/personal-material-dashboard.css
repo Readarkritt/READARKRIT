@@ -1,4 +1,4 @@
-form select{
+form select {
 	font-size: 14px;
   height: 36px;
   line-height: 1.42857;
@@ -17,16 +17,29 @@ form select option {
   color: #9c27b0;
 }
 
+/* CUANDO LA PANTALLAS SON PEQUEÑAS */
+@media (min-width: 310px) and (max-width: 385px) { 
+  .navTabsResponsive{
+    margin-left:50%;
+  }
+}
+
+@media (min-width: 386px) and (max-width: 575px) { 
+  .navTabsResponsive{
+    margin-left:60%;
+  }
+}
+
 /* NAV BAR */
 
-.img-avatar.mini-avatar{
+.img-avatar.mini-avatar {
 
 	display: inline;
 }
 
 /* ICONOS */
 
-.fa{
+.fa {
   margin: 0px 5px;
   cursor: pointer;
 }
@@ -60,11 +73,16 @@ table.dataTable td.child {
 	display: block;
 }*/
 
+/* Ajusta el mensaje de 'No hay datos disponibles para mostrar en esta tabla' a las columnas disponibles */
+table.dataTable.nowrap td.dataTables_empty {
+  white-space:normal;
+}
+
 
 /* BOTONES */
 
     /* Para añadir registro */
-.anadirRegistro{
+.anadirRegistro {
 
   border: 1px solid #ffffff;
   float: right;
@@ -89,4 +107,7 @@ table.dataTable td.child {
 }
 #navBarParticular{
   margin-top:0px !important;
+/* GENERALES */
+.display-inline {
+  display: inline;
 }
