@@ -10,8 +10,9 @@
 		<script>
 			$(document).ready(function(){
 			var token = 'notValid';
-			if(sessionStorage.getItem('token') != null){
-				token = sessionStorage.getItem('token');
+
+			if(sessionStorage.getItem('tokenREADARKRIT') != null){
+				token = sessionStorage.getItem('tokenREADARKRIT');
 			}
 			$("#req").append('<input type="text" name="token" value="'+token+'"></input>');
 			document.forms['req'].submit();

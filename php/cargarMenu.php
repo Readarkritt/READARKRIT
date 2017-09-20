@@ -10,8 +10,8 @@
 
 	/*if(!is_null($token)){
 		if(comprobarToken($token)){
-			$rol = getRol($token);
-			$nombre = getNombre($token);
+			$rol = recuperarDeToken($token, 'rol');
+			$nombre = recuperarDeToken($token. 'nombre');
 			if(!is_null($rol) && !is_null($nombre)){				
 				$respuesta['error'] = false;
 				$respuesta['nombre'] = $nombre;				

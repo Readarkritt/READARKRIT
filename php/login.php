@@ -51,8 +51,9 @@
 
 					//BUSCAR ROL DE USUARIO
 					$rol = '';
-					$profesorAdmin = consulta('es_admin', 'profesor', 'id_Usuario = '.$idUsuario);
+					$profesor = consulta('id_profesor', 'profesor', 'id_Usuario = '.$idUsuario);
 					if(!empty($profesor)){
+						$profesorAdmin = consulta('es_admin', 'profesor', 'id_Usuario = '.$idUsuario);
 						if($profesorAdmin){
 							$rol = 'admin';
 						} else{

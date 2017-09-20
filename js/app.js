@@ -5,8 +5,7 @@ angular.module('readArkrit', ['ngRoute'])
     $locationProvider.html5Mode(true);
 
     /* LAS RUTAS DEL HTML, PARTEN DESDE DONDE ESTÁ menuApp.html */
-
-    $httpProvider.defaults.headers.common['token'] = sessionStorage.getItem('token');
+    $httpProvider.defaults.headers.common['token'] = sessionStorage.getItem('tokenREADARKRIT');
     $routeProvider
         .when('/', {
             templateUrl: './html/estadistica/listarEstadistica.html'
@@ -36,7 +35,7 @@ angular.module('readArkrit', ['ngRoute'])
             controller: 'profesorAltacTRL'
         })
         .when('/profesor/modificar', {
-            templateUrl: './html/libro/formProfesor.html',
+            templateUrl: './html/profesor/formProfesor.html',
             controller: 'profesorModificarCtrl'
         })
 

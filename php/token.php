@@ -54,6 +54,17 @@
 		return $token;
 	}
 
+	function recuperarDeToken($token, $variable){
+		$valor = null;
+		try{
+			$data = JWT::decode($token, KEY, array(ENCRYPT));
+			$valor = $data->data->$variable;
+		} catch(Exception $e){
+		}
+
+		return $valor;
+	}
+
 	// Recupera el rol del token. Si hay algún error al decodificar el token devuelve null.
 	function getRol($token){
 		$rol = null;
