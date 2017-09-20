@@ -119,6 +119,7 @@ function cargarMenu($scope){
         		}
         	}
         });
+function cerrarAlerta(elemento){
 
 	$(elemento).closest('div.alert').addClass('hidden');
 }
