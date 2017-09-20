@@ -6,8 +6,9 @@ function peticionAJAX(phpUrl, parameterObject, async){
 		async = true; 
 	}
                 //alert(sessionStorage.getItem('token'));
-	if(sessionStorage.getItem('tokenREADARKRIT') != null){
-		parameterObject.token = sessionStorage.getItem('tokenREADARKRIT');
+
+	if(sessionStorage.getItem('token' != null)){
+		parameterObject.token = sessionStorage.getItem('token');
 	}
 
     return $.ajax({
@@ -57,7 +58,7 @@ function formTOobject(){
 
 // Comprueba si ya existe un valor en la bbdd
 
-function existeRegistro(tablaSQL, campoSQL, valor){
+function existeRegistro(campoSQL, valor, tablaSQL){
 
 	var phpUrl     = '';
 	var parametros = {};
@@ -66,7 +67,7 @@ function existeRegistro(tablaSQL, campoSQL, valor){
 
 	tablaSQL = tablaSQL.toLowerCase();
 
-	phpUrl = '../../php/' + tablaSQL + '.php'; // url del controlador
+	phpUrl = './php/' + tablaSQL + '.php'; // url del controlador
 
 	parametros.opcion = tablaSQL;
     parametros.accion = 'existe';
@@ -96,7 +97,7 @@ function marcarMenu(){
 	$("#"+actual).addClass('active');
 }
 
-// Carga el menú asociado al rol del usuario y el nickname
+// Al dar sobre el aspa de la alerta, hará que se cierre
 
 function cargarMenu($scope){
 	var parametros = {};
@@ -119,13 +120,91 @@ function cargarMenu($scope){
         	}
         });
 
-}
-
-// Al dar sobre el aspa de la alerta, hará que se cierre
-
-function cerrarAlerta(elemento){
-
 	$(elemento).closest('div.alert').addClass('hidden');
 }
 
-// Cerrar sesión
+// Carga un JS y comprueba que anteriormente no se ha insertado, para después usarlo
+
+function cargarJS(rutaFichero) {
+
+	var fichero       = rutaFichero.split("/").slice(-1)[0];
+	var scriptCargado = false;
+
+
+	$('script[src]').each(function() {
+
+	  	if( $(this).attr('src').split('/').slice(-1)[0] == fichero )
+	  		scriptCargado = true;
+	});
+    
+
+	if( !scriptCargado ){
+
+		var jsElm = document.createElement("script");
+    
+	    jsElm.type = "application/javascript";
+	    jsElm.src  = rutaFichero;
+
+	    document.body.appendChild(jsElm);
+	}
+}
+
+
+function emailCorrecto(email) {
+
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    return re.test(email);
+}
+
+function contrasenaSegura(contrasena) {
+
+	var re = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+
+	/*
+		(/^
+		(?=.*\d)                // 1 dígito
+		(?=.*[a-z])             // 1 minúscula
+		(?=.*[A-Z])             // 1 mayúscula
+		[a-zA-Z0-9]{8,}         // debe tener como mínimo 8 caracteres de longitud
+		$/)
+	*/
+
+	return re.test(contrasena);
+}
+
+// comprueba si una fecha con formato dd/mm/aaaa existe en el calendario
+
+function fechaPermitida(fecha){
+
+	var currVal = fecha;
+
+    if(currVal == '')
+        return false;
+    
+    var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; //Declare Regex
+    var dtArray = currVal.match(rxDatePattern); // is format OK?
+    
+    if (dtArray == null) 
+        return false;
+    
+    //Checks for dd/mm/yyyy format.
+    dtDay   = dtArray[1];
+    dtMonth = dtArray[3];
+    dtYear  = dtArray[5];        
+    
+    if (dtDay < 1 || dtDay> 31)
+        return false;
+    else if (dtMonth < 1 || dtMonth > 12)
+        return false;
+    else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) 
+        return false;
+    else if (dtMonth == 2) 
+    {
+        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+        if (dtDay> 29 || (dtDay ==29 && !isleap)) 
+                return false;
+    }
+
+    return true;
+}
