@@ -1,15 +1,14 @@
 // Crea una petición AJAX
 
 function peticionAJAX(phpUrl, parameterObject, async){
-
 	if (typeof async === 'undefined') { 
 		async = true; 
 	}
                 //alert(sessionStorage.getItem('token'));
 
-	if(sessionStorage.getItem('token' != null)){
-		parameterObject.token = sessionStorage.getItem('token');
-	}
+	if(sessionStorage.getItem('tokenREADARKRIT') != null){
+		parameterObject.token = sessionStorage.getItem('tokenREADARKRIT');
+	} 
 
     return $.ajax({
         url: phpUrl,
@@ -119,6 +118,10 @@ function cargarMenu($scope){
         		}
         	}
         });
+
+    }
+
+    
 function cerrarAlerta(elemento){
 
 	$(elemento).closest('div.alert').addClass('hidden');

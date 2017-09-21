@@ -1,6 +1,7 @@
 <?php
 
 	require_once("./bbdd.php");
+	require_once("./token.php");
 	require_once("./general/funciones.php");
 	require_once("./general/readarkrit.php");
 	require_once("./clases/Hash.php");
@@ -59,6 +60,21 @@
 			$profesor->invitar( $obj['correo'] );
 
 			$respuesta['error'] = false;
+		}
+	}
+
+	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarConectado' ){
+		$id = recuperarDeToken('id');
+
+		if($id != null){
+			$respuesta['tokenErroneo'] = false;
+			$profesor = new Profesor();
+			$profesor->cargar($id);
+			$respuesta['profesor'] = $profesor->toArray();
+
+
+		} else{
+			$respuesta['tokenErroneo'] = true;
 		}
 	}
 

@@ -1,8 +1,8 @@
 angular.module('readArkrit')
-  .controller('menuAppCtrl', function ($scope) {
-
+  .controller('menuAppCtrl', ['$scope', '$location', function ($scope, $location) {
 
       // MENÚ
+      cargarMenu($scope);
       marcarMenu();
 
       $(".sidebar-wrapper > .nav > li").click(function(e){
@@ -15,7 +15,33 @@ angular.module('readArkrit')
         $(this).addClass('active');
       });
 
-});
+      $("#cerrarSesion").click(function(){
+        sessionStorage.removeItem('tokenREADARKRIT');
+        window.location.replace('./');
+      });
+
+    $scope.ajustesPerfil = function(){
+        var parametros = {};
+        var respuesta = {};
+
+        parametros.opcion = 'usuario';
+        parametros.accion = 'getRol';
+
+        respuesta = peticionAJAX('./php/usuario.php', parametros);
+
+        respuesta.done(function(data, textStatus, jqXHR ){
+          if(data.rol != null){
+            if(data.rol == 'alumno'){
+              $location.path('/alumno/modificar');
+              $scope.$apply();
+            } else if(data.rol == 'profesor'){
+              $location.path('/profesor/modificar');
+              $scope.$apply();
+            }
+          }
+        });
+      };
+}]);
 
 
 angular.module('readArkrit')

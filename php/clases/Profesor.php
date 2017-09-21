@@ -104,6 +104,21 @@
 	    	return $this->idUsuario;
 	    }
 
+	    public function obtenerUsuario(){
+	    	return $this->usuario;
+	    }
+
+	    public function toArray(){
+	    	$profesor = array(
+				"idProfesor" => $this->idProfesor,
+				'idUsuario' => $this->idUsuario,
+				'esAdmin' => $this->esAdmin,
+				'evitarNotificacion' => $this->evitarNotificacion,
+				'usuario' => $this->usuario->toArray()
+			);
+			return $profesor;
+	    }
+
     }
 
 ?>

@@ -6,7 +6,7 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
 
     /* LAS RUTAS DEL HTML, PARTEN DESDE DONDE ESTÁ menuApp.html */
     $httpProvider.defaults.headers.common['token'] = sessionStorage.getItem('tokenREADARKRIT');
-    $httpProvider.defaults.headers.common['token'] = sessionStorage.getItem('token');
+
     $routeProvider
         .when('/', {
             templateUrl: './html/estadistica/listarEstadistica.html'
@@ -28,8 +28,7 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             controller: 'altaAlumnoCtrl'
         })
         .when('/alumno/modificar', {
-            url: '/alumno/modificar',
-            templateUrl: './html/libro/listarLibro.html',
+            templateUrl: './html/alumno/formAlumno.html',
             controller: 'modificarAlumnoCtrl'
         })
         /*.when('/libro', {
@@ -41,6 +40,10 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
         .when('/profesor', {
             templateUrl: './html/profesor/listarProfesor.html',
             controller: 'profesorCtrl'
+        })
+        .when('/profesor/modificar', {
+            templateUrl: './html/profesor/formProfesor.html',
+            controller: 'modificarProfesorCtrl'
         })
 
 

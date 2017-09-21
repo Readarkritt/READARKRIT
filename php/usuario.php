@@ -1,6 +1,7 @@
 <?php
 
 	require_once("./bbdd.php");
+	require_once("./token.php");
 	require_once("./general/readarkrit.php");
 	require_once("./clases/Sesion.php");
 	require_once("./clases/Hash.php");
@@ -21,6 +22,10 @@
 	if( $obj['opcion'] == 'usuario' && $obj['accion'] == 'existe' ){
 
 		$respuesta['existe'] = existeRegistro($obj['campo'], $obj['valor'], $obj['opcion']);
+	}
+
+	if( $obj['opcion'] == 'usuario' && $obj['accion'] == 'getRol' ){
+		$respuesta['rol'] = recuperarDeToken('rol');
 	}
 
 

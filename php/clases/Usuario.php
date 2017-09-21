@@ -111,6 +111,18 @@
 	    	actualizar( 'bloqueado', $this->bloqueado, $this->tablaSQL, $condicion );
 	    }
 
+
+	    public function toArray(){
+	    	$usuario = [
+	    		'nombre' => $this->nombre,
+	    		'primerApellido' => $this->primerApellido,
+	    		'segundoApellido' => $this->segundoApellido,
+	    		'fNacimiento' => $this->fNacimiento,
+	    		'correo' => $this->correo,
+	    		'nombredeUsuario' => $this->nombreUsuario
+	    	];
+	    	return $usuario;
+	    }
     }
 
 ?>
