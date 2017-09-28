@@ -1,11 +1,10 @@
 <?php
 
-	require_once("./bbdd.php");
+	require_once("./general/bbdd.php");
 	require_once("./general/funciones.php");
-	require_once("./clases/Sesion.php");
+	require_once("./general/token.php");
 	require_once("./clases/Hash.php");
 	require_once("./clases/Usuario.php");
-	require_once("./token.php");
 
 	define("MAX_INTENTOS_CONEXION", 3);
 	define("TABLA_SQL", "usuario");

@@ -78,6 +78,19 @@ table.dataTable.nowrap td.dataTables_empty {
   white-space:normal;
 }
 
+/* Botones de la columna ACCIONES */
+table.dataTable button.acciones-registro{
+  margin: 0px;
+  padding: 0px;
+}
+
+table.dataTable td.child span.dtr-data{
+  white-space: normal;
+  overflow-wrap: normal;
+  word-wrap: normal;
+  word-break: normal;
+  word-break: normal;
+}
 
 /* BOTONES */
 

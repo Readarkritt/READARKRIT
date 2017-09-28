@@ -11,6 +11,7 @@
 	  	$usuario['nombreUsuario'] 	= (string) $usuario['nombreUsuario'];
 	  	$usuario['contrasena'] 		= (string) $usuario['contrasena'];
 	  	$usuario['bloqueado'] 		= (int) $usuario['bloqueado'];
+	  	$usuario['fBaja']           = (string) $usuario['fBaja'];
 	  	
 
 	  	// VALIDACIÓN
@@ -31,6 +32,8 @@
 		if( $usuario['contrasena'] == '' || strlen($usuario['contrasena']) > 20 || !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/', $usuario['contrasena']) )
 			return false;
 		if( $usuario['bloqueado'] != 0 && $usuario['bloqueado'] != 1 )
+			return false;
+		if( !is_null($usuario['fBaja']) && ( strlen($usuario['fBaja']) != 10 || strlen($usuario['fBaja']) == 0 || !preg_match('/^([0-9]{2}\/[0-9]{2}\/[0-9]{4})$/', $usuario['fBaja']) || !fechaPermitida($usuario['fBaja']) ) )
 			return false;
 
 		return $usuario;

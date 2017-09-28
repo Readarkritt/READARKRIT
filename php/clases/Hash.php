@@ -1,6 +1,6 @@
 <?php
 
-	require_once("./bbdd.php");
+	require_once(dirname(__FILE__)."/../general/bbdd.php");
 
 	class Hash{
 

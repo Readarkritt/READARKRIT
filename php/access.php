@@ -1,7 +1,7 @@
 <?php
 
-	require_once("./bbdd.php");
-	require_once("./token.php");
+	require_once("./general/bbdd.php");
+	require_once("./general/token.php");
 
 	define("TABLA_SQL", "permisos");
 
@@ -12,7 +12,7 @@
 		//COMPROBAR QUE EXISTE TOKEN Y ES CORRECTO EN HEADER O POST. EN CASO DE NO EXISTIR, BUSCARLO EN EL CLIENTE.
 		$token = recuperarToken();
 		if(is_null($token)){
-			include('./autoToken.php');
+			include('./general/autoToken.php');
 			exit();
 		} else if(comprobarToken($token)){
 			$rol = getRol($token);
@@ -66,5 +66,5 @@
 	} else{
 		include('../html/error/error.html');
 	}*/
-
-	include('../..'.$url);
+	
+	require('../..'.$url);	

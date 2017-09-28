@@ -15,6 +15,12 @@ angular.module('readArkrit')
         $(this).addClass('active');
       });
 
+      //desactivar enlace del menú de arriba (cerrar sesión)
+      $("#dropdown").click(function(e){
+
+        e.preventDefault();
+      });
+
 });
 
 
@@ -26,10 +32,4 @@ angular.module('readArkrit')
     $('#tablaEstanteriasQueSigo').DataTable();
     $('#tablaRecomendacionesArkrit').DataTable();
 
-  });
-
-angular.module('readArkrit')
-  .controller('UsuarioCtrl', function ($scope) {
-    //$scope.message = "Perfil.";
-    alert('usuario');
   });

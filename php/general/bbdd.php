@@ -90,9 +90,13 @@
 
 	      	$result->free();
 
-	    } else {															// CASO 5: no se encuentran resultados
+	    } 
+	    elseif( is_object($result) && $result->num_rows == 0 ) {			// CASO 5: no se encuentran resultados
 
-	      	$response = false;
+	      	$response = null;
+	    }
+	    else{																// CASO 6: no se ha podido realizar la consulta
+	    	$response = false;
 	    }
 
 
@@ -153,6 +157,8 @@
 			$link = conectar();
 			$registroBorrado = false;
 
+			$link->autocommit(FALSE);
+			$link->commit();
 			
 			if( $condicion != '' ){
 
@@ -160,10 +166,14 @@
 			}
 
 			$sql = 'DELETE FROM ' . $tabla . $condicion;
+			
+			$registroBorrado = $link->query($sql);
+			
 
+			if( !$registroBorrado )
+				$link->rollback();
 
-			$registroBorrado = $link->query($sql) === TRUE;
-
+			$link->autocommit(TRUE);
 
 			desconectar($link);
 

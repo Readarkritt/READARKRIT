@@ -1,4 +1,4 @@
-var app = angular.module('readArkrit', ['ngRoute']);
+var app = angular.module('readArkrit', ['ngRoute', 'datatables']);
 
 app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($routeProvider, $locationProvider,$httpProvider) {
 
@@ -13,10 +13,6 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
         })
         .when('/estadisticas', {
             templateUrl: './html/estadistica/listarEstadistica.html'
-        })
-        .when('/libro', {
-            templateUrl: './html/libro/listarLibro.html',
-            controller: 'LibroCtrl'
         })
         /*.when('/estadistica', {
             templateUrl: '../estadistica/listarEstadistica.html'

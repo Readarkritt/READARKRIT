@@ -16,11 +16,11 @@
 				$respuesta['error'] = false;
 				$respuesta['nombre'] = $nombre;				
 				if($rol == 'admin'){
-					$respuesta['menu'] = file_get_contents('../html/menuApp/menus/menuAdmin.html');
+					$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAdmin.html');
 				} else if($rol == 'profesor'){
-					$respuesta['menu'] = file_get_contents('../html/menuApp/menus/menuProfesor.html');
+					$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuProfesor.html');
 				} else if($rol == 'alumno'){
-					$respuesta['menu'] = file_get_contents('../html/menuApp/menus/menuAlumno.html');
+					$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAlumno.html');
 				}
 
 			} else{
@@ -30,7 +30,7 @@
 			$respuesta['error'] = true;
 		}
 	} else{ //Si son visitantes
-		$respuesta['menu'] = file_get_contents('../html/menuApp/menus/menuAlumno.html');
+		$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAlumno.html');
 		$respuesta['nombre'] = 'Visitante';
 	}*/
 
@@ -41,11 +41,11 @@
 	$nombre = 'Nombre';
 
 	if($rol == 'admin'){
-		$respuesta['menu'] = file_get_contents('../html/menuApp/menus/menuAdmin.html');
+		$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAdmin.html');
 	} else if($rol == 'profesor'){
-		$respuesta['menu'] = file_get_contents('../html/menuApp/menus/menuProfesor.html');
+		$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuProfesor.html');
 	} else {
-		$respuesta['menu'] = file_get_contents('../html/menuApp/menus/menuAlumno.html');
+		$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAlumno.html');
 	}
 	$respuesta['nombre'] = $nombre;
 

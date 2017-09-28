@@ -1,6 +1,6 @@
 <?php
 
-	require_once("./bbdd.php");
+	require_once("./general/bbdd.php");
 	require_once("./general/funciones.php");
 	require_once("./general/readarkrit.php");
 	require_once("./clases/Sesion.php");

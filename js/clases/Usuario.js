@@ -2,7 +2,7 @@
 class Usuario {
 
 
-    constructor(idUsuario, nombre, primerApellido, segundoApellido, fNacimiento, correo, nombreUsuario, contrasena, bloqueado) {
+    constructor(idUsuario, nombre, primerApellido, segundoApellido, fNacimiento, correo, nombreUsuario, contrasena, bloqueado, fBaja) {
 
 		this.idUsuario 	     = idUsuario;
 		this.nombre 		 = nombre;
@@ -13,6 +13,7 @@ class Usuario {
 		this.nombreUsuario   = nombreUsuario;
 		this.contrasena	     = contrasena;
 		this.bloqueado       = bloqueado;
+		this.fBaja           = fBaja;
 	}
 
 

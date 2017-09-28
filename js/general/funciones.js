@@ -100,8 +100,9 @@ function marcarMenu(){
 // Al dar sobre el aspa de la alerta, hará que se cierre
 
 function cargarMenu($scope){
+
 	var parametros = {};
-    var respuesta = peticionAJAX('php/cargarMenu.php', parametros);
+    var respuesta = peticionAJAX('php/general/cargarMenu.php', parametros);
 
         respuesta.done(function( data, textStatus, jqXHR ) {
         	if(data.error){
@@ -119,6 +120,8 @@ function cargarMenu($scope){
         		}
         	}
         });
+}
+
 function cerrarAlerta(elemento){
 
 	$(elemento).closest('div.alert').addClass('hidden');
@@ -208,4 +211,14 @@ function fechaPermitida(fecha){
     }
 
     return true;
+}
+
+// convierte un valor smallInt a SI/NO
+
+function smallintTOsino(dato){
+
+	if( dato == 1 )
+		return 'SI';
+	else
+		return 'NO';
 }

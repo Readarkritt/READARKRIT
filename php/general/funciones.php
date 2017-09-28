@@ -69,4 +69,13 @@
 		return substr( md5(microtime()), 1, 10 );
 	}
 
+
+	function validarCorreo( $correo = '' ){
+
+		if( $correo == '' || strlen($correo) > 50 )
+			return false;
+		else
+			return preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $correo);
+	}
+
 ?>

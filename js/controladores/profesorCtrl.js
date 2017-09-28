@@ -1,6 +1,6 @@
 angular.module('readArkrit')
-  .controller('profesorCtrl', function ($scope) {
-    
+  .controller('profesorCtrl', function ($scope, DTOptionsBuilder) {
+
   	$scope.usuario  = {};
     $scope.profesor = {};
     $scope.profesores = [];
@@ -19,18 +19,49 @@ angular.module('readArkrit')
 		.done(function( data, textStatus, jqXHR ){
 
 			if( !data.error ){
-				
-				$scope.profesores = data.profesores;
-				//$('#tablaListado').DataTable();
-			}else{
 
-				$('#tablaListado').hide();
-				$('#erroresListarProfesores span').html('No hay datos disponibles para mostrar en la tabla.');
-				$('#erroresListarProfesores').removeClass('hidden');
+				$('#tablaListado').removeClass('hidden');
+				$scope.profesores = $.makeArray(data.profesores);
+
+				$.each( $scope.profesores, function( index, value ){
+				    $scope.profesores[index].es_admin = smallintTOsino($scope.profesores[index].es_admin);
+				    $scope.profesores[index].evitar_notificacion = smallintTOsino($scope.profesores[index].evitar_notificacion);
+				});
 			}
 		});
     };
 
+
+    $scope.eliminarProfesor = function(idProfesor, indexScope){
+
+    	peticionAJAX('./php/profesor.php', {
+
+			opcion    : 'profesor',
+			accion	  : 'eliminar',
+			idProfesor: idProfesor
+		}, false)
+		.done(function( data, textStatus, jqXHR ){
+
+			if( data.error )
+				swal("Eliminar Profesor", "Error en la transacción.", "error");
+			else{
+
+				swal("Profesor Eliminado", "Profesor eliminado con éxito.", "success");
+
+				$scope.profesores.splice(indexScope, 1);
+			}
+		});
+
+		$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.profesores ).withOption('stateSave', true).withDataProp('data');
+
+	    $scope.reloadData = reloadData;
+	    $scope.dtInstance = {};
+
+	    function reloadData() {
+	        var resetPaging = false;
+	        $scope.dtInstance.reloadData(callback, resetPaging);
+	    }
+    };
 
 	$scope.altaProfesor = function() {
 
@@ -60,7 +91,8 @@ angular.module('readArkrit')
 										$scope.usuario.correo,
 										$scope.usuario.nombreUsuario,
 										$scope.usuario.contrasena,
-										0);
+										0,
+										null);
 
 	    	var profesor = new Profesor('',	// id profesor
 										'',	// id usuario
@@ -98,20 +130,25 @@ angular.module('readArkrit')
 
     $scope.invitarProfesor = function (){
 
+    	$('#erroresInvitarProfesor').addClass('hidden');
+
     	if( emailCorrecto($scope.usuario.correo) ){
 
-    		peticionAJAX('./php/profesor.php', {
+    		peticionAJAX('./php/invitacion.php', {
 
-				opcion: 'profesor',
+				opcion: 'invitacion',
 				accion: 'invitar',
 				correo: $scope.usuario.correo
 			})
 			.done(function( data, textStatus, jqXHR ){
 
-				if( data.error )
-					swal("Datos incorrectos", data.descripcionError, "error");
+				if( data.error ){
+
+					$('#erroresInvitarProfesor span').html(data.descripcionError);
+    				$('#erroresInvitarProfesor').removeClass('hidden');
+				}
 				else 
-					swal("Enviar Invitacion", "La invitación se ha enviado con éxito.", "success");
+					swal("Enviar Invitación", "La invitación se ha enviado con éxito.", "success");
 			});
 
     	} else {

@@ -16,7 +16,8 @@ function altaAlumno(){
 								datosLeidos.correo,
 								datosLeidos.nombreUsuario,
 								datosLeidos.contrasena,
-								0);
+								0,
+								null);
 
 	var alumno  = new Alumno(   '',	// id alumno
 								'',	// id usuario

@@ -1,6 +1,6 @@
 <?php
 
-	require_once("Usuario.php");
+	require_once(dirname(__FILE__)."/Usuario.php");
 
 	class Profesor{
 
@@ -47,7 +47,7 @@
 			$resultado = consulta($this->camposSQL, $this->tablaSQL, $condicion);
 
 			$this->idProfesor         = $idProfesor;
-			$this->idUsuario 	 	  = $resultado['id_usuario'];
+			$this->idUsuario 	 	  = (int) $resultado['id_usuario'];
 			$this->esAdmin 			  = $resultado['es_admin'];
 			$this->evitarNotificacion = $resultado['evitar_notificacion'];
 
@@ -57,43 +57,16 @@
 			$this->usuario->cargar( $this->idUsuario );
 	    }
 
-	    public function invitar( $correo ){
+	    public function eliminar() {
+	        
+	    	// Primero se borra en la tabla de profesor y luego en la de usuario
 
-	    	// 1) Se prepara el perfil para que el próximo inicio de sesión cambie el usuario los datos
+	        $condicion = 'id_profesor = ' . $this->idProfesor;
 
-	    	$camposUsuario = array();
-			$camposProfesor = array();
-
-			$camposUsuario['idUsuario'] 	  = '';
-			$camposUsuario['nombre'] 		  = '';
-			$camposUsuario['primerApellido']  = '';
-			$camposUsuario['segundoApellido'] = '';
-			$camposUsuario['fNacimiento']	  = '';
-			$camposUsuario['correo'] 		  = $correo;
-			$camposUsuario['nombreUsuario']   = '';
-			$camposUsuario['contrasena']	  = generarContrasenaAleatoria();
-			$camposUsuario['bloqueado']       = 0;
-
-			$camposProfesor['idProfesor']    	  = '';
-			$camposProfesor['idUsuario']          = '';
-			$camposProfesor['esAdmin'] 			  = 0;
-			$camposProfesor['evitarNotificacion'] = 0;
-
-			$this->rellenar($camposUsuario, $camposProfesor);
-
-			// 2) Se envía al correo que recibimos por parámetro un correo con la password con la que puede acceder
-
-			$asunto   = 'READARKRIT - Alta profesor';
-
-			$mensaje  = '¡Hola!\n\n';
-			$mensaje .= 'Estás a un paso de ser un profesor de la comunidad READARKRIT.\n';
-			$mensaje .= 'Sólo tienes que: \n';
-			$mensaje .= '\r1) Entrar en la aplicación con tu correo y esta contrasena <b>' . $camposUsuario['contrasena'] . '</b>.\n';
-			$mensaje .= '\r2) Terminar de completar la infomación de tu perfil.\n';
-			$mensaje .= '\r3) Y cambiar la contraseña a alguna que no te duela la cabeza recordar.\n\n\n';
-			$mensaje .= 'Saludos ;)';
-
-			//mail($correo, $asunto, $mensaje);
+	        if( borrar( $this->tablaSQL, $condicion ) )
+	        	return $this->usuario->eliminar();
+	        else
+	        	return false;
 	    }
 
 	    public function obtenerId(){

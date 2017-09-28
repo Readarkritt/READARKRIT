@@ -1,5 +1,5 @@
 <?php
-	require_once("./clases/JWT.php");
+	require_once(dirname(__FILE__)."/../clases/JWT.php");
 
 	define("KEY","CLAVE_SECRETA");
 	define("ENCRYPT", "['HS256']");

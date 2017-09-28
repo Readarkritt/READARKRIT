@@ -11,6 +11,7 @@
 		private $nombreUsuario 	 = '';
 		private $contrasena		 = '';
 		private $bloqueado       = 0;
+		private $fBaja           = null;
 
 		private $tablaSQL        = '';
 		private $camposSQL       = '';
@@ -18,7 +19,7 @@
 		public function __construct() {
 
 			$this->tablaSQL  = 'usuario';
-			$this->camposSQL = 'id_usuario, nombre, primer_apellido, segundo_apellido, f_nacimiento, correo, nombre_usuario, contrasena, bloqueado';
+			$this->camposSQL = 'id_usuario, nombre, primer_apellido, segundo_apellido, f_nacimiento, correo, nombre_usuario, contrasena, bloqueado, f_baja';
 		}
 
 
@@ -55,6 +56,14 @@
 			$this->nombreUsuario   = $resultado['nombre_usuario'];
 			$this->contrasena	   = $resultado['contrasena'];
 			$this->bloqueado       = $resultado['bloqueado'];
+			$this->fBaja           = $resultado['f_baja'];
+	    }
+
+	    public function eliminar(){
+
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+			return borrar( $this->tablaSQL, $condicion );
 	    }
 
 	    public function obtenerId(){

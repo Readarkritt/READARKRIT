@@ -1,7 +1,6 @@
 <?php
 
-	require_once("./bbdd.php");
-	require_once("./clases/Sesion.php");
+	require_once("./general/bbdd.php");
 	require_once("./clases/Hash.php");
 
 	define("TABLA_SQL", "titulacion");
