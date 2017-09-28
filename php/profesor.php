@@ -1,5 +1,11 @@
 <?php
+<<<<<<< HEAD
 	require_once("./general/bbdd.php");
+=======
+
+	require_once("./bbdd.php");
+	require_once("./token.php");
+>>>>>>> d607fb5721d315e6f2adc54d7d41c590af82e33f
 	require_once("./general/funciones.php");
 	require_once("./general/readarkrit.php");
 	require_once("./clases/Hash.php");
@@ -54,6 +60,41 @@
 		$respuesta['existe'] = existeRegistro($obj['campo'], $obj['valor'], $obj['opcion']);
 	}
 
+<<<<<<< HEAD
+=======
+	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'invitar' ){
+
+		$obj['correo'] = (string) $obj['correo'];
+
+		if( $obj['correo'] == '' || strlen($obj['correo']) > 50 || !preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $obj['correo']) || existeRegistro('correo', $obj['correo'], 'usuario') ){
+
+			$respuesta['error']            = true;
+			$respuesta['descripcionError'] = 'Datos manipulados';
+		} else {
+
+			$profesor = new Profesor();
+			$profesor->invitar( $obj['correo'] );
+
+			$respuesta['error'] = false;
+		}
+	}
+
+	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarConectado' ){
+		$id = recuperarDeToken('id');
+
+		if($id != null){
+			$respuesta['tokenErroneo'] = false;
+			$profesor = new Profesor();
+			$profesor->cargar($id);
+			$respuesta['profesor'] = $profesor->toArray();
+
+
+		} else{
+			$respuesta['tokenErroneo'] = true;
+		}
+	}
+
+>>>>>>> d607fb5721d315e6f2adc54d7d41c590af82e33f
 	echo json_encode( $respuesta );
 
 ?>

@@ -1,15 +1,14 @@
 // Crea una petición AJAX
 
 function peticionAJAX(phpUrl, parameterObject, async){
-
 	if (typeof async === 'undefined') { 
 		async = true; 
 	}
                 //alert(sessionStorage.getItem('token'));
 
-	if(sessionStorage.getItem('token' != null)){
-		parameterObject.token = sessionStorage.getItem('token');
-	}
+	if(sessionStorage.getItem('tokenREADARKRIT') != null){
+		parameterObject.token = sessionStorage.getItem('tokenREADARKRIT');
+	} 
 
     return $.ajax({
         url: phpUrl,
@@ -120,8 +119,15 @@ function cargarMenu($scope){
         		}
         	}
         });
+<<<<<<< HEAD
 }
 
+=======
+
+    }
+
+    
+>>>>>>> d607fb5721d315e6f2adc54d7d41c590af82e33f
 function cerrarAlerta(elemento){
 
 	$(elemento).closest('div.alert').addClass('hidden');

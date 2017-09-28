@@ -54,7 +54,8 @@
 		return $token;
 	}
 
-	function recuperarDeToken($token, $variable){
+	function recuperarDeToken($variable){
+		$token = recuperarToken();
 		$valor = null;
 		try{
 			$data = JWT::decode($token, KEY, array(ENCRYPT));
