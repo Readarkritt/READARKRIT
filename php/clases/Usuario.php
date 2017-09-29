@@ -102,6 +102,14 @@
 	    	return $this->bloqueado;
 	    }
 
+	    public function cambiarNombre( $nombre ) {
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+	    	$this->nombre = $nombre;
+
+	    	actualizar( 'nombre', '"'.$this->nombre.'"', $this->tablaSQL, $condicion );
+	    }
+
 	    public function cambiarContrasena( $hash ) {
 
 	    	$condicion = 'id_usuario = ' . $this->idUsuario;
@@ -109,6 +117,46 @@
 	    	$this->contrasena = $hash;
 
 	    	actualizar( 'contrasena', $this->contrasena, $this->tablaSQL, $condicion );
+	    }
+
+	    public function modificarPrimerApellido($apellido){
+
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+	    	$this->primerApellido = $apellido;
+
+	    	actualizar( 'primer_Apellido', '"'.$this->primerApellido.'"', $this->tablaSQL, $condicion );
+
+	    }
+
+	    public function modificarSegundoApellido($apellido){
+
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+	    	$this->segundoApellido = $apellido;
+
+	    	actualizar( 'segundo_Apellido', '"'.$this->segundoApellido.'"', $this->tablaSQL, $condicion );
+
+	    }
+
+	    public function modificarCorreo($correo){
+
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+	    	$this->correo = $correo;
+
+	    	actualizar( 'correo', '"'.$this->correo.'"', $this->tablaSQL, $condicion );
+
+	    }
+
+	    public function modificarFNacimiento($apellido){
+
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+	    	$this->fNacimiento = $apellido;
+
+	    	actualizar( 'F_NACIMIENTO ', $this->fNacimiento, $this->tablaSQL, $condicion );
+
 	    }
 
 	    public function bloquear() {
@@ -128,7 +176,8 @@
 	    		'segundoApellido' => $this->segundoApellido,
 	    		'fNacimiento' => $this->fNacimiento,
 	    		'correo' => $this->correo,
-	    		'nombredeUsuario' => $this->nombreUsuario
+	    		'nombreUsuario' => $this->nombreUsuario,
+	    		'bloqueado' => $this->bloqueado
 	    	];
 	    	return $usuario;
 	    }

@@ -3,7 +3,7 @@
 
 	define("KEY","CLAVE_SECRETA");
 	define("ENCRYPT", "['HS256']");
-	define("DURACION" , (60*10)); //Duración de la validez del token
+	define("DURACION" , (60*60)); //Duración de la validez del token
 
 	//Genera un token a través de los parámetros proporcionados
 	function generarToken($idUsuario,$nombreUsuario,$rol,$correo){

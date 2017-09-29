@@ -1,4 +1,14 @@
 <?php
+	require_once('./funciones.php');
+
+	function contrasenaValida($contrasena, $contrasenaRepetida){
+		$valida = true;
+		if( $contrasena == '' || $contrasena != $contrasenaRepetida || $contrasena > 20 || !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/', $contrasena) )
+			$valida = false;
+		return $valida;
+
+	}
+
 
 	function validarCamposUsuario( $usuario ){
 
@@ -25,12 +35,14 @@
 			return false;
 		else
 			$usuario['fNacimiento'] = formatearFecha( $usuario['fNacimiento'], 'bbdd' );
-		if( $usuario['correo'] == '' || strlen($usuario['correo']) > 50 || !preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $usuario['correo']) || existeRegistro( 'correo', $usuario['correo'], 'usuario') )
+		if( !validarCorreo($usuario['correo']) )
 			return false;
 		if( $usuario['nombreUsuario'] == '' || strlen($usuario['nombreUsuario']) > 20 || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $usuario['nombreUsuario']) || existeRegistro('nombre_usuario', $usuario['nombreUsuario'], 'usuario') )
 			return false;
+
 		if( $usuario['contrasena'] == '' || strlen($usuario['contrasena']) > 20 || !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/', $usuario['contrasena']) )
 			return false;
+			
 		if( $usuario['bloqueado'] != 0 && $usuario['bloqueado'] != 1 )
 			return false;
 		if( !is_null($usuario['fBaja']) && ( strlen($usuario['fBaja']) != 10 || strlen($usuario['fBaja']) == 0 || !preg_match('/^([0-9]{2}\/[0-9]{2}\/[0-9]{4})$/', $usuario['fBaja']) || !fechaPermitida($usuario['fBaja']) ) )
@@ -69,8 +81,10 @@
 	  	$alumno['curso'] 			= (int) $alumno['curso'];
 
 		// VALIDACIÓN
+		/*
 	  	if( $alumno['numExpediente'] <= 0 || $alumno['numExpediente'] > 99999999 || existeRegistro('num_expediente', $alumno['numExpediente'], 'alumno') )
 			return false;
+		*/
 		if( $alumno['idTitulacion'] <= 0 )
 			return false;
 		if( $alumno['curso'] <= 0 )

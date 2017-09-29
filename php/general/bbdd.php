@@ -45,7 +45,6 @@
 		
       		$sql = 'SELECT ' . $campos . ' FROM ' . $tabla . $condicion;
 		}
-		
 
       	$result = $link->query($sql);
 
@@ -199,7 +198,6 @@
 			}
 
 			$sql = 'UPDATE ' . $tabla . ' SET ' . $campo . ' = ' . $valor . $condicion;
-
 
 			$registroActualizado = $link->query($sql) === TRUE;
 

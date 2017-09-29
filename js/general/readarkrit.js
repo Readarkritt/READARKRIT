@@ -1,3 +1,36 @@
+function validarPass(contrasena, contrasenaRepetida){
+	errores = '';
+	if( (contrasena === undefined || contrasena == '') || (contrasenaRepetida === undefined || contrasenaRepetida == '') )
+		errores += '<li>Las contraseñas no se han completado.</li>';
+	else if( contrasena.length > 20 || contrasenaRepetida.length > 20 )
+		errores += '<li>Las contraseñas no pueden tener más de 20 caracteres.</li>';
+	else if( contrasena.length != contrasenaRepetida.length )
+		errores += '<li>Las contraseñas tienen diferentes longitudes.</li>';
+	else if( contrasena != contrasenaRepetida )
+		errores += '<li>Las contraseñas no coinciden.</li>';
+	else if( !contrasenaSegura(contrasena) || !contrasenaSegura(contrasenaRepetida) )
+		errores += '<li>Las contraseñas no son seguras.</li>';
+
+	return errores;
+}
+
+function validarCorreo(correo){
+	errores = '';
+	if( correo === undefined || correo == '' ){
+		errores += '<li>El correo electrónico es incorrecto.</li>';
+	}
+	else if( correo.length > 50 ){
+		errores += '<li>El correo electrónico no puede superar los 50 caracteres.</li>';
+	}
+	else if( !emailCorrecto(correo) ){
+		errores += '<li>El correo electrónico no sigue un formato conocido.</li>';
+	}
+	else if( existeRegistro('correo', correo, 'usuario') ){
+		errores += '<li>El correo electrónico se encuentra registrado.</li>';
+	}
+	return errores;
+}
+
 function validarCamposUsuario(campos){
 
 	var errores = '';

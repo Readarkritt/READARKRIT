@@ -45,7 +45,7 @@
 
 
 			$resultado = consulta($this->camposSQL, $this->tablaSQL, $condicion);
-
+			
 			$this->idProfesor         = $idProfesor;
 			$this->idUsuario 	 	  = (int) $resultado['id_usuario'];
 			$this->esAdmin 			  = $resultado['es_admin'];

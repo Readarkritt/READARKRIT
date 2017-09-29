@@ -46,8 +46,6 @@
 
 					$hash = new Hash($idUsuario);
 
-					//$_SESSION['hashUsuario'] = $hash->get();
-
 					//BUSCAR ROL DE USUARIO
 					$rol = '';
 					$profesor = consulta('id_profesor', 'profesor', 'id_Usuario = '.$idUsuario);
@@ -67,6 +65,9 @@
 					
 					//CREAR TOKEN
 					$respuesta['token'] = generarToken($idUsuario, $usuario->obtenerNombre(), $rol, $obj['correo']);
+
+					//CERRAR SESIÓN
+					session_destroy();
 					
 
 					$respuesta['error'] = false;
@@ -85,13 +86,13 @@
 
 						if( $_SESSION['intentosConexion'] > MAX_INTENTOS_CONEXION ){
 
-							$usuario->bloquear();
+							//$usuario->bloquear();
 
 							$respuesta['descripcionError'] = 'Ha alcanzado el número máximo de intentos, su cuenta se ha bloqueado.';
 
 						}else{
 
-							$_SESSION['intentosConexion']++;
+							$_SESSION['intentosConexion']--;
 						}
 					}
 	            }

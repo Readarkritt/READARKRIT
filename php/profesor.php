@@ -1,11 +1,6 @@
 <?php
-<<<<<<< HEAD
 	require_once("./general/bbdd.php");
-=======
-
-	require_once("./bbdd.php");
-	require_once("./token.php");
->>>>>>> d607fb5721d315e6f2adc54d7d41c590af82e33f
+	require_once("./general/token.php");
 	require_once("./general/funciones.php");
 	require_once("./general/readarkrit.php");
 	require_once("./clases/Hash.php");
@@ -55,13 +50,47 @@
 		}
 	}
 
+	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'modificar' ){
+
+		$profesorPeticion = $obj['profesor'];
+		$usuarioPeticion = $profesorPeticion['usuario'];
+		
+		$respuesta['errorContrasena'] = false;
+		$respuesta['errorCorreo'] = false;
+
+		$id = recuperarDeToken('id');
+		if($id != null){
+			$profesor = new Profesor();
+			$profesor->cargar($profesorPeticion['idProfesor']);
+			$usuario = $profesor->obtenerUsuario();
+
+			if($usuarioPeticion['contrasena'] != ''){
+				if(Hash::esValido( $usuarioPeticion['contrasenaVieja'], $usuario->obtenerContrasena()) && validarContrasena($usuarioPeticion['contrasena'], $usuarioPeticion['contrasenaRepetida'])){
+					$usuario->cambiarContrasena($usuarioPeticion['contrasena']);
+				} else{			
+					$respuesta['errorContrasena'] = true;
+				}
+			}
+
+			if($usuario->obtenerCorreo() != $usuarioPeticion['correo']){
+				if(validarCorreo($usuarioPeticion['correo'])){
+					$usuario->modificarCorreo($usuarioPeticion['correo']);
+				} else{
+					$respuesta['errorCorreo'] = true;	
+				}		
+			}
+			
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Token erróneo';
+		}
+	}
+
 	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'existe' ){
 
 		$respuesta['existe'] = existeRegistro($obj['campo'], $obj['valor'], $obj['opcion']);
 	}
 
-<<<<<<< HEAD
-=======
 	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'invitar' ){
 
 		$obj['correo'] = (string) $obj['correo'];
@@ -81,20 +110,22 @@
 
 	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarConectado' ){
 		$id = recuperarDeToken('id');
-
 		if($id != null){
-			$respuesta['tokenErroneo'] = false;
-			$profesor = new Profesor();
-			$profesor->cargar($id);
-			$respuesta['profesor'] = $profesor->toArray();
-
-
-		} else{
+			$idProfesor = consulta( 'id_Profesor', 'profesor', 'id_Usuario = '.$id );
+			if($idProfesor != null){
+				$respuesta['tokenErroneo'] = false;
+				$profesor = new Profesor();
+				$profesor->cargar($idProfesor);
+				$respuesta['profesor'] = $profesor->toArray();
+				$respuesta['profesor']['usuario']['contrasena'] = '';
+			} else{
+				$respuesta['tokenErroneo'] = true;
+			}
+		}else{
 			$respuesta['tokenErroneo'] = true;
 		}
 	}
 
->>>>>>> d607fb5721d315e6f2adc54d7d41c590af82e33f
 	echo json_encode( $respuesta );
 
 ?>

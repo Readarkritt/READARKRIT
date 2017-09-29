@@ -5,19 +5,19 @@
 		        <div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Nombre</label>
-						<input type="text" class="form-control" id="nombre" name="nombre">
+						<input type="text" class="form-control" id="nombre" name="nombre" ng-model="alumno.usuario.nombre" disabled>
 					</div>
 		        </div>
 		        <div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Primer Apellido</label>
-						<input type="text" class="form-control" id="primerApellido" name="primerApellido">
+						<input type="text" class="form-control" id="primerApellido" name="primerApellido" ng-model="alumno.usuario.primerApellido" disabled>
 					</div>
 		        </div>
 		        <div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Segundo Apellido</label>
-						<input type="text" class="form-control" id="segundoApellido" name="segundoApellido">
+						<input type="text" class="form-control" id="segundoApellido" name="segundoApellido" ng-model="alumno.usuario.segundoApellido" disabled>
 					</div>
 		        </div>
 		    </div>
@@ -26,19 +26,19 @@
 		        <div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Fecha de Nacimiento</label>
-						<input type="text" class="form-control" id="fNacimiento" name="fNacimiento" pattern="\d{1,2}/\d{1,2}/\d{4}">
+						<input type="text" class="form-control" id="fNacimiento" name="fNacimiento" pattern="\d{1,2}/\d{1,2}/\d{4}" ng-model="alumno.usuario.fNacimiento" disabled>
 					</div>
 		        </div>
 		        <div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Correo Electrónico</label>
-						<input type="text" class="form-control" id="correo" name="correo">
+						<input type="text" class="form-control" id="correo" name="correo" ng-model="alumno.usuario.correo">
 					</div>
 		        </div>
 		        <div class="col-md-4">
 					<div class="form-group label-floating input-group">
 						<label class="control-label">Nombre de Usuario</label>
-					    <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario">
+					    <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" ng-model="alumno.usuario.nombreUsuario" disabled>
 					    <div class="input-group-btn">
 					      	<button class="btn btn-info" id="comprobarDisponibilidadNombreUsuario" style="padding: 6px 12px;">
 					        	<i class="fa fa-check-circle" aria-hidden="true"></i>
@@ -50,10 +50,10 @@
 		    </div>
 
 		    <div class="row">
-		        <div class="col-md-6">
+		        <div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Contraseña</label>
-						<input type="password" class="form-control" id="contrasena" name="contrasena">
+						<input type="password" class="form-control" id="contrasena" name="contrasena" ng-model="alumno.usuario.contrasena">
 					</div>
 
 					<div class="alert alert-info hidden" id="infoContrasena">
@@ -61,10 +61,16 @@
 		                <span><b> Info - </b> La contraseña debe tener mas de ocho caracteres y tener como mínimo: un dígito, una minúscula y una mayúscula.</span>
 		            </div>
 		        </div>
-		        <div class="col-md-6">
+		        <div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Repetir Contraseña</label>
-						<input type="password" class="form-control" id="contrasenaRepetida" name="contrasenaRepetida">
+						<input type="password" class="form-control" id="contrasenaRepetida" name="contrasenaRepetida"  ng-model="alumno.usuario.contrasenaRepetida">
+					</div>
+		        </div>
+		        <div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Contraseña Anterior</label>
+						<input type="password" class="form-control" id="contrasenaAntigua" name="contrasenaAntigua"  ng-model="alumno.usuario.contrasenaAntigua">
 					</div>
 		        </div>
 		    </div>
@@ -73,7 +79,7 @@
 		    	<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Número de Expediente</label>
-						<input type="text" class="form-control" id="numExpediente" name="numExpediente">
+						<input type="text" class="form-control" id="numExpediente" name="numExpediente" ng-model="alumno.numExpediente" disabled>
 					</div>
 		        </div>
 		        <div class="col-md-4">
@@ -92,6 +98,30 @@
 						</select> 
 					</div>
 		        </div>                                      
+		    </div>
+		    <div class="row">
+		  	  <div class="col-md-4">
+		    		<button type="submit" class="btn btn-info" ng-click="modificarAlumno()">Modificar</button>
+		    	</div>
+		    </div>
+		    <div class="row">
+		        <div class="col-md-12">
+                    <div class="alert alert-danger hidden" id="errores">
+                        <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+                        <span>
+                        	<!-- Errores -->
+                        </span>
+                    </div>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-md-12">
+                    <div class="alert alert-success hidden" id="exito">
+                        <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+                        <span>
+                        </span>
+                    </div>
+		        </div>
 		    </div>
 		    <div class="clearfix"></div>
 		</form>

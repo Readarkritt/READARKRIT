@@ -5,54 +5,57 @@
 
 	define("TABLA_SQL", "permisos");
 
-	function comprobarPermisos($permisoPagina){
-		$autorizado = false;
-		$rol = null;
 
-		//COMPROBAR QUE EXISTE TOKEN Y ES CORRECTO EN HEADER O POST. EN CASO DE NO EXISTIR, BUSCARLO EN EL CLIENTE.
-		$token = recuperarToken();
-		if(is_null($token)){
-			include('./general/autoToken.php');
-			exit();
-		} else if(comprobarToken($token)){
-			$rol = getRol($token);
-			if(!is_null($rol)){
-				if($permisoPagina == 'admin' && $rol == 'admin'){
-					$autorizado = true;
-				} else if($permisoPagina == 'profesor' && ( $rol== 'admin' || $rol=='profesor')){
-					$autorizado = true;
-				} else if($permisoPagina == 'alumno'){
-					$autorizado = true;
-				}
-			}
-		}
+	function profesorTerminado($idUsuario){
 
-
-		//SI SE ENCONTRÓ UN TOKEN VÁLIDO, COMPROBAR QUE TIENE EL PERMISO REQUERIDO
-		
-
-		return $autorizado;
+		return true;
 	}
 
 	function autorizado($url){
 
-		//COMPROBAR PERMISOS REQUERIDOS
-		$campos = "rol";
-		$condicion = "RUTA_FICHERO = '".$url."'";
-		$permisoPagina = consulta($campos, TABLA_SQL, $condicion);
+		
+		$autorizado = false;
+		$rol = null;
 
-		//COMPROBAR QUE SE TIENEN PERMISOS
-		if(!empty($permisoPagina)){
-			if($permisoPagina == 'visitante'){
-				$autorizado = true;
-			} else{
-				$autorizado = comprobarPermisos($permisoPagina);
-			}
+
+		//Recuperar el token
+		$token = recuperarToken();
+		if(is_null($token)){
+			include('./general/autoToken.php');
+			exit();
+		} else{
+			//Comprobar persmisos del fichero
+			$campos = "rol";
+			$condicion = "RUTA_FICHERO = '".$url."'";
+			$permisoPagina = consulta($campos, TABLA_SQL, $condicion);
+
+			//Comprobar token
+			if(comprobarToken($token)){
+				$rol = getRol($token);
+				if(!is_null($rol)){
+					//Si el profesor no está terminado, redireccionar
+					if($rol == 'profesor' && !profesorTerminado(recuperarDeToken('id'))){
+						//TODO: INCLUIR HEADER DE RESPUESTA
+						include('./');
+						exit();
+					}else{				
+						
+						if($permisoPagina == 'admin' && $rol == 'admin'){
+							$autorizado = true;
+						} else if($permisoPagina == 'profesor' && ( $rol== 'admin' || $rol=='profesor')){
+							$autorizado = true;
+						} else if($permisoPagina == 'alumno' || $permisoPagina == 'visitante'){
+							$autorizado = true;
+						}
+					}
+				}
+			} else if($permisoPagina == 'visitante'){
+					$autorizado = true;
+			}	
 		}
 
 		return $autorizado;
 	}
-
 
 
 	//COMPROBAR QUE EL FICHERO REQUERIDO EXISTE Y SE TIENEN PERMISOS
@@ -65,6 +68,7 @@
 		include("../..".$url);
 	} else{
 		include('../html/error/error.html');
+
 	}*/
-	
-	require('../..'.$url);	
+
+	include('../..'.$url);
