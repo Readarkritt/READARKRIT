@@ -82,10 +82,9 @@
 	  	$alumno['curso'] 			= (int) $alumno['curso'];
 
 		// VALIDACIÓN
-		/*
+		
 	  	if( $alumno['numExpediente'] <= 0 || $alumno['numExpediente'] > 99999999 || existeRegistro('num_expediente', $alumno['numExpediente'], 'alumno') )
 			return false;
-		*/
 		if( $alumno['idTitulacion'] <= 0 )
 			return false;
 		if( $alumno['curso'] <= 0 )
