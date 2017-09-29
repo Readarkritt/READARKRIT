@@ -15,21 +15,18 @@ angular.module('readArkrit')
         $(this).addClass('active');
       });
 
-<<<<<<< HEAD
       //desactivar enlace del menú de arriba (cerrar sesión)
       $("#dropdown").click(function(e){
 
         e.preventDefault();
       });
 
-});
-=======
       $("#cerrarSesion").click(function(){
         sessionStorage.removeItem('tokenREADARKRIT');
         window.location.replace('./');
       });
 
-    $scope.ajustesPerfil = function(){
+      $scope.ajustesPerfil = function(){
         var parametros = {};
         var respuesta = {};
 
@@ -51,7 +48,6 @@ angular.module('readArkrit')
         });
       };
 }]);
->>>>>>> d607fb5721d315e6f2adc54d7d41c590af82e33f
 
 
 angular.module('readArkrit')

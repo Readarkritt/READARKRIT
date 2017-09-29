@@ -120,8 +120,10 @@
 
 			foreach ($valores as $valor){
 
-				if( is_string($valor) )
+				if( is_string( $valor ) )
 					$valor = '"' . $valor . '", ';
+				elseif( is_null( $valor ) )
+					$valor = 'null';
 				else
 					$valor = $valor . ', ';
 
@@ -134,14 +136,17 @@
 
 			$sql = 'INSERT INTO ' . $tabla . ' (' . $campos . ') VALUES (' . $strValores . ')';
 
-			if( $link->query($sql) === TRUE ){
-
+			if( $link->query($sql) === TRUE )
 				$idRegistro = $link->insert_id; // devuelvo el id del registro insertado
+
+			if( $idRegistro == 0 )
+				return false;
+			else{
+
+				desconectar($link);
+
+				return $idRegistro;
 			}
-
-			desconectar($link);
-
-			return $idRegistro;
 		}
 
 	}
@@ -192,16 +197,16 @@
 			$link = conectar();
 			$registroActualizado = false;
 
+			if( is_string($valor) )
+				$valor = "'" . $valor . "'";
 			
-			if( $condicion != '' ){
-
+			if( $condicion != '' )
 				$condicion = ' WHERE ' . $condicion;
-			}
 
 			$sql = 'UPDATE ' . $tabla . ' SET ' . $campo . ' = ' . $valor . $condicion;
 
 
-			$registroActualizado = $link->query($sql) === TRUE;
+			$registroActualizado = ($link->query($sql) === TRUE);
 
 
 			desconectar($link);

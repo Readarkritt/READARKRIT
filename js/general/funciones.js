@@ -119,15 +119,8 @@ function cargarMenu($scope){
         		}
         	}
         });
-<<<<<<< HEAD
 }
 
-=======
-
-    }
-
-    
->>>>>>> d607fb5721d315e6f2adc54d7d41c590af82e33f
 function cerrarAlerta(elemento){
 
 	$(elemento).closest('div.alert').addClass('hidden');

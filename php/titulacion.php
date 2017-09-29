@@ -3,8 +3,6 @@
 	require_once("./general/bbdd.php");
 	require_once("./clases/Hash.php");
 
-	define("TABLA_SQL", "titulacion");
-
 	$obj       = $_POST;
 	$respuesta = array();
 
@@ -13,7 +11,7 @@
 
 		$campos = 'id_titulacion, nombre, duracion';
 
-		$titulaciones = consulta($campos, TABLA_SQL);
+		$titulaciones = consulta($campos, 'titulacion');
 
 		$respuesta['titulaciones'] = $titulaciones;
 	}

@@ -3,33 +3,39 @@
 function altaAlumno(){
 
 	// El alumno hereda de la clase Usuario
+	var datosLeidos    = {};
+	var datosUsuario   = {};
+	var datosAlumno    = {};
+	var erroresUsuario = '';
+	var erroresAlumno  = '';
 
-	var datosLeidos = formTOobject();
+	datosLeidos = formTOobject();
 
 	// Separar datos del usuario y del alumno
-		
-	var usuario = new Usuario(	'', // id usuario
-								datosLeidos.nombre, 
-								datosLeidos.primerApellido,
-								datosLeidos.segundoApellido,
-								datosLeidos.fNacimiento,
-								datosLeidos.correo,
-								datosLeidos.nombreUsuario,
-								datosLeidos.contrasena,
-								0,
-								null);
 
-	var alumno  = new Alumno(   '',	// id alumno
-								'',	// id usuario
-								datosLeidos.numExpediente,
-								datosLeidos.idTitulacion,
-								datosLeidos.curso);
+	datosUsuario.idUsuario 		 = '';
+	datosUsuario.nombre    		 = datosLeidos.nombre;
+	datosUsuario.primerApellido  = datosLeidos.primerApellido;
+	datosUsuario.segundoApellido = datosLeidos.segundoApellido;
+	datosUsuario.fNacimiento 	 = datosLeidos.fNacimiento;
+	datosUsuario.correo 		 = datosLeidos.correo;
+	datosUsuario.nombreUsuario   = datosLeidos.nombreUsuario;
+	datosUsuario.contrasena		 = datosLeidos.contrasena;
+	datosUsuario.contrasenaRepetida = datosLeidos.contrasenaRepetida;
+	datosUsuario.bloqueado	     = 0;
+	datosUsuario.fBaja			 = null;
 
-	var erroresUsuario = validarCamposUsuario(usuario);
-	var erroresAlumno  = validarCamposAlumno(alumno);
+	datosAlumno.idAlumno 	  = '';
+	datosAlumno.idUsuario     = '';
+	datosAlumno.numExpediente = datosLeidos.numExpediente;
+	datosAlumno.idTitulacion  = datosLeidos.idTitulacion;
+	datosAlumno.curso 		  = datosLeidos.curso;
 
-	console.log('Usuario: ' + usuario);
-	console.log('Alumno: ' + alumno);
+	erroresUsuario = validarCamposUsuario(datosUsuario);
+	erroresAlumno  = validarCamposAlumno(datosAlumno);
+
+	console.log('Usuario: ' + datosUsuario);
+	console.log('Alumno: ' + datosAlumno);
 
 	if( erroresUsuario != '' || erroresAlumno != '' ){
 
@@ -45,6 +51,23 @@ function altaAlumno(){
 	} else {
 
 		cerrarAlerta($('#erroresAltaAlumno'));
+
+		var usuario = new Usuario(	datosUsuario.idUsuario,
+									datosUsuario.nombre, 
+									datosUsuario.primerApellido,
+									datosUsuario.segundoApellido,
+									datosUsuario.fNacimiento,
+									datosUsuario.correo,
+									datosUsuario.nombreUsuario,
+									datosUsuario.contrasena,
+									datosUsuario.bloqueado,
+									datosUsuario.fBaja);
+
+	    var alumno = new Alumno(datosAlumno.idAlumno,
+								datosAlumno.idUsuario,
+								datosAlumno.numExpediente,
+								datosAlumno.idTitulacion,
+								datosAlumno.curso);
 
 		peticionAJAX('../../php/alumno.php', {
 
