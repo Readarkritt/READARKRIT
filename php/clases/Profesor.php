@@ -58,15 +58,8 @@
 	    }
 
 	    public function eliminar() {
-	        
-	    	// Primero se borra en la tabla de profesor y luego en la de usuario
 
-	        $condicion = 'id_profesor = ' . $this->idProfesor;
-
-	        if( borrar( $this->tablaSQL, $condicion ) )
-	        	return $this->usuario->eliminar();
-	        else
-	        	return false;
+	        return $this->usuario->eliminar();
 	    }
 
 	    public function obtenerId(){

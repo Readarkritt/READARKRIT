@@ -3,7 +3,6 @@
 	require_once("./general/bbdd.php");
 	require_once("./general/funciones.php");
 	require_once("./general/readarkrit.php");
-	require_once("./clases/Sesion.php");
 	require_once("./clases/Hash.php");
 	require_once("./clases/Alumno.php");
 

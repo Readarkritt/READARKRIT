@@ -26,7 +26,7 @@ angular.module('readArkrit')
         window.location.replace('./');
       });
 
-    $scope.ajustesPerfil = function(){
+      $scope.ajustesPerfil = function(){
         var parametros = {};
         var respuesta = {};
 

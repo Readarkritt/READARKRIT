@@ -91,23 +91,6 @@
 		$respuesta['existe'] = existeRegistro($obj['campo'], $obj['valor'], $obj['opcion']);
 	}
 
-	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'invitar' ){
-
-		$obj['correo'] = (string) $obj['correo'];
-
-		if( $obj['correo'] == '' || strlen($obj['correo']) > 50 || !preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $obj['correo']) || existeRegistro('correo', $obj['correo'], 'usuario') ){
-
-			$respuesta['error']            = true;
-			$respuesta['descripcionError'] = 'Datos manipulados';
-		} else {
-
-			$profesor = new Profesor();
-			$profesor->invitar( $obj['correo'] );
-
-			$respuesta['error'] = false;
-		}
-	}
-
 	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarConectado' ){
 		$id = recuperarDeToken('id');
 		if($id != null){
@@ -125,7 +108,7 @@
 			$respuesta['tokenErroneo'] = true;
 		}
 	}
-
+	
 	echo json_encode( $respuesta );
 
 ?>

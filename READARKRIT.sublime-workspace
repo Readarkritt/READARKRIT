@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"erro",
+				"erroresUsuario"
+			],
+			[
+				"id",
+				"idTitulacion"
+			],
+			[
+				"datos",
+				"datosUsuario"
+			],
+			[
+				"con",
+				"condicion"
+			],
+			[
+				"fecha",
+				"fechaActual"
+			],
+			[
 				"is_",
 				"is_null"
 			],
@@ -44,10 +64,6 @@
 				"nombreUsuario"
 			],
 			[
-				"con",
-				"console"
-			],
-			[
 				"p",
 				"profesores"
 			],
@@ -66,10 +82,6 @@
 			[
 				"pro",
 				"profesor"
-			],
-			[
-				"id",
-				"idProfesor"
 			],
 			[
 				"l",
@@ -114,10 +126,6 @@
 			[
 				"conr",
 				"contrasena"
-			],
-			[
-				"erro",
-				"errores"
 			],
 			[
 				"ev",
@@ -268,10 +276,6 @@
 				"usuario"
 			],
 			[
-				"datos",
-				"datosLeidos"
-			],
-			[
 				"eleme",
 				"elemento"
 			],
@@ -384,19 +388,10 @@
 	"buffers":
 	[
 		{
-			"file": "js/controladores/menuAppCtrl.js",
+			"file": "php/general/funciones.php",
 			"settings":
 			{
-				"buffer_size": 810,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "html/menuApp/menuApp.html",
-			"settings":
-			{
-				"buffer_size": 6753,
+				"buffer_size": 1995,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -435,36 +430,38 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/READARKRIT",
-		"/C/xampp/htdocs/READARKRIT/html",
-		"/C/xampp/htdocs/READARKRIT/html/menuApp",
-		"/C/xampp/htdocs/READARKRIT/js",
-		"/C/xampp/htdocs/READARKRIT/js/controladores"
+		"/C/xampp/htdocs/READARKRIT/php",
+		"/C/xampp/htdocs/READARKRIT/php/general"
 	],
 	"file_history":
 	[
+		"/C/xampp/htdocs/READARKRIT/php/alumno.php",
+		"/C/xampp/htdocs/READARKRIT/js/general/readarkrit.js",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/altaAlumnoCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/php/titulacion.php",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/profesorCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/php/clases/Usuario.php",
+		"/C/xampp/htdocs/READARKRIT/php/pruebas.php",
+		"/C/xampp/htdocs/READARKRIT/php/general/bbdd.php",
+		"/C/xampp/htdocs/READARKRIT/php/general/readarkrit.php",
+		"/C/xampp/htdocs/READARKRIT/php/clases/Profesor.php",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/menuAppCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/php/usuario.php",
+		"/C/xampp/htdocs/READARKRIT/php/profesor.php",
+		"/C/xampp/htdocs/READARKRIT/js/general/funciones.js",
 		"/C/xampp/htdocs/READARKRIT/html/menuApp/menuApp.html",
 		"/C/xampp/htdocs/READARKRIT/php/clases/Hash.php",
-		"/C/xampp/htdocs/READARKRIT/php/clases/Profesor.php",
 		"/C/xampp/htdocs/READARKRIT/php/clases/Alumno.php",
 		"/C/xampp/htdocs/READARKRIT/index.html",
 		"/C/xampp/htdocs/READARKRIT/php/general/cargarMenu.php",
-		"/C/xampp/htdocs/READARKRIT/php/general/readarkrit.php",
 		"/C/xampp/htdocs/READARKRIT/php/general/token.php",
-		"/C/xampp/htdocs/READARKRIT/php/clases/Usuario.php",
-		"/C/xampp/htdocs/READARKRIT/php/profesor.php",
 		"/C/xampp/htdocs/READARKRIT/php/access.php",
 		"/C/xampp/htdocs/READARKRIT/.htaccess",
 		"/C/xampp/htdocs/READARKRIT/js/app.js",
 		"/C/xampp/htdocs/READARKRIT/php/general/access.php",
 		"/C/xampp/htdocs/READARKRIT/js/controladores/login.js",
-		"/C/xampp/htdocs/READARKRIT/js/general/funciones.js",
-		"/C/xampp/htdocs/READARKRIT/php/usuario.php",
-		"/C/xampp/htdocs/READARKRIT/php/titulacion.php",
 		"/C/xampp/htdocs/READARKRIT/php/login.php",
-		"/C/xampp/htdocs/READARKRIT/php/alumno.php",
 		"/C/xampp/htdocs/READARKRIT/php/invitacion.php",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/profesorCtrl.js",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/altaAlumnoCtrl.js",
 		"/C/xampp/htdocs/READARKRIT/js/clases/Usuario.js",
 		"/C/xampp/htdocs/READARKRIT/html/profesor/listarProfesor.html",
 		"/C/xampp/htdocs/READARKRIT/php/general/funciones.php",
@@ -483,14 +480,11 @@
 		"/C/Users/Carol/Downloads/angular-datatables-master/angular-datatables-master/src/angular-datatables.module.ts",
 		"/C/Users/Carol/Downloads/angular-datatables-master/angular-datatables-master/src/angular-datatables.directive.ts",
 		"/C/Users/Carol/Downloads/angular-datatables-master/angular-datatables-master/src/angular-datatables.directive.spec.ts",
-		"/C/xampp/htdocs/READARKRIT/php/pruebas.php",
 		"/C/xampp/htdocs/READARKRIT/recover_plantilla/material-dashboard-master/material-dashboard-master/examples/dashboard.html",
 		"/C/xampp/htdocs/READARKRIT/css/personal-material-dashboard.css",
 		"/C/xampp/htdocs/READARKRIT/MEJORAS DE ÚLTIMA HORA.txt",
 		"/C/Users/Carol/AppData/Local/Temp/Rar$DIa0.448/app.js",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/menuAppCtrl.js",
 		"/C/xampp/htdocs/READARKRIT/css/datatables.min.css",
-		"/C/xampp/htdocs/READARKRIT/js/general/readarkrit.js",
 		"/C/xampp/htdocs/READARKRIT/html/alumno/altaAlumno.html",
 		"/C/xampp/htdocs/READARKRIT/css/sweetalert2.min.css",
 		"/C/xampp/htdocs/READARKRIT/js/librerias/sweetalert2.min.js",
@@ -568,12 +562,11 @@
 		"/C/Users/Carol/Downloads/material-dashboard-master/material-dashboard-master/examples/template.html",
 		"/C/xampp/htdocs/READARKRIT/html/crearUsuario/crearUsuario.html",
 		"/C/Users/Carol/Desktop/w10/htdocs/assets/js/clinica_upm/paciente.js",
-		"/C/xampp/htdocs/READARKRIT/html/altaUsuario/altaUsuario.html",
-		"/C/xampp/htdocs/READARKRIT/js/altaUsuario.js"
+		"/C/xampp/htdocs/READARKRIT/html/altaUsuario/altaUsuario.html"
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -599,6 +592,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"sesion.php",
+			">>>>",
+			"=======",
+			"<<<<<<<",
+			"\n<<<<<<<",
 			"erro",
 			"include(",
 			"(\"../",
@@ -721,12 +719,7 @@
 			"lang",
 			"dataTables.english.lang",
 			"dataTables.german.lang",
-			"oAria",
-			"oPaginate",
-			"sLoadingRecords",
-			"sInfoThousands",
-			"sEmptyTable",
-			"sLengthMenu"
+			"oAria"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -759,63 +752,33 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "js/controladores/menuAppCtrl.js",
-					"semi_transient": false,
+					"file": "php/general/funciones.php",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 810,
+						"buffer_size": 1995,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								539,
-								539
+								1731,
+								1731
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "html/menuApp/menuApp.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6753,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4518,
-								4518
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2052.0,
+						"translation.y": 1080.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

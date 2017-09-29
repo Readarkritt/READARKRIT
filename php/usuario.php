@@ -1,6 +1,5 @@
 <?php
 
-
 	require_once("./general/bbdd.php");
 	require_once("./general/token.php");
 	require_once("./general/readarkrit.php");

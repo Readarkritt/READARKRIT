@@ -61,9 +61,12 @@
 
 	    public function eliminar(){
 
-	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+	    	// Se añade fecha de baja
 
-			return borrar( $this->tablaSQL, $condicion );
+	    	$fechaActual = date("Y") . "-" . date("m") . "-" . date("d");
+	    	$condicion   = 'id_usuario = ' . $this->idUsuario;
+
+	    	return actualizar( 'f_baja', $fechaActual, $this->tablaSQL, $condicion );
 	    }
 
 	    public function obtenerId(){
