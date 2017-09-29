@@ -1,5 +1,5 @@
 <?php
-	require_once('./funciones.php');
+	require_once(dirname(__FILE__).'./funciones.php');
 
 	function contrasenaValida($contrasena, $contrasenaRepetida){
 		$valida = true;

@@ -2,6 +2,7 @@ angular.module('readArkrit')
   .controller('modificarProfesorCtrl', function ($scope) {
 
   	$scope.profesor = {};
+    $scope.copiaProfesor = {};
 
   	$("li.active").removeClass('active');
 
@@ -41,8 +42,8 @@ angular.module('readArkrit')
 	    if($scope.profesor.usuario.contrasena != ""){
 	       errores += validarPass($scope.profesor.usuario.contrasena, $scope.profesor.usuario.contrasenaRepetida);
 	    }
-      if($scope.alumno.usuario.correo != $scope.copiaAlumno.usuario.correo){
-        errores += validarCorreo($scope.alumno.usuario.correo);
+      if($scope.profesor.usuario.correo != $scope.copiaProfesor.usuario.correo){
+        errores += validarCorreo($scope.profesor.usuario.correo);
       }
 
 	    if(errores == ''){
@@ -58,8 +59,8 @@ angular.module('readArkrit')
           if(data.errorCorreo){
             errores += '<li>Ha habido un problema al cambiar el correo</li>';
           } else{
-            $scope.alumno.usuario.correo = data.correo;
-            $scope.copiaAlumno.usuario.correo = data.correo;                
+           $scope.profesor.usuario.correo = data.correo;
+           $scope.copiaProfesor.usuario.correo = data.correo;                
           }
 
       		});
