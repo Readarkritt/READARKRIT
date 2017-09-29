@@ -128,7 +128,7 @@
 
 	    	$this->primerApellido = $apellido;
 
-	    	actualizar( 'primer_Apellido', '"'.$this->primerApellido.'"', $this->tablaSQL, $condicion );
+	    	actualizar( 'primer_Apellido', $this->primerApellido, $this->tablaSQL, $condicion );
 
 	    }
 
@@ -138,7 +138,7 @@
 
 	    	$this->segundoApellido = $apellido;
 
-	    	actualizar( 'segundo_Apellido', '"'.$this->segundoApellido.'"', $this->tablaSQL, $condicion );
+	    	actualizar( 'segundo_Apellido', $this->segundoApellido, $this->tablaSQL, $condicion );
 
 	    }
 
@@ -148,7 +148,7 @@
 
 	    	$this->correo = $correo;
 
-	    	actualizar( 'correo', '"'.$this->correo.'"', $this->tablaSQL, $condicion );
+	    	actualizar( 'correo', $this->correo, $this->tablaSQL, $condicion );
 
 	    }
 

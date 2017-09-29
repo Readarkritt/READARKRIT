@@ -65,8 +65,9 @@
 			$usuario = $profesor->obtenerUsuario();
 
 			if($usuarioPeticion['contrasena'] != ''){
-				if(Hash::esValido( $usuarioPeticion['contrasenaVieja'], $usuario->obtenerContrasena()) && validarContrasena($usuarioPeticion['contrasena'], $usuarioPeticion['contrasenaRepetida'])){
-					$usuario->cambiarContrasena($usuarioPeticion['contrasena']);
+				if(validarContrasena($usuarioPeticion['contrasena'], $usuarioPeticion['contrasenaRepetida'])){
+					$contra = new Hash($usuarioPeticion['contrasena']);
+					$usuario->cambiarContrasena( $contra->get() );
 				} else{			
 					$respuesta['errorContrasena'] = true;
 				}
@@ -78,6 +79,9 @@
 				} else{
 					$respuesta['errorCorreo'] = true;	
 				}		
+			}
+			if(!$respuesta['errorCorreo']){
+				$respuesta['correo'] = $usuarioPeticion['correo'];
 			}
 			
 		} else{
