@@ -1,104 +1,118 @@
 <div class="container-fluid">
-	<div class="card-content">
-		<form>
-		    <div class="row">
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Nombre</label>
-						<input type="text" class="form-control" id="nombre" name="nombre" ng-model="profesor.usuario.nombre" disabled>
-					</div>
-		        </div>
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Primer Apellido</label>
-						<input type="text" class="form-control" id="primerApellido" name="primerApellido" ng-model="profesor.usuario.primerApellido" disabled>
-					</div>
-		        </div>
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Segundo Apellido</label>
-						<input type="text" class="form-control" id="segundoApellido" name="segundoApellido" ng-model="profesor.usuario.segundoApellido" disabled>
-					</div>
-		        </div>
-		    </div>
-
-		    <div class="row">
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Fecha de Nacimiento</label>
-						<input type="text" class="form-control" id="fNacimiento" name="fNacimiento" pattern="\d{1,2}/\d{1,2}/\d{4}" ng-model="profesor.usuario.fNacimiento" disabled>
-					</div>
-		        </div>
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Correo Electrónico</label>
-						<input type="text" class="form-control" id="correo" name="correo" ng-model="profesor.usuario.correo">
-					</div>
-		        </div>
-		        <div class="col-md-4">
-					<div class="form-group label-floating input-group">
-						<label class="control-label">Nombre de Usuario</label>
-					    <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" ng-model="profesor.usuario.nombreUsuario" disabled>
-					    <div class="input-group-btn">
-					      	<button class="btn btn-info" id="comprobarDisponibilidadNombreUsuario" style="padding: 6px 12px;">
-					        	<i class="fa fa-check-circle" aria-hidden="true"></i>
-					      	</button>
+<div class="row">
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-header" data-background-color="blue">
+					<h4 class="title" id="titulo">Modificar perfil</h4>
+				</div>
+				<div class="card-content">
+					<form>
+					    <div class="row">
+					        <div class="col-md-4">
+								<div class="form-group label-floating">
+									<label class="control-label">Nombre</label>
+									<input type="text" class="form-control" id="nombre" name="nombre" ng-model="profesor.usuario.nombre" disabled>
+								</div>
+					        </div>
+					        <div class="col-md-4">
+								<div class="form-group label-floating">
+									<label class="control-label">Primer Apellido</label>
+									<input type="text" class="form-control" id="primerApellido" name="primerApellido" ng-model="profesor.usuario.primerApellido" disabled>
+								</div>
+					        </div>
+					        <div class="col-md-4">
+								<div class="form-group label-floating">
+									<label class="control-label">Segundo Apellido</label>
+									<input type="text" class="form-control" id="segundoApellido" name="segundoApellido" ng-model="profesor.usuario.segundoApellido" disabled>
+								</div>
+					        </div>
 					    </div>
-					</div>
-		        </div>
-		        
-		    </div>
 
-		    <div class="row">
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Contraseña</label>
-						<input type="password" class="form-control" id="contrasena" name="contrasena" ng-model="profesor.usuario.contrasena">
-					</div>
+					    <div class="row">
+					        <div class="col-md-4">
+								<div class="form-group label-floating">
+									<label class="control-label">Fecha de Nacimiento</label>
+									<input type="text" class="form-control" id="fNacimiento" name="fNacimiento" pattern="\d{1,2}/\d{1,2}/\d{4}" ng-model="profesor.usuario.fNacimiento" disabled>
+								</div>
+					        </div>
+					        <div class="col-md-4">
+								<div class="form-group label-floating">
+									<label class="control-label">Correo Electrónico</label>
+									<input type="text" class="form-control" id="correo" name="correo" ng-model="profesor.usuario.correo">
+								</div>
+					        </div>
+					        <div class="col-md-4">
+								<div class="form-group label-floating input-group">
+									<label class="control-label">Nombre de Usuario</label>
+								    <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" ng-model="profesor.usuario.nombreUsuario" disabled>
+								    <div class="input-group-btn">
+								      	<button class="btn btn-info" id="comprobarDisponibilidadNombreUsuario" style="padding: 6px 12px;">
+								        	<i class="fa fa-check-circle" aria-hidden="true"></i>
+								      	</button>
+								    </div>
+								</div>
+					        </div>
+					        
+					    </div>
 
-					<div class="alert alert-info hidden" id="infoContrasena">
-		                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
-		                <span><b> Info - </b> La contraseña debe tener mas de ocho caracteres y tener como mínimo: un dígito, una minúscula y una mayúscula.</span>
-		            </div>
-		        </div>
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Repetir Contraseña</label>
-						<input type="password" class="form-control" id="contrasenaRepetida" name="contrasenaRepetida" ng-model="profesor.usuario.contrasenaRepetida">
-					</div>
-		        </div>
-		        <div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label">Contraseña Anterior</label>
-						<input type="password" class="form-control" id="contrasenaRepetida" name="contrasenaRepetida" ng-model="profesor.usuario.contrasenaVieja">
-					</div>
-		        </div>
-		    </div>
-		    <div class="row">
-		  	  <div class="col-md-4">
-		    		<button type="submit" class="btn btn-info" ng-click="modificarProfesor()">Modificar</button>
-		    	</div>
-		    </div>
-		    <div class="row">
-		        <div class="col-md-12">
-                    <div class="alert alert-danger hidden" id="errores">
-                        <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
-                        <span>
-                        	<!-- Errores -->
-                        </span>
-                    </div>
-		        </div>
-		    </div>
-		    <div class="row">
-		        <div class="col-md-12">
-                    <div class="alert alert-success hidden" id="exito">
-                        <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
-                        <span>
-                        </span>
-                    </div>
-		        </div>
-		    </div>
-		    <div class="clearfix"></div>
-		</form>
+					    <div class="row">
+					        <div class="col-md-6">
+								<div class="form-group label-floating">
+									<label class="control-label">Contraseña</label>
+									<input type="password" class="form-control" id="contrasena" name="contrasena" ng-model="profesor.usuario.contrasena">
+								</div>
+
+								<div class="alert alert-info hidden" id="infoContrasena">
+					                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+					                <span><b> Info - </b> La contraseña debe tener mas de ocho caracteres y tener como mínimo: un dígito, una minúscula y una mayúscula.</span>
+					            </div>
+					        </div>
+					        <div class="col-md-6">
+								<div class="form-group label-floating">
+									<label class="control-label">Repetir Contraseña</label>
+									<input type="password" class="form-control" id="contrasenaRepetida" name="contrasenaRepetida" ng-model="profesor.usuario.contrasenaRepetida">
+								</div>
+					        </div>
+					    </div>
+					    <div class="row">
+						    <div class="col-md-12">
+						    	<div class="form-group label-floating">
+						    		<div class="checkbox>">
+							    		<input type="checkbox" name="evitarNotificacion" ng-model="profesor.evitarNotificacion" />												
+							    		<label>Evitar notificaciones</label>
+						    		</div>
+						    	</div>
+						    </div>
+					    </div>
+					    <div class="row">
+					        <div class="col-md-12">
+			                    <div class="alert alert-danger hidden" id="errores">
+			                        <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+			                        <span>
+			                        	<!-- Errores -->
+			                        </span>
+			                    </div>
+					        </div>
+					    </div>
+					    <div class="row">
+					        <div class="col-md-12">
+			                    <div class="alert alert-success hidden" id="exito">
+			                        <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+			                        <span>
+			                        </span>
+			                    </div>
+					        </div>
+					    </div>
+					    <div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
+		</div>		
+		<div class="col-md-4">
+			<div class="card card-profile">
+				<div class="content">
+					<button id="botonEnviar" type="submit" class="btn btn-info" ng-click="modificarUsuario()">Modificar</button>
+				</div>
+		</div>
 	</div>
 </div>

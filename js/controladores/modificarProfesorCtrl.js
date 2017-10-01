@@ -4,6 +4,19 @@ angular.module('readArkrit')
   	$scope.profesor = {};
     $scope.copiaProfesor = {};
 
+    $('#fNacimiento').mask("99/99/9999",{placeholder:"dd/mm/aaaa"});
+    
+    $('#contrasena').focus(function(){
+      $(this).removeClass('text-danger text-success');
+        $('#infoContrasena').removeClass('hidden');
+      })
+      .blur(function(){
+          if( contrasenaSegura(this.value) )
+            $(this).addClass('text-success');
+          else
+            $(this).addClass('text-danger');
+    });
+
   	$("li.active").removeClass('active');
 
   	peticionAJAX('./php/profesor.php', {
@@ -14,24 +27,9 @@ angular.module('readArkrit')
   		$scope.profesor = data.profesor;
   		$scope.copiaProfesor = jQuery.extend(true,{},$scope.profesor);
       	$scope.profesor.usuario.contrasenaRepetida = '';
-      	$scope.profesor.usuario.contrasenaVieja = '';
   	});
-  	
-  	$('#contrasena').focus(function(){
 
-					$(this).removeClass('text-danger text-success');
-
-					$('#infoContrasena').removeClass('hidden');
-				})
-				.blur(function(){
-
-				    if( contrasenaSegura(this.value) )
-				    	$(this).addClass('text-success');
-				    else
-				    	$(this).addClass('text-danger');
-				});
-
-    $scope.modificarProfesor = function(){
+    $scope.modificarUsuario = function(){
     	var errores = '';
       	$('#errores').addClass('hidden');
       	$('#errores span').html('');

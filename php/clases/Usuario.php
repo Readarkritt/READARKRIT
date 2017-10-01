@@ -180,7 +180,8 @@
 	    		'fNacimiento' => $this->fNacimiento,
 	    		'correo' => $this->correo,
 	    		'nombreUsuario' => $this->nombreUsuario,
-	    		'bloqueado' => $this->bloqueado
+	    		'bloqueado' => $this->bloqueado,
+	    		'fBaja' => $this->fBaja
 	    	];
 	    	return $usuario;
 	    }

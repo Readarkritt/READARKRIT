@@ -6,17 +6,11 @@
 	define("TABLA_SQL", "permisos");
 
 
-	function profesorTerminado($idUsuario){
-
-		return true;
-	}
-
 	function autorizado($url){
 
 		
 		$autorizado = false;
 		$rol = null;
-
 
 		//Recuperar el token
 		$token = recuperarToken();
@@ -24,6 +18,7 @@
 			include('./general/autoToken.php');
 			exit();
 		} else{
+
 			//Comprobar persmisos del fichero
 			$campos = "rol";
 			$condicion = "RUTA_FICHERO = '".$url."'";
@@ -34,12 +29,14 @@
 				$rol = getRol($token);
 				if(!is_null($rol)){
 					//Si el profesor no está terminado, redireccionar
-					if($rol == 'profesor' && !profesorTerminado(recuperarDeToken('id'))){
-						//TODO: INCLUIR HEADER DE RESPUESTA
-						include('./');
-						exit();
+					if($rol == 'invitado'){
+						if($url == '/READARKRIT/html/menuApp/menuApp.html' || $url == '/READARKRIT/php/usuario.php' || $url == '/READARKRIT/html/profesor/formProfesor.html' || $url == '/READARKRIT/php/profesor.php'){
+							$autorizado = true;
+						} else{
+							exit();
+						}
 					}else{				
-						
+
 						if($permisoPagina == 'admin' && $rol == 'admin'){
 							$autorizado = true;
 						} else if($permisoPagina == 'profesor' && ( $rol== 'admin' || $rol=='profesor')){

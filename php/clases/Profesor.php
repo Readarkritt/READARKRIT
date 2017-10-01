@@ -75,11 +75,17 @@
 	    }
 
 	    public function toArray(){
+
+	    	if($this->evitarNotificacion == 1){
+	    		$evitar = true;
+	    	} else{
+	    		$evitar = false;
+	    	}
 	    	$profesor = array(
 				"idProfesor" => $this->idProfesor,
 				'idUsuario' => $this->idUsuario,
 				'esAdmin' => $this->esAdmin,
-				'evitarNotificacion' => $this->evitarNotificacion,
+				'evitarNotificacion' => $evitar,
 				'usuario' => $this->usuario->toArray()
 			);
 			return $profesor;
