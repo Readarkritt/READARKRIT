@@ -105,13 +105,14 @@
 
 		public function toArray(){
 			$alumno = array(
-				'idAlumno' => $this->idAlumno,
-				'idUsuario' => $this->idUsuario,
-				'numExpediente' => $this->numExpediente,
-				'idTitulacion' => $this->idTitulacion,
-				'curso' => $this->curso,
-				'usuario' => $this->usuario->toArray()
+				'idAlumno' 		=> $this->idAlumno,
+				'idUsuario' 	=> $this->idUsuario,
+				'numExpediente'	=> $this->numExpediente,
+				'idTitulacion' 	=> $this->idTitulacion,
+				'curso' 		=> $this->curso,
+				'usuario' 		=> $this->usuario->toArray()
 			);
+			
 			return $alumno;
 		}
 

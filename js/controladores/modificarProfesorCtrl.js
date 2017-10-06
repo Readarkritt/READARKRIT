@@ -26,7 +26,9 @@ angular.module('readArkrit')
   	.done(function(data, textStatus, jqXHR){
   		$scope.profesor = data.profesor;
   		$scope.copiaProfesor = jQuery.extend(true,{},$scope.profesor);
-      	$scope.profesor.usuario.contrasenaRepetida = '';
+      $scope.profesor.usuario.contrasenaRepetida = '';
+      crearAvatar($scope.profesor.usuario.nombreUsuario);
+      $('#nombreAvatar').html($scope.profesor.usuario.nombreUsuario);
   	});
 
     $scope.modificarUsuario = function(){
