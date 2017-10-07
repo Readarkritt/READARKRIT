@@ -78,4 +78,111 @@
 			return true;
 	}
 
+
+	function excelTOarray( $rutaExcel ){
+
+		require_once "./clases/PHPExcel.php";
+		
+		$dataArr = array();
+
+		$objPHPExcel = PHPExcel_IOFactory::load($rutaExcel);
+
+	    foreach( $objPHPExcel->getWorksheetIterator() as $worksheet ){
+
+		    $highestRow    = $worksheet->getHighestRow();
+		    $highestColumn = PHPExcel_Cell::columnIndexFromString( $worksheet->getHighestColumn() ) - 1;
+
+		    for( $i = 0; $i < $highestColumn; $i++ ){
+
+		    	$cell = $worksheet->getCellByColumnAndRow($i, 1);
+
+		    	$headerColumn[$i] = $cell->getValue();
+		    }
+
+		    $i = 0;
+
+		    for( $row = 2; $row <= $highestRow; $row++ ){
+
+		        for( $col = 0; $col < $highestColumn; $col++ ){
+
+		            $cell = $worksheet->getCellByColumnAndRow($col, $row);
+
+		            $dataArr[$i][ $headerColumn[$col] ] = $cell->getValue();
+		        }
+
+		        $i++;
+		    }
+
+		}
+
+		return $dataArr;
+	}
+
+
+	function descomprimirZIP( $rutaZIP, $rutaDestino = '' ){
+
+		if( $rutaDestino == '' )
+			$rutaDestino = '../img/tmp';
+
+		$zip = new ZipArchive;
+
+		if( $zip->open($rutaZIP) === TRUE ){
+
+		    $zip->extractTo( $rutaDestino );
+		    $zip->close();
+
+		    return true;
+
+		} else
+		    return false;
+
+	}
+
+
+	function obtenerExtension( $fichero ){
+
+		$tmp = explode('.', $fichero);
+
+		return end($tmp);
+	}
+
+
+	function extensionValida( $fichero, $extension ){
+
+		/*	EXTENSIONES POSIBLES:
+				- rar
+				- excel --> xls, xlsx
+				- zip
+				- img --> jpg
+		*/
+
+		$formatosExcel    = array('xls', 'xlsx');
+		$formatosImagenes = array('jpg', 'png', 'pneg');
+
+		$extensionObtenida = obtenerExtension( $fichero );
+
+		switch ($extension) {
+			case 'rar':
+				return ($extension == $extensionObtenida);
+
+			case 'excel':
+				return in_array($extensionObtenida, $formatosExcel);
+
+			case 'zip':
+				return ($extension == $extensionObtenida);
+
+			case 'img':
+				return in_array($extensionObtenida, $formatosImagenes);
+			
+			default:
+				return false;
+		}
+
+	}
+
+
+	function generarFechaMicrosegundos(){
+
+		return round(microtime(true) * 1000);
+	}
 ?>

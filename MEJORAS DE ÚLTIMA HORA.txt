@@ -7,3 +7,5 @@ MEJORAS DE ÚLTIMA HORA
 5) Implementar servidor de correo para poder mandar emails a los usuarios.
 6) Descomentar las líneas en PHP que sean de la función mail().
 7) Ruta para almacenar las imágenes de los libros en el servidor de ARKRIT.
+8) Ruta temporal para almacenar los excel y zip de la subida masiva de libros.
+9) Limitar el tamaño de los ficheros a subir --> http://php.net/manual/es/features.file-upload.errors.php

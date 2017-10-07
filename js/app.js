@@ -12,11 +12,9 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/estadistica/listarEstadistica.html'
         })
         .when('/estadisticas', {
-            templateUrl: './html/estadistica/listarEstadistica.html'
+            templateUrl: './html/estadistica/listarEstadistica.html',
+            controller: 'estadisticasCtrl'
         })
-        /*.when('/estadistica', {
-            templateUrl: '../estadistica/listarEstadistica.html'
-        })*/
 
         // ALUMNO
         .when('/alumno/crear', {
@@ -27,12 +25,14 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/alumno/formAlumno.html',
             controller: 'modificarAlumnoCtrl'
         })
-        /*.when('/libro', {
-            templateUrl: './html/libro/listarLibro.html',
-            controller: 'LibroCtrl'
-        })*/
 
+        // LIBRO
+        .when('/libro', {
+            templateUrl: './html/libro/adminLibro.html',
+            controller: 'libroCtrl'
+        })
 
+        // PROFESOR
         .when('/profesor', {
             templateUrl: './html/profesor/listarProfesor.html',
             controller: 'profesorCtrl'
