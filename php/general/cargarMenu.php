@@ -21,8 +21,9 @@
 					$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuProfesor.html');
 				} else if($rol == 'alumno'){
 					$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAlumno.html');
-				}
-
+				} else if($rol == 'invitado'{
+					$respuesta['menu'] = '';
+				} 
 			} else{
 				$respuesta['error'] = true;
 			}
@@ -44,6 +45,8 @@
 		$respuesta['menu'] = file_get_contents(dirname(__FILE__).'/../../html/menuApp/menus/menuAdmin.html');
 	} else if($rol == 'profesor'){
 		$respuesta['menu'] = file_get_contents(dirname(__FILE__).'/../../html/menuApp/menus/menuProfesor.html');
+	} else if($rol == 'invitado'){
+		$respuesta['menu'] = '';
 	} else {
 		$respuesta['menu'] = file_get_contents(dirname(__FILE__).'/../../html/menuApp/menus/menuAlumno.html');
 	}

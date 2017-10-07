@@ -1,5 +1,6 @@
 angular.module('readArkrit')
   .controller('menuAppCtrl', ['$scope', '$location', function ($scope, $location) {
+      $scope.nombreUsuario = '';
 
       // MENÚ
       cargarMenu($scope);
@@ -14,6 +15,25 @@ angular.module('readArkrit')
 
         $(this).addClass('active');
       });
+
+
+
+      //Comprobar si es invitado
+      var parametros = {};
+      var respuesta = {};
+      parametros.opcion = 'usuario';
+      parametros.accion = 'getRol';
+
+      respuesta = peticionAJAX('./php/usuario.php', parametros);
+
+      respuesta.done(function(data, textStatus, jqXHR ){
+        if(data.rol != null && data.rol == 'invitado'){
+            $location.path('/profesor/terminar');
+            $scope.$apply();            
+        }
+      });
+
+
 
       //desactivar enlace del menú de arriba (cerrar sesión)
       $("#dropdown").click(function(e){

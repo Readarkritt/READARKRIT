@@ -122,3 +122,53 @@ function validarCamposProfesor(campos){
 
 	return errores;
 }
+
+function validarCamposLibro(campos){
+	var errores = '';
+
+	if(campos.titulo=== undefined || campos.titulo == '')
+		errores += '<li>El título no se ha proporcionado.</li>';
+		else if(campos.titulo.length>50)
+			errores += '<li>El título no puede superar los 50 caracteres.</li>';
+		else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			errores += '<li>El título sólo puede contener letras o dígitos.</li>';
+
+	if(campos.tituloOriginal === undefined || campos.tituloOriginal == '')
+		errores += '<li>El título original no se ha proporcionado.</li>';
+		else if(campos.tituloOriginal.length>50)
+			errores += '<li>El título original no puede superar los 50 caracteres.</li>';
+		else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
+
+	if(campos.autor=== undefined || campos.autor == '')
+		errores += '<li>El autor no se ha proporcionado.</li>';
+		else if(campos.autor.length>50)
+			errores += '<li>El autor no puede superar los 50 caracteres.</li>';
+		else if( !campos.autor.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			errores += '<li>El autor sólo puede contener letras o dígitos.</li>';
+
+	if( campos.ano === undefined || campos.ano == '' )
+			errores += '<li>El año no se ha completado.</li>';
+
+	if( parseInt(campos.idTitulacion) <= 0 )
+		errores += '<li>Elija una titulación válida.</li>';
+
+	return errores;
+}
+
+function validarCamposLibroAnadido(campos){
+	var errores = '';
+
+	if( parseInt(campos.idPaís) <= 0 )
+		errores += '<li>Elija un país válido.</li>';
+
+	if( parseInt(campos.idCategoria) <= 0 )
+		errores += '<li>Elija una categoría válida.</li>';
+
+	if( parseInt(campos.nivelEspecializacion) <= 0 )
+		errores += '<li>Elija un nivel de especialización válido.</li>';
+
+	//FALTA POSICIONRANKING
+
+	return errores;
+}

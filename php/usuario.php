@@ -22,7 +22,6 @@
 
 		$respuesta['existe'] = existeRegistro($obj['campo'], $obj['valor'], $obj['opcion']);
 	}
-
 	if( $obj['opcion'] == 'usuario' && $obj['accion'] == 'getRol' ){
 		$respuesta['rol'] = recuperarDeToken('rol');
 	}

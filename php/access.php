@@ -4,12 +4,12 @@
 	require_once("./general/token.php");
 
 	define("TABLA_SQL", "permisos");
+	define("rolProfesor", "profesor");
+	define("rolAdmin", "admin");
+	define("rolAlumno", "alumno");
+	define("rolInvitado", "invitado");
+	define("rolVisitante", "visitante");
 
-
-	function profesorTerminado($idUsuario){
-
-		return true;
-	}
 
 	function autorizado($url){
 
@@ -17,13 +17,13 @@
 		$autorizado = false;
 		$rol = null;
 
-
 		//Recuperar el token
 		$token = recuperarToken();
 		if(is_null($token)){
 			include('./general/autoToken.php');
 			exit();
 		} else{
+
 			//Comprobar persmisos del fichero
 			$campos = "rol";
 			$condicion = "RUTA_FICHERO = '".$url."'";
@@ -34,22 +34,24 @@
 				$rol = getRol($token);
 				if(!is_null($rol)){
 					//Si el profesor no está terminado, redireccionar
-					if($rol == 'profesor' && !profesorTerminado(recuperarDeToken('id'))){
-						//TODO: INCLUIR HEADER DE RESPUESTA
-						include('./');
-						exit();
+					if($rol == rolInvitado){
+						if($url == '/READARKRIT/html/menuApp/menuApp.html' || $url == '/READARKRIT/php/usuario.php' || $url == '/READARKRIT/html/profesor/formProfesor.html' || $url == '/READARKRIT/php/profesor.php'){
+							$autorizado = true;
+						} else{
+							exit();
+						}
 					}else{				
-						
-						if($permisoPagina == 'admin' && $rol == 'admin'){
+
+						if($permisoPagina == rolAdmin && $rol == rolAdmin){
 							$autorizado = true;
-						} else if($permisoPagina == 'profesor' && ( $rol== 'admin' || $rol=='profesor')){
+						} else if($permisoPagina == rolProfesor && ( $rol== rolAdmin || $rol== rolProfesor)){
 							$autorizado = true;
-						} else if($permisoPagina == 'alumno' || $permisoPagina == 'visitante'){
+						} else if($permisoPagina == rolAlumno || $permisoPagina == rolVisitante){
 							$autorizado = true;
 						}
 					}
 				}
-			} else if($permisoPagina == 'visitante'){
+			} else if($permisoPagina == rolVisitante){
 					$autorizado = true;
 			}	
 		}

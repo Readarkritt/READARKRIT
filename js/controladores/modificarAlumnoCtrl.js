@@ -1,7 +1,3 @@
-function validarContrasena(){
-
-}
-
 angular.module('readArkrit')
   .controller('modificarAlumnoCtrl', function ($scope) {
 
@@ -19,10 +15,11 @@ angular.module('readArkrit')
   		$scope.alumno = data.alumno;
       $scope.copiaAlumno =  jQuery.extend(true, {}, $scope.alumno);
       $scope.alumno.usuario.contrasenaRepetida = '';
-      $scope.alumno.usuario.contrasenaVieja = '';
+      crearAvatar($scope.alumno.usuario.nombreUsuario);
+      $('#nombreAvatar').html($scope.alumno.usuario.nombreUsuario);
   	});
 
-    $scope.modificarAlumno = function(){      
+    $scope.modificarUsuario = function(){      
       var errores = '';
       $('#errores').addClass('hidden');
       $('#errores span').html('');

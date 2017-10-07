@@ -174,13 +174,14 @@
 
 	    public function toArray(){
 	    	$usuario = [
-	    		'nombre' => $this->nombre,
-	    		'primerApellido' => $this->primerApellido,
-	    		'segundoApellido' => $this->segundoApellido,
-	    		'fNacimiento' => $this->fNacimiento,
-	    		'correo' => $this->correo,
-	    		'nombreUsuario' => $this->nombreUsuario,
-	    		'bloqueado' => $this->bloqueado
+	    		'nombre' 			=> $this->nombre,
+	    		'primerApellido' 	=> $this->primerApellido,
+	    		'segundoApellido' 	=> $this->segundoApellido,
+	    		'fNacimiento' 		=> $this->fNacimiento,
+	    		'correo'			=> $this->correo,
+	    		'nombreUsuario' 	=> $this->nombreUsuario,
+	    		'bloqueado' 		=> $this->bloqueado,
+	    		'fBaja' 			=> $this->fBaja
 	    	];
 	    	return $usuario;
 	    }

@@ -158,6 +158,12 @@ angular.module('readArkrit')
     	}
     };
 
+    $scope.marcarTabla = function(e){
+    	e.preventDefault();    	
+        $(".navTabsResponsive>li").removeClass("active");
+    	$(this).addClass("active");
+    };
+
     // EVENTOS
 
     cargarJS("./js/clases/Usuario.js");

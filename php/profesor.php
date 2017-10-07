@@ -50,7 +50,7 @@
 		}
 	}
 
-	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'modificar' ){
+	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'modificar' ){
 
 		$profesorPeticion = $obj['profesor'];
 		$usuarioPeticion = $profesorPeticion['usuario'];
@@ -90,12 +90,42 @@
 		}
 	}
 
-	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'existe' ){
+	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'terminar' ){
+
+		$profesor = $obj['profesor'];
+		$usuario = $obj['usuario'];
+
+
+		$usuarioValidado  = validarCamposUsuario($usuario);
+		$profesorValidado = validarCamposProfesor($profesor);
+
+		if($usuarioValidado && $profesorValidado){
+			unset($usuarioValidado['contrasenaRepetida']);
+			$profesor = new Profesor();
+			$profesor->rellenar($usuarioValidado, $profesorValidado);
+
+			$tabla = 'invitacion';
+			$condicion = 'correo = "'.$profesor->obtenerUsuario()->obtenerCorreo().'"';
+			borrar($tabla,$condicion);
+
+			//CREAR TOKEN
+			$respuesta['token'] = generarToken($profesor->obtenerIdUsuario(), $profesor->obtenerUsuario()->obtenerNombre(), 'profesor', $profesor->obtenerUsuario()->obtenerCorreo());
+
+			$respuesta['idUsuario'] 	= $profesor->obtenerIdUsuario();
+			$respuesta['idProfesor']  	= $profesor->obtenerId();
+			$respuesta['error']    		= false;
+		} else{
+			$respuesta['error']            = true;
+			$respuesta['descripcionError'] = 'Datos manipulados';
+		}
+	}
+
+	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'existe' ){
 
 		$respuesta['existe'] = existeRegistro($obj['campo'], $obj['valor'], $obj['opcion']);
 	}
 
-	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarConectado' ){
+	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarConectado' ){
 		$id = recuperarDeToken('id');
 		if($id != null){
 			$idProfesor = consulta( 'id_Profesor', 'profesor', 'id_Usuario = '.$id );
@@ -108,6 +138,20 @@
 			} else{
 				$respuesta['tokenErroneo'] = true;
 			}
+		}else{
+			$respuesta['tokenErroneo'] = true;
+		}
+	}
+
+	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarInvitado' ){
+
+		$correo = recuperarDeToken('correo');
+		if($correo != null){
+			$respuesta['tokenErroneo'] = false;
+			$profesor = new Profesor();
+			$respuesta['profesor'] = $profesor->toArray();
+			$respuesta['profesor']['usuario']['correo'] = $correo;
+			$respuesta['profesor']['usuario']['contrasena'] = '';
 		}else{
 			$respuesta['tokenErroneo'] = true;
 		}

@@ -17,8 +17,6 @@
 		$campos    = 'id_usuario';
 		$condicion = 'correo = "' . $obj['correo'] . '"';
 
-		// FALTA INFORMARSE DE CUÁNDO SE ACABA UNA SESIÓN Y LO QUE CONLLEVA
-
 		$idUsuario = (int) consulta($campos, TABLA_SQL, $condicion);
 
 		if( $idUsuario != 0 ){
@@ -42,10 +40,6 @@
 
 					Hash::mejorar( $obj['contrasena'], $usuario->obtenerContrasena(), $idUsuario );
 
-					// Se hashea el id del usuario que quiere acceder y se guarda en la sesión php para usos futuros
-
-					$hash = new Hash($idUsuario);
-
 					//BUSCAR ROL DE USUARIO
 					$rol = '';
 					$profesor = consulta('id_profesor', 'profesor', 'id_Usuario = '.$idUsuario);
@@ -65,6 +59,7 @@
 					
 					//CREAR TOKEN
 					$respuesta['token'] = generarToken($idUsuario, $usuario->obtenerNombre(), $rol, $obj['correo']);
+					$respuesta['invitado'] = false;
 
 					//CERRAR SESIÓN
 					session_destroy();
@@ -98,11 +93,55 @@
 	            }
 	        }
 
-		}else{
+		} else{
+			//Comprobar si el usuario está invitado
+			$tabla = "invitacion";
+			$campos = "contrasena";
+			$condicion = 'correo = "' . $obj['correo'] . '"';
+			$contrasena = consulta($campos, $tabla, $condicion);
+			if($contrasena){
+				session_start();
 
-			$respuesta['error']            = true;
-			$respuesta['descripcionError'] = 'Nombre de usuario no registrado.';
+				if( Hash::esValido( $obj['contrasena'], $contrasena) ){
+					$rol = 'invitado';
+					//CREAR TOKEN
+					$respuesta['token'] = generarToken(0,'', $rol, $obj['correo']);
+					$respuesta['invitado'] = true;
+					//CERRAR SESIÓN
+					session_destroy();
+
+				} else{
+					$respuesta['error']            = true;
+					$respuesta['descripcionError'] = 'Contraseña incorrecta.';
+
+
+					if( !isset($_SESSION['intentosConexion']) ){
+
+						$_SESSION['intentosConexion'] = 1;
+
+					}else{
+
+						if( $_SESSION['intentosConexion'] > MAX_INTENTOS_CONEXION ){
+
+							//$usuario->bloquear();
+
+							$respuesta['descripcionError'] = 'Ha alcanzado el número máximo de intentos, su cuenta se ha bloqueado.';
+
+						}else{
+
+							$_SESSION['intentosConexion']--;
+						}
+					}
+				}
+			}
+			else{
+				$respuesta['error']            = true;
+				$respuesta['descripcionError'] = 'Nombre de usuario no registrado.';
+			}
 		}
+
+
+		
 		
 	}
 
@@ -152,6 +191,7 @@
 			$respuesta['descripcionError'] = 'Revisa los datos que has introducido.';
 		}
 	}
+
 
 	else{
 

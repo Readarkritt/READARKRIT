@@ -46,6 +46,8 @@
       		$sql = 'SELECT ' . $campos . ' FROM ' . $tabla . $condicion;
 		}
 
+		//echo $sql;
+
       	$result = $link->query($sql);
 
 
