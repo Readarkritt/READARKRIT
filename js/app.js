@@ -28,12 +28,22 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/alumno/formAlumno.html',
             controller: 'modificarAlumnoCtrl'
         })
-        /*.when('/libro', {
+
+        //LIBRO
+        .when('/libro', {
             templateUrl: './html/libro/listarLibro.html',
             controller: 'LibroCtrl'
-        })*/
+        })
+        .when('/libro/nuevo',{
+            templateUrl: './html/libro/formLibro.html',
+            controller:'altaLibroCtrl'
+        })
+        .when('/libro/modificar',{
+            templateUrl: './html/libro/formLibro.html',
+            controller:'modificarLibroCtrl'
+        })
 
-
+        //PROFESOR
         .when('/profesor', {
             templateUrl: './html/profesor/listarProfesor.html',
             controller: 'profesorCtrl'
