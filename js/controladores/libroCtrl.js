@@ -4,11 +4,19 @@ angular.module('readArkrit')
   	$scope.usuario  = {};
     $scope.profesor = {};
     $scope.profesores = [];
+	$scope.libroAnadido = {};
+  	$scope.libro = {};
 
     $scope.profesor.esAdmin = false;
 	$scope.profesor.evitarNotificacion = false;
 
 	$scope.titulaciones = obtenerTitulaciones();
+	$scope.paises = obtenerPaises();
+	$scope.categorias = obtenerCategoriasLibro();
+	$scope.nivelEspecializacion = obtenerNivelesEspecializacion();
+
+
+  	$('#ano').mask("9999",{placeholder:"0000"});
 
     // FUNCIONES
     $scope.listarProfesores = function(){
@@ -180,6 +188,85 @@ angular.module('readArkrit')
 	    	}
     	}
     };
+
+
+
+  	$scope.altaLibro = function(){
+
+  		var errores = '';
+  		var datosLibro = {};
+  		var datosLibroAnadido = {};
+
+      	$('#errores').addClass('hidden');
+      	$('#errores span').html('');
+      	$('#exito').addClass('hidden');
+      	$('#exito span').html('');
+
+      	//Preparar datos para la petición
+      	datosLibro.idLibro 			= '';
+      	datosLibro.titulo 			= $scope.libro.titulo;
+      	datosLibro.tituloOriginal 	= $scope.libro.tituloOriginal;
+      	datosLibro.autor 			= $scope.libro.autor;
+      	datosLibro.ano 				= $scope.libro.ano;
+      	datosLibro.idAnadidoPor 	= "";
+      	datosLibro.idTitulacion 	= $scope.libro.idTitulacion;
+
+      	datosLibroAnadido.idLibroAnadido 		= '';
+      	datosLibroAnadido.idLibro 				= '';
+      	datosLibroAnadido.idPais				= $scope.libroAnadido.idPais;
+      	datosLibroAnadido.idCategoria 			= $scope.libroAnadido.idCategoria;
+      	datosLibroAnadido.posicionRanking 		= $scope.libroAnadido.posicionRanking;
+      	datosLibroAnadido.mediaNumUsuarios 		= '';
+      	datosLibroAnadido.nivelEspecializacion 	= $scope.libroAnadido.nivelEspecializacion;
+
+      	var portada = $('#inputPortada').prop('files')[0];
+
+      	//Validar campos
+      	errores = validarCamposLibro(datosLibro);
+     	errores += validarCamposLibroAnadido(datosLibroAnadido);
+     	if(portada == undefined)
+     		errores += '<li>Se debe añadir una portada.</li>'
+
+      	if(errores==''){
+
+	     	var formData = new FormData();
+	      	formData.append('portada', portada);
+			formData.append('opcion', 'libro');
+			formData.append('accion', 'alta');
+			formData.append('libro', datosLibro);
+			formData.append('libroAnadido', datosLibroAnadido);
+
+      		 $.ajax({
+      		 	url:'./php/libro.php',                    
+	            type: 'POST',
+		        data:formData,
+	            contentType: false,
+	            processData: false,     
+	            success: function(data){
+				   	if(data.error){
+				   		errores = 'Error: datos manipulados.';
+				   	} else {
+				   		swal("Libro añadido", "success");
+				   	}
+	            }
+	     	});
+		   
+      	}
+
+      	if(errores != ''){
+	        var html =  '<b> Se han encontrado errores al rellenar el formulario: </b>' +
+	              '<ul>' +
+	                  errores
+	              '</ul>';
+	        $('#errores').removeClass('hidden');
+	        $('#errores span').html(html);
+       } else{
+        	var html =  '<b> Cambios introducidos con éxito. </b>';
+        	$('#exito').removeClass('hidden');
+        	$('#exito span').html(html);           	
+       }
+
+  	}
 
     // EVENTOS
 

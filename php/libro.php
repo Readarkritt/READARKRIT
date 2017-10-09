@@ -144,6 +144,45 @@
 		}
 	}
 
+	else if( $obj['opcion'] == 'libro' && $obj['accion'] == 'alta' ){
+
+		//Validación
+		echo 123;
+		var_dump($obj);
+		print_r($obj['libro']);
+		print_r($_FILES);
+		$libroValidado = false;//validarLibro($obj[]);
+		$libroAnadidoValidado = false;//validarLibroAnadido();
+		$portadaVacia = true;
+
+		if($libroValidado && $libroAnadidoValidado && !$portadaVacia){
+
+			//Inserción imagen
+			$folder = '../img/tmp/';
+			$nuevoNombre = generarFechaMicrosegundos() . '.' . obtenerExtension($arrLibros[$i]['PORTADA']);
+			move_uploaded_file($_FILES["portada"]["tmp_name"], $folder.$nuevoNombre);
+
+			//Inserción libro
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Datos manipulados.';
+		}
+
+
+	}
+
+	else if( $obj['opcion'] == 'libro' && $obj['accion'] == 'obtenerPosicionesRanking'){
+		$numPosiciones = consulta('count(id_libro)','libro');
+
+		if($numPosiciones != null){
+			$respuesta['error'] = false;
+			$respuesta['posicionesRanking'] = $numPosiciones;
+		} else{
+			$respuesta['error'] = true;			
+		}
+	}
+
 	echo json_encode( $respuesta );
 
 ?>
