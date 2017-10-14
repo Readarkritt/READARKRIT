@@ -1,60 +1,58 @@
 angular.module('readArkrit')
   .controller('libroCtrl', function ($scope, DTOptionsBuilder) {
 
-  	$scope.usuario  = {};
-    $scope.profesor = {};
-    $scope.profesores = [];
+    $scope.librosAnadidos = [];
 
-    $scope.profesor.esAdmin = false;
-	$scope.profesor.evitarNotificacion = false;
-
-	$scope.titulaciones = obtenerTitulaciones();
+	$scope.titulaciones = obtenerValores('titulacion');
+	$scope.paises 		= obtenerValores('pais');
+	$scope.categorias 	= obtenerValores('categoriaLibro');
 
     // FUNCIONES
-    $scope.listarProfesores = function(){
+    $scope.listarLibrosAnadidos = function(){
 
-    	peticionAJAX('./php/profesor.php', {
+    	peticionAJAX('./php/libroAnadido.php', {
 
-			opcion: 'profesor',
+			opcion: 'libroAnadido',
 			accion: 'listar'
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
 
 			if( !data.error ){
 
-				$('#tablaListado').removeClass('hidden');
-				$scope.profesores = $.makeArray(data.profesores);
+				var rutaDefinitiva = './img/portadasLibros/';
 
-				$.each( $scope.profesores, function( index, value ){
-				    $scope.profesores[index].es_admin = smallintTOsino($scope.profesores[index].es_admin);
-				    $scope.profesores[index].evitar_notificacion = smallintTOsino($scope.profesores[index].evitar_notificacion);
+				$('#tablaListado').removeClass('hidden');
+				$scope.librosAnadidos = $.makeArray(data.librosAnadidos);
+
+				$.each( $scope.librosAnadidos, function( index, value ){
+				    $scope.librosAnadidos[index].portada = rutaDefinitiva + $scope.librosAnadidos[index].portada;
 				});
 			}
 		});
     };
 
 
-    $scope.eliminarProfesor = function(idProfesor, indexScope){
+    $scope.eliminarLibroAnadido = function(idLibroAnadido, indexScope){
 
-    	peticionAJAX('./php/profesor.php', {
+    	peticionAJAX('./php/libroAnadido.php', {
 
-			opcion    : 'profesor',
-			accion	  : 'eliminar',
-			idProfesor: idProfesor
+			opcion : 'libroAnadido',
+			accion : 'eliminar',
+			idLibroAnadido: idLibroAnadido
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
 
 			if( data.error )
-				swal("Eliminar Profesor", "Error en la transacción.", "error");
+				swal("Eliminar Libro", "Error en la transacción.", "error");
 			else{
 
-				swal("Profesor Eliminado", "Profesor eliminado con éxito.", "success");
+				swal("Libro Eliminado", "Libro eliminado con éxito.", "success");
 
-				$scope.profesores.splice(indexScope, 1);
+				$scope.librosAnadidos.splice(indexScope, 1);
 			}
 		});
 
-		$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.profesores ).withOption('stateSave', true).withDataProp('data');
+		$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
 
 	    $scope.reloadData = reloadData;
 	    $scope.dtInstance = {};
@@ -167,7 +165,7 @@ angular.module('readArkrit')
 	                data: formData,                         
 	                type: 'POST',
 	                success: function(data){
-	                    alert(data);
+	                    console.log(data);
 	                }
 	     		});
 
@@ -187,7 +185,7 @@ angular.module('readArkrit')
     cargarJS("./js/clases/Profesor.js");*/
 
     	// Listar
-    //$scope.listarProfesores();
+    $scope.listarLibrosAnadidos();
 
     	// Añadir
 

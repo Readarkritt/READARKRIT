@@ -11,14 +11,7 @@
 
 		$campos = 'id_categoria, nombre';
 
-		$categorias = consulta($campos, 'categoria_libro');
-
-		if( $categorias ){
-
-			$respuesta['categorias'] = $categorias;
-			$respuesta['error']  = false;
-		} else
-			$respuesta['error'] = true;
+		$respuesta = consulta($campos, 'categoria_libro');
 	}
 
 

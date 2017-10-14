@@ -3,12 +3,13 @@
 	class Libro{
 		private $idLibro 			= 0;
 		private $portada 			= '';
-		private $titulo 			= '':
+		private $titulo 			= '';
 		private $tituloOriginal 	= '';
 		private $autor				= '';
 		private $ano				= 0;
-		private $idAnadidoPor		= 0;
+		private $anadidoPor		    = 0;
 		private $idTitulacion		= 0;
+		private $fBaja 				= null;
 
 		private $tablaSQL			= '';
 		private $camposSQL			= '';
@@ -16,7 +17,7 @@
 		public function __construct(){
 
 			$this->tablaSQL = 'libro';
-			$this->camposSQL = 'id_libro, portada, titulo, titulo_original, autor, ano, anadido_por, id_titulacion';
+			$this->camposSQL = 'id_libro, portada, titulo, titulo_original, autor, ano, anadido_por, id_titulacion, f_baja';
 		}
 
 		public function rellenar($arrAsocValores){
@@ -26,7 +27,7 @@
 			$this->tituloOriginal 	= $arrAsocValores['tituloOriginal'];
 			$this->autor 			= $arrAsocValores['autor'];
 			$this->ano 				= $arrAsocValores['ano'];
-			$this->idAnadidoPor		= $arrAsocValores['idAnadidoPor'];
+			$this->anadidoPor		= $arrAsocValores['anadidoPor'];
 			$this->idTitulacion 	= $arrAsocValores['idTitulacion'];
 
 			$this->idLibro = insertar($this->camposSQL,$arrAsocValores,$this->tablaSQL);
@@ -44,12 +45,18 @@
 			$this->tituloOriginal 	= $resultado['titulo_original'];
 			$this->autor 			= $resultado['autor'];
 			$this->ano 				= $resultado['ano'];
-			$this->idAnadidoPor		= $resultado['id_anadido_por'];
+			$this->anadidoPor		= $resultado['anadido_por'];
 			$this->idTitulacion 	= $resultado['id_titulacion'];
+			$this->fBaja            = $resultado['f_baja'];
 		}
 
 		public function eliminar(){
-			//FALTA
+			// Se añade fecha de baja
+
+	    	$fechaActual = date("Y") . "-" . date("m") . "-" . date("d");
+	    	$condicion   = 'id_libro = ' . $this->idLibro;
+
+	    	return actualizar( 'f_baja', $fechaActual, $this->tablaSQL, $condicion );
 		}
 
 		public function obtenerId(){
@@ -76,8 +83,8 @@
 			return $this->ano;
 		}
 
-		public function obtenerIdAnadidoPor(){
-			return $this->idAnadidoPor;
+		public function obteneranadidoPor(){
+			return $this->anadidoPor;
 		}
 
 		public function obtenerIdTitulacion(){
@@ -102,7 +109,7 @@
 			actualizar('titulo',$this->titulo, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarTituloOriginal($){
+		public function modificarTituloOriginal($tituloOriginal){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->tituloOriginal = $tituloOriginal;
@@ -110,7 +117,7 @@
 			actualizar('titulo_original',$this->tituloOriginal, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarAutor($){
+		public function modificarAutor($autor){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->autor = $autor;
@@ -118,7 +125,7 @@
 			actualizar('autor',$this->autor, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarAno($){
+		public function modificarAno($ano){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->ano = $ano;
@@ -126,15 +133,15 @@
 			actualizar('ano',$this->ano, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarIdAnadidoPor($){
+		public function modificaranadidoPor($anadidoPor){
 			$condicion = 'id_libro = '.$this->idLibro;
 
-			$this->idAnadidoPor = $idAnadidoPor;
+			$this->anadidoPor = $anadidoPor;
 
-			actualizar('id_anadido_por',$this->idAnadidoPor, $this->tablaSQL, $condicion);
+			actualizar('id_anadido_por',$this->anadidoPor, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarIdTitulacion($){
+		public function modificarIdTitulacion($idTitulacion){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->idTitulacion = $idTitulacion;
@@ -150,7 +157,7 @@
 				'tituloOriginal' 	=> $this->tituloOriginal,
 				'autor'				=> $this->autor,
 				'ano'				=> $this->ano,
-				'idAnadidoPor'		=> $this->idAnadidoPor,
+				'anadidoPor'		=> $this->anadidoPor,
 				'idTitulacion'		=> $this->idTitulacion
 			];
 

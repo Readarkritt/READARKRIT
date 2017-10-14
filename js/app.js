@@ -12,16 +12,20 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
         .when('/', {
             templateUrl: './html/estadistica/listarEstadistica.html'
         })
+
+        // ESTADÍSTICAS
         .when('/estadisticas', {
             templateUrl: './html/estadistica/listarEstadistica.html',
             controller: 'estadisticasCtrl'
         })
 
-        // ALUMNO
-        .when('/alumno/crear', {
-            templateUrl: './html/libro/listarLibro.html',
-            controller: 'altaAlumnoCtrl'
+        // MI BIBLIOTECA
+        .when('/miBiblioteca', {
+            templateUrl: './html/miBiblioteca/listarMiBiblioteca.html',
+            controller: 'miBibliotecaCtrl'
         })
+
+        // ALUMNO
         .when('/alumno/modificar', {
             templateUrl: './html/alumno/formAlumno.html',
             controller: 'modificarAlumnoCtrl'
@@ -32,6 +36,8 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/libro/adminLibro.html',
             controller: 'libroCtrl'
         })
+
+        // PROFESOR
         .when('/profesor', {
             templateUrl: './html/profesor/listarProfesor.html',
             controller: 'profesorCtrl'

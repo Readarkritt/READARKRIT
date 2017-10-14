@@ -5,12 +5,14 @@
 	require_once("./general/readarkrit.php");
 	require_once("./clases/Hash.php");
 	require_once("./clases/Alumno.php");
+	require_once("./clases/Estanteria.php");
 
 	// CONTROLADOR
 
 	$obj       = $_POST;
 	$respuesta = array();
 	$alumno    = array();
+	$estanteria = array();
 
 
 	if( $obj['opcion'] == 'alumno' && $obj['accion'] == 'alta' ){
@@ -18,13 +20,36 @@
 		$usuarioValidado = validarCamposUsuario( $obj['usuario'] );
 		$alumnoValidado  = validarCamposAlumno( $obj['alumno'] );
 
-		if( $usuarioValidado && $alumnoValidado ){
+		if( $usuarioValidado && $alumnoValidado && count($obj['librosLeidos']) != 0 ){
 
+			// 1) Crear usuario
 			$alumno = new Alumno();
 			$alumno->rellenar( $usuarioValidado, $alumnoValidado );
 
+			// 2) Crear la estantería por defecto ('Libros Leídos') para ese usuario
+			$estanteria = new Estanteria();
+			$estanteria->rellenarDefault( $alumno->obtenerIdUsuario() );
+
+			// 3) Relacionar la estantería con los libros leídos
+			$camposSQL = 'id_rel_libro_estanteria, id_libro, id_estanteria, libro_leido';
+			$arrValores = array();
+
+			for($i=0; $i<count($obj['librosLeidos']); $i++){
+
+				$idLibro = consulta( 'id_libro', 'libro_anadido', 'id_libro_anadido = '. $obj['librosLeidos'][$i] );
+
+				$arrValores[0] = ''; // id_rel_libro_estanteria
+				$arrValores[1] = $idLibro; 
+				$arrValores[2] = $estanteria->obtenerId();
+				$arrValores[3] = 1;
+
+				insertar( $camposSQL, $arrValores, 'rel_libro_estanteria' );
+			}
+
+			// 4) Respuesta de la petición
 			$respuesta['idUsuario'] = $alumno->obtenerIdUsuario();
 			$respuesta['idAlumno']  = $alumno->obtenerId();
+
 			$respuesta['error']     = false;
 		} else {
 

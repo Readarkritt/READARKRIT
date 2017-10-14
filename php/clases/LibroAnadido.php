@@ -18,7 +18,7 @@
 
 		public function __construct(){
 			$this->tablaSQL = 'libro_anadido';
-			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, _posicion_ranking, media_num_usuarios, nivel_especializacion';
+			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, posicion_ranking, media_num_usuarios, nivel_especializacion';
 
 			$this->libro = new Libro();
 		}
@@ -48,13 +48,15 @@
 			$this->idPais 			= $resultado['id_pais'];
 			$this->idCategoria		= $resultado['id_categoria'];
 			$this->posicionRanking	= $resultado['posicion_ranking'];
-			$this->mediaNumUsuarios	= $resultado['posicion_ranking'];
+			$this->mediaNumUsuarios	= $resultado['media_num_usuarios'];
 			$this->nivelEspecializacion	= $resultado['nivel_especializacion'];
 
 			$this->libro->cargar($this->idLibro);
 		}
 
-
+		public function eliminar(){
+			return $this->libro->eliminar();
+		}
 
 		public function obtenerId(){
 			return $this->idLibroAnadido;

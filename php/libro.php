@@ -3,6 +3,7 @@
 	require_once("./general/bbdd.php");
 	require_once("./general/funciones.php");
 	require_once("./general/token.php");
+	require_once("./clases/LibroAnadido.php");
 
 	$obj       = $_POST;
 	$respuesta = array();
@@ -29,7 +30,7 @@
 				$arrLibros[$i]['PORTADA'] = $nuevoNombre;
 
 				// 1.2) Comprobamos que los datos que no requieren de ID son válidos
-				if( $arrLibros[$i]['TITULO'] != '' && $arrLibros[$i]['TITULO_ORIGINAL'] != '' && $arrLibros[$i]['AUTOR'] != '' && ( $arrLibros[$i]['ANO'] >= 1900 && $arrLibros[$i]['ANO'] <= (int) date('Y') ) ){
+				if( $arrLibros[$i]['TITULO'] != '' && $arrLibros[$i]['TITULO_ORIGINAL'] != '' && $arrLibros[$i]['AUTOR'] != '' && ( (int)$arrLibros[$i]['ANO'] >= 1900 && (int)$arrLibros[$i]['ANO'] <= (int) date('Y') ) ){
 
 					// 2) Comprobar quién lo ha subido
 
@@ -80,21 +81,32 @@
 				array_push($librosProblematicos, $i+2);
 			} else {
 
-				// 10.1) añadimos los campos que faltan para poder insertar en libro
-				$arrLibros[$i]['ID_LIBRO'] = '';
+				// 10) Separamos los valores de libro y libroAnadido
 
-				// 10.2) hacer un insert en libro
-				$campos  = 'id_libro, portada, titulo, titulo_original, autor, ano, anadido_por, id_titulacion';
-				$idLibro = insertar( $campos, $arrLibros[$i], 'libro' );
+				$valoresLibro['idLibro'] 		 = '';
+				$valoresLibro['portada'] 		 = $arrLibros[$i]['PORTADA'];
+				$valoresLibro['titulo'] 		 = $arrLibros[$i]['TITULO'];
+				$valoresLibro['tituloOriginal']  = $arrLibros[$i]['TITULO_ORIGINAL'];
+				$valoresLibro['autor'] 			 = $arrLibros[$i]['AUTOR'];
+				$valoresLibro['ano'] 			 = $arrLibros[$i]['ANO'];
+				$valoresLibro['anadidoPor'] 	 = $arrLibros[$i]['ANADIDO_POR'];
+				$valoresLibro['idTitulacion'] 	 = $arrLibros[$i]['ID_TITULACION'];
+				$valoresLibro['fBaja']			 = null;
 
-				// 11.1) añadimos los campos que faltan para poder insertar en libro_anadido
-				$arrLibros[$i]['ID_LIBRO'] = $idLibro;
+				$valoresLibroAnadido['idLibroAnadido'] 	  	 = '';
+				$valoresLibroAnadido['idLibro'] 			 = '';
+				$valoresLibroAnadido['idPais'] 			  	 = $arrLibros[$i]['ID_PAIS'];
+				$valoresLibroAnadido['idCategoria'] 		 = $arrLibros[$i]['ID_CATEGORIA'];
+				$valoresLibroAnadido['posicionRanking'] 	 = $arrLibros[$i]['POSICION_RANKING'];
+				$valoresLibroAnadido['mediaNumUsuarios']     = $arrLibros[$i]['MEDIA_NUM_USUARIOS'];
+				$valoresLibroAnadido['nivelEspecializacion'] = $arrLibros[$i]['NIVEL_ESPECIALIZACION'];
 
-				// 11.2) hacer un insert en libro_anadido
-				$campos = 'id_libro_anadido, id_libro, id_pais, id_categoria, posicion_ranking, media_num_usuarios, nivel_especializacion';
-				$idLibroAnadido = insertar( $campos, $arrLibros[$i], 'libro_anadido' );
+				// 12) Creamos el libro
 
-				// 12) establezco de nuevo el valor de libro problemático
+				$libroAnadido = new LibroAnadido();
+				$libroAnadido->rellenar($valoresLibro, $valoresLibroAnadido);
+
+				// 13) establezco de nuevo el valor de libro problemático
 				$libroProblematico = true;
 			}
 

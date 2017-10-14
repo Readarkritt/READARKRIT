@@ -11,9 +11,7 @@
 
 		$campos = 'id_titulacion, nombre, duracion';
 
-		$titulaciones = consulta($campos, 'titulacion');
-
-		$respuesta['titulaciones'] = $titulaciones;
+		$respuesta = consulta($campos, 'titulacion');
 	}
 
 

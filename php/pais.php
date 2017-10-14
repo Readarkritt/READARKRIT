@@ -11,14 +11,7 @@
 
 		$campos = 'id_pais, iso, nombre';
 
-		$paises = consulta($campos, 'pais');
-
-		if( $paises ){
-
-			$respuesta['paises'] = $paises;
-			$respuesta['error']  = false;
-		} else
-			$respuesta['error'] = true;
+		$respuesta = consulta($campos, 'pais');
 	}
 
 

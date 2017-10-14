@@ -21,6 +21,10 @@
     <!-- Sweet Alert -->
     <link rel="stylesheet" href="../../css/sweetalert2.min.css">
 
+        <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="../../css/dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/responsive.bootstrap.min.css"/>
+
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
@@ -145,6 +149,28 @@
 												</div>
 				                            </div>                                      
 				                        </div>
+
+				                        <div class="row">
+				                        	<div class="col-md-12">
+				                        		<h5 class="text-info">Selecciona los libros que hayas leído:</h5>
+												<div class="tab-pane active table-responsive" id="listadoLibros">
+													<table id="tablaListado" class="table table-striped table-bordered dt-responsive nowrap row-border" width="100%" datatable="ng" cellspacing="0">
+												        <thead>
+												            <tr>
+												            	<th class="no-sort all">PORTADA</th>
+												                <th class="all">TÍTULO</th>
+												                <th>TÍTULO ORIGINAL</th>
+												                <th>AUTOR</th>
+												                <th>AÑO</th>
+												            </tr>
+												        </thead>
+												        <tbody>
+												        	<!-- Se cargan la colección de libros ARKRIT -->
+												        </tbody>
+												    </table>
+												</div>
+				                            </div>                                      
+				                        </div>
 				                        <div class="clearfix"></div>
 				                    </form>
 				                </div>
@@ -213,6 +239,10 @@
 
 <!-- Sweet Alert -->
 <script src="../../js/librerias/sweetalert2.min.js"></script>
+
+<!-- DataTables -->
+<script src="../../js/librerias/dataTables.min.js"></script>
+<script src="../../js/librerias/dataTables.responsive.min.js"></script>
 
 <script src="../../js/general/funciones.js"></script>
 <script src="../../js/general/readarkrit.js"></script>

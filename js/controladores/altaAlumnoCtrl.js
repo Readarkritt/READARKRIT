@@ -8,6 +8,8 @@ function altaAlumno(){
 	var datosAlumno    = {};
 	var erroresUsuario = '';
 	var erroresAlumno  = '';
+	var librosLeidos   = [];
+	var erroresLibros  = '';
 
 	datosLeidos = formTOobject();
 
@@ -37,12 +39,26 @@ function altaAlumno(){
 	console.log('Usuario: ' + datosUsuario);
 	console.log('Alumno: ' + datosAlumno);
 
-	if( erroresUsuario != '' || erroresAlumno != '' ){
+	// Comprobar que se han seleccionado libros
+
+	$.each( $('#tablaListado').find('.selected'), function( index, element ) {
+		librosLeidos.push( $(element).attr("data-idLibroAnadido") );			
+	});
+
+	console.log(librosLeidos);
+
+	if( librosLeidos.length == 0 ){
+		erroresLibros = '<li>Debes seleccionar al menos un libro.</li>';
+	}
+
+
+	if( erroresUsuario != '' || erroresAlumno != '' || erroresLibros != '' ){
 
 		var html = 	'<b> Se han encontrado errores al rellenar el formulario: </b>' +
 					'<ul>' +
 			   			erroresUsuario +
 			   			erroresAlumno +
+			   			erroresLibros +
 					'</ul>';
 
 		$('#erroresAltaAlumno').removeClass('hidden');
@@ -74,7 +90,8 @@ function altaAlumno(){
 			opcion: 'alumno',
 			accion: 'alta',
 			usuario: usuario,
-			alumno:  alumno
+			alumno:  alumno,
+			librosLeidos: librosLeidos
 		})
 		.done(function( data, textStatus, jqXHR ){
 
@@ -113,9 +130,9 @@ function cargarTitulacion(elemento){
 
     peticion.done(function( data, textStatus, jqXHR ) {
 
-        if( data.titulaciones ){
+        if( data ){
 
-			$.each( data.titulaciones, function( index, element ) {
+			$.each( data, function( index, element ) {
 
 				html += '<option value=' + element.id_titulacion + ' data-duracion=' + element.duracion + '>' + element.nombre + '</option>';
 			});
@@ -139,12 +156,53 @@ function cargarCurso(elementoTitulacion, elementoCurso){
 	elementoCurso.html( html );
 }
 
+function cargarLibrosAnadidos(){
+
+	var parametros = {};
+	var peticion   = {};
+	var html       = '';
+
+	parametros.opcion = 'libroAnadido';
+    parametros.accion = 'listar';
+
+	peticion = peticionAJAX('../../php/libroAnadido.php', parametros);
+
+    peticion.done(function( data, textStatus, jqXHR ) {
+
+        if( !data.error ){
+
+			$.each( data.librosAnadidos, function( index, element ) {
+
+				html += '<tr data-idLibroAnadido=' + element.id_libro_anadido + '>';
+				html += '<td><img src="../../img/portadasLibros/' + element.portada + '" alt="portada" height="40" width="40"></td>';
+				html += '<td>' + element.titulo + '</td>';
+				html += '<td>' + element.titulo_original + '</td>';
+				html += '<td>' + element.autor + '</td>';
+				html += '<td>' + element.ano + '</td>';
+				html += '</tr>';
+			});
+        }
+        
+        $('#tablaListado tbody').append( html );
+
+        $('#tablaListado').DataTable({
+        	// hace que no se pueda ordenar por la columna de checkbox
+		    "ordering": true,
+		    columnDefs: [{
+		      orderable: false,
+		      targets: "no-sort"
+		    }],
+		    "order": [[ 2, "asc" ]]	
+		});
+    });
+}
 // ------------------ EVENTOS ------------------------
 
 $(function() {
     	
    	cargarTitulacion( $('#idTitulacion') );
    	cargarCurso( $('#idTitulacion') , $('#curso') );
+   	cargarLibrosAnadidos();
 });
 
 
@@ -173,7 +231,7 @@ $('#comprobarDisponibilidadNombreUsuario').click(function(e){
 	$('#nombreUsuario').removeClass('text-danger text-success');
 
 	// petición síncrona
-	if( existeRegistro('nombre_usuario', nombreUsuario, 'usuario') ){
+	if( existeRegistro('nombre_usuario', nombreUsuario, 'usuario', false) ){
 
 		$('#nombreUsuario').addClass('text-danger');
 	} else {
@@ -221,3 +279,7 @@ $('#idTitulacion').change(function(){
 
 	cargarCurso( $('#idTitulacion') , $('#curso') );
 });
+
+$('#tablaListado tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+} );

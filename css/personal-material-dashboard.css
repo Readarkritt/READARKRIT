@@ -44,7 +44,17 @@ form select option {
   cursor: pointer;
 }
 
+/* MODAL */
+.modal-content .modal-header{
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 15px;
+}
+
 /* DATATABLES */
+
+table.dataTable tr.selected{
+  background-color: #B0BED9;
+}
 
 /* Input para buscar en la tabla (el buscador) */
 div.dataTables_filter label input[type="search"] {

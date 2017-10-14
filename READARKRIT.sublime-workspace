@@ -4,6 +4,138 @@
 		"selected_items":
 		[
 			[
+				"td",
+				"td"
+			],
+			[
+				"est",
+				"estantería"
+			],
+			[
+				"nom",
+				"nombreEstanterias"
+			],
+			[
+				"o",
+				"obtenerNombreEstanterias"
+			],
+			[
+				"nombre",
+				"nombreEstanteria"
+			],
+			[
+				"creada",
+				"creada_por"
+			],
+			[
+				"crea",
+				"creadaPor"
+			],
+			[
+				"es",
+				"estanteria"
+			],
+			[
+				"input",
+				"inputHtml"
+			],
+			[
+				"inu",
+				"inputHtml"
+			],
+			[
+				"estan",
+				"estanteria"
+			],
+			[
+				"arr",
+				"arrValores"
+			],
+			[
+				"id",
+				"id_estanteria"
+			],
+			[
+				"listar",
+				"listarLibro"
+			],
+			[
+				"le",
+				"librosLeidos"
+			],
+			[
+				"libor",
+				"librosLeidos"
+			],
+			[
+				"err",
+				"erroresLibros"
+			],
+			[
+				"li",
+				"librosLeidos"
+			],
+			[
+				"eleme",
+				"element"
+			],
+			[
+				"re",
+				"resultado"
+			],
+			[
+				"con",
+				"condicion"
+			],
+			[
+				"pri",
+				"private"
+			],
+			[
+				"libro",
+				"libroAnadido"
+			],
+			[
+				"libr",
+				"libroAnadido"
+			],
+			[
+				"lisr",
+				"listarLibrosAnadidos"
+			],
+			[
+				"titu",
+				"tituloOriginal"
+			],
+			[
+				"val",
+				"valoresLibroAnadido"
+			],
+			[
+				"valore",
+				"valoresLibro"
+			],
+			[
+				"PO",
+				"POSICION_RANKING"
+			],
+			[
+				"ID_",
+				"ID_CATEGORIA"
+			],
+			[
+				"TIT",
+				"TITULO"
+			],
+			[
+				"tablaS",
+				"tablaSQL"
+			],
+			[
+				"tabla",
+				"tablaSQL"
+			],
+			[
 				"op",
 				"option\tTag"
 			],
@@ -22,14 +154,6 @@
 			[
 				"lis",
 				"librosProblematicos"
-			],
-			[
-				"li",
-				"libroProblematico"
-			],
-			[
-				"libor",
-				"libroProblematico"
 			],
 			[
 				"lib",
@@ -60,10 +184,6 @@
 				"foreach\tforeach …"
 			],
 			[
-				"arr",
-				"arrLibros"
-			],
-			[
 				"req",
 				"require_once"
 			],
@@ -84,10 +204,6 @@
 				"extensionExcel"
 			],
 			[
-				"es",
-				"extensionComprimido"
-			],
-			[
 				"e",
 				"extensionExcel"
 			],
@@ -106,10 +222,6 @@
 			[
 				"no",
 				"nombreFicheroExcel"
-			],
-			[
-				"con",
-				"console"
 			],
 			[
 				"h",
@@ -168,10 +280,6 @@
 				"erroresUsuario"
 			],
 			[
-				"id",
-				"idTitulacion"
-			],
-			[
 				"datos",
 				"datosUsuario"
 			],
@@ -216,10 +324,6 @@
 				"scope"
 			],
 			[
-				"nom",
-				"nombreUsuario"
-			],
-			[
 				"p",
 				"profesores"
 			],
@@ -240,16 +344,8 @@
 				"listarProfesores"
 			],
 			[
-				"re",
-				"removeClass"
-			],
-			[
 				"sa",
 				"span"
-			],
-			[
-				"err",
-				"erroresUsuario"
 			],
 			[
 				"un",
@@ -332,10 +428,6 @@
 				"curso"
 			],
 			[
-				"valore",
-				"valoresUsuario"
-			],
-			[
 				"pad",
 				"padding"
 			],
@@ -400,20 +492,12 @@
 				"usuario"
 			],
 			[
-				"eleme",
-				"elemento"
-			],
-			[
 				"ti",
 				"titulaciones"
 			],
 			[
 				"tit",
 				"titulacion"
-			],
-			[
-				"nombre",
-				"nombreUsuario"
 			],
 			[
 				"pas",
@@ -430,115 +514,52 @@
 			[
 				"t",
 				"tablaSQL"
-			],
-			[
-				"ya",
-				"yaExiste"
-			],
-			[
-				"campo",
-				"campoSQL"
-			],
-			[
-				"ph",
-				"phpUrl"
-			],
-			[
-				"f",
-				"fNacimiento"
-			],
-			[
-				"te",
-				"text-decoration"
-			],
-			[
-				"border",
-				"border-radius"
-			],
-			[
-				"me",
-				"mejorar"
-			],
-			[
-				"comprobar",
-				"comprobarLogin"
-			],
-			[
-				"tex",
-				"text-align"
-			],
-			[
-				"background-c",
-				"background-color"
-			],
-			[
-				"pr",
-				"pre-line"
-			],
-			[
-				"wi",
-				"width"
-			],
-			[
-				"margin",
-				"margin-top"
-			],
-			[
-				"font-",
-				"font-size"
-			],
-			[
-				"lo",
-				"login"
-			],
-			[
-				"json",
-				"json_encode"
-			],
-			[
-				"padding",
-				"padding-top"
-			],
-			[
-				"col-",
-				"col-md-12"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
+			"file": "html/miBiblioteca/listarMiBiblioteca.html",
+			"settings":
+			{
+				"buffer_size": 2904,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/controladores/miBibliotecaCtrl.js",
+			"settings":
+			{
+				"buffer_size": 10028,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "html/libro/adminLibro.html",
 			"settings":
 			{
-				"buffer_size": 14897,
+				"buffer_size": 15075,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/controladores/libroCtrl.js",
+			"file": "php/estanteria.php",
 			"settings":
 			{
-				"buffer_size": 5219,
+				"buffer_size": 1875,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/clases/Titulacion.js",
+			"file": "php/clases/Estanteria.php",
 			"settings":
 			{
-				"buffer_size": 923,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "php/libro.php",
-			"settings":
-			{
-				"buffer_size": 5256,
+				"buffer_size": 1672,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -577,27 +598,46 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/READARKRIT",
-		"/C/xampp/htdocs/READARKRIT/excel",
-		"/C/xampp/htdocs/READARKRIT/img",
-		"/C/xampp/htdocs/READARKRIT/img/portadasLibros",
-		"/C/xampp/htdocs/READARKRIT/img/tmp",
+		"/C/xampp/htdocs/READARKRIT/html",
+		"/C/xampp/htdocs/READARKRIT/html/libro",
 		"/C/xampp/htdocs/READARKRIT/js",
 		"/C/xampp/htdocs/READARKRIT/js/clases",
 		"/C/xampp/htdocs/READARKRIT/js/general",
-		"/C/xampp/htdocs/READARKRIT/php"
+		"/C/xampp/htdocs/READARKRIT/php",
+		"/C/xampp/htdocs/READARKRIT/php/clases"
 	],
 	"file_history":
 	[
-		"/C/xampp/htdocs/READARKRIT/php/general/funciones.php",
-		"/C/xampp/htdocs/READARKRIT/php/general/bbdd.php",
-		"/C/xampp/htdocs/READARKRIT/js/general/funciones.js",
-		"/C/xampp/htdocs/READARKRIT/php/pais.php",
-		"/C/xampp/htdocs/READARKRIT/php/categoriaLibro.php",
+		"/C/xampp/htdocs/READARKRIT/css/personal-material-dashboard.css",
 		"/C/xampp/htdocs/READARKRIT/js/general/readarkrit.js",
+		"/C/xampp/htdocs/READARKRIT/js/clases/Estanteria.js",
+		"/C/xampp/htdocs/READARKRIT/js/librerias/bootstrap.min.js",
+		"/C/xampp/htdocs/READARKRIT/html/menuApp/menuApp.html",
+		"/C/xampp/htdocs/READARKRIT/css/material-dashboard.css",
+		"/C/xampp/htdocs/READARKRIT/js/app.js",
+		"/C/xampp/htdocs/READARKRIT/js/general/funciones.js",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/altaAlumnoCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/php/general/bbdd.php",
+		"/C/xampp/htdocs/READARKRIT/php/alumno.php",
+		"/C/xampp/htdocs/READARKRIT/php/clases/Estanteria.php",
+		"/C/xampp/htdocs/READARKRIT/php/clases/Estanteria",
+		"/C/xampp/htdocs/READARKRIT/html/alumno/altaAlumno.html",
+		"/C/xampp/htdocs/READARKRIT/recover_plantilla/material-dashboard-master/material-dashboard-master/examples/notifications.html",
+		"/C/xampp/htdocs/READARKRIT/recover_plantilla/material-dashboard-master/material-dashboard-master/examples/dashboard.html",
+		"/C/xampp/htdocs/READARKRIT/html/libro/adminLibro.html",
+		"/C/xampp/htdocs/READARKRIT/php/libroAnadido.php",
+		"/C/xampp/htdocs/READARKRIT/php/libro.php",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/libroCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/php/clases/Libro.php",
+		"/C/xampp/htdocs/READARKRIT/php/clases/LibroAnadido.php",
+		"/C/xampp/htdocs/READARKRIT/php/usuario.php",
+		"/C/xampp/htdocs/READARKRIT/php/categoriaLibro.php",
+		"/C/xampp/htdocs/READARKRIT/php/titulacion.php",
+		"/C/xampp/htdocs/READARKRIT/php/pais.php",
+		"/C/xampp/htdocs/READARKRIT/js/clases/Titulacion.js",
+		"/C/xampp/htdocs/READARKRIT/php/general/funciones.php",
 		"/C/xampp/htdocs/READARKRIT/php/pruebas.php",
 		"/C/xampp/htdocs/READARKRIT/MEJORAS DE ÚLTIMA HORA.txt",
-		"/C/xampp/htdocs/READARKRIT/html/menuApp/menuApp.html",
-		"/C/xampp/htdocs/READARKRIT/js/app.js",
 		"/C/xampp/htdocs/READARKRIT/php/clases/PHPExcel/Autoloader.php",
 		"/C/xampp/htdocs/READARKRIT/librerías auxiliares.txt",
 		"/C/xampp/htdocs/READARKRIT/php/clases/PHPExcel.php",
@@ -607,13 +647,9 @@
 		"/C/xampp/htdocs/READARKRIT/html/load.html",
 		"/C/xampp/htdocs/READARKRIT/html/estadistica/listarEstadistica.html",
 		"/C/xampp/htdocs/READARKRIT/php/general/readarkrit.php",
-		"/C/xampp/htdocs/READARKRIT/php/alumno.php",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/altaAlumnoCtrl.js",
-		"/C/xampp/htdocs/READARKRIT/php/titulacion.php",
 		"/C/xampp/htdocs/READARKRIT/js/controladores/profesorCtrl.js",
 		"/C/xampp/htdocs/READARKRIT/php/clases/Usuario.php",
 		"/C/xampp/htdocs/READARKRIT/php/clases/Profesor.php",
-		"/C/xampp/htdocs/READARKRIT/php/usuario.php",
 		"/C/xampp/htdocs/READARKRIT/php/profesor.php",
 		"/C/xampp/htdocs/READARKRIT/php/clases/Hash.php",
 		"/C/xampp/htdocs/READARKRIT/php/clases/Alumno.php",
@@ -643,11 +679,8 @@
 		"/C/Users/Carol/Downloads/angular-datatables-master/angular-datatables-master/src/angular-datatables.module.ts",
 		"/C/Users/Carol/Downloads/angular-datatables-master/angular-datatables-master/src/angular-datatables.directive.ts",
 		"/C/Users/Carol/Downloads/angular-datatables-master/angular-datatables-master/src/angular-datatables.directive.spec.ts",
-		"/C/xampp/htdocs/READARKRIT/recover_plantilla/material-dashboard-master/material-dashboard-master/examples/dashboard.html",
-		"/C/xampp/htdocs/READARKRIT/css/personal-material-dashboard.css",
 		"/C/Users/Carol/AppData/Local/Temp/Rar$DIa0.448/app.js",
 		"/C/xampp/htdocs/READARKRIT/css/datatables.min.css",
-		"/C/xampp/htdocs/READARKRIT/html/alumno/altaAlumno.html",
 		"/C/xampp/htdocs/READARKRIT/css/sweetalert2.min.css",
 		"/C/xampp/htdocs/READARKRIT/js/librerias/sweetalert2.min.js",
 		"/C/xampp/htdocs/READARKRITv1/js/altaAlumno.js",
@@ -664,7 +697,6 @@
 		"/C/xampp/htdocs/READARKRIT/js/controllers.js",
 		"/C/Users/Carol/Desktop/w10/Universidad/Plan 2009/1º/Programación Orientada a Objetos/Prácticas/P6/BIBLIOTECA/BIBLIOTECA/BIBLIOTECA.cpp",
 		"/C/Users/Carol/Desktop/w10/Universidad/Plan 2009/1º/Programación Orientada a Objetos/Prácticas/P6/BIBLIOTECA/BIBLIOTECA/biblioteca.h",
-		"/C/xampp/htdocs/READARKRIT/recover_plantilla/material-dashboard-master/material-dashboard-master/examples/notifications.html",
 		"/C/xampp/htdocs/READARKRIT/recover_bbdd/datos.sql",
 		"/C/xampp/htdocs/READARKRIT/recover_bbdd/paises.sql",
 		"/C/Users/Carol/Downloads/Paises.sql_/paises.sql",
@@ -703,19 +735,7 @@
 		"/C/xampp/htdocs/READARKRIT/p.php",
 		"/C/Users/Carol/Desktop/w10/htdocs/assets/php/BBDD.php",
 		"/C/xampp/htdocs/READARKRIT/html/listarLibro/listarLibro.html",
-		"/C/Users/Carol/Desktop/w10/htdocs/assets/php/calendario.php",
-		"/C/Users/Carol/Desktop/w10/htdocs/assets/php/login.php",
-		"/C/xampp/htdocs/READARKRIT/php/bbdd",
-		"/C/xampp/htdocs/READARKRIT/js/Libro.js",
-		"/C/xampp/htdocs/READARKRIT/js/librerias/datatables.min.js",
-		"/C/xampp/htdocs/READARKRIT/css/material-dashboard.css",
-		"/C/Users/Carol/Downloads/Responsive-2.1.1/Responsive-2.1.1/examples/initialisation/default.html",
-		"/C/Users/Carol/Downloads/Responsive-2.1.1/Responsive-2.1.1/examples/initialisation/index.html",
-		"/C/Users/Carol/Downloads/Responsive-2.1.1/Responsive-2.1.1/examples/index.html",
-		"/C/Users/Carol/AppData/Local/Temp/Rar$DIa0.683/dataTables.responsive.js",
-		"/C/Users/Carol/Downloads/DataTables/DataTables-1.10.15/js/jquery.dataTables.min.js",
-		"/C/Users/Carol/Downloads/DataTables/datatables.js",
-		"/C/xampp/htdocs/READARKRIT/p.html"
+		"/C/Users/Carol/Desktop/w10/htdocs/assets/php/calendario.php"
 	],
 	"find":
 	{
@@ -726,6 +746,8 @@
 		"height": 104.0,
 		"where_history":
 		[
+			"C:\\xampp\\htdocs\\READARKRIT\\",
+			"C:\\xampp\\htdocs\\READARKRIT\\php\\clases\\Libro.php",
 			"C:\\xampp\\htdocs\\READARKRIT\\",
 			"C:\\xampp\\htdocs\\READARKRIT\\php\\",
 			"C:\\xampp\\htdocs\\READARKRIT\\php\\alumno.php",
@@ -745,6 +767,20 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"$.each",
+			"modal-backdrop",
+			"libro",
+			"existe",
+			"existeRegistro",
+			"sele",
+			"#f9f9f9",
+			"background-color: #f9f9f9",
+			"selected",
+			".selected",
+			"selected",
+			"{\n\n\t\t    \"ordering\": true,\n\t\t    columnDefs: [{\n\t\t      orderable: false,\n\t\t      targets: \"no-sort\"\n\t\t    }]\n\n\t\t}",
+			"no-sort",
+			"idAnadidoPor",
 			"echo",
 			"center",
 			"correo",
@@ -858,21 +894,7 @@
 			"content",
 			"background-image",
 			"position:absolute;",
-			"position: absolute;",
-			"background-image",
-			"table.dataTable thead th.sorting:after",
-			"background-image:",
-			"table.dataTable thead thç",
-			"table",
-			"table.dataTable thead th",
-			"sSortAscending",
-			"sFirst",
-			"sLoadingRecords",
-			"sInfoThousands",
-			"sEmptyTable",
-			"sLengthMenu",
-			"sProcessing",
-			"Search:"
+			"position: absolute;"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -880,6 +902,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"anadidoPor",
 			"COST",
 			"ALGORITMO_CIFRADO",
 			"$alumno",
@@ -910,19 +933,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "html/libro/adminLibro.html",
+					"file": "html/miBiblioteca/listarMiBiblioteca.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14897,
+						"buffer_size": 2904,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12522,
-								12522
+								1042,
+								1063
 							]
 						],
 						"settings":
@@ -931,36 +954,35 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3902.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "js/controladores/libroCtrl.js",
+					"file": "js/controladores/miBibliotecaCtrl.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5219,
+						"buffer_size": 10028,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								281,
-								300
+								4614,
+								4614
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1596.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -968,49 +990,48 @@
 				},
 				{
 					"buffer": 2,
-					"file": "js/clases/Titulacion.js",
-					"semi_transient": false,
+					"file": "html/libro/adminLibro.html",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 923,
+						"buffer_size": 15075,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								160,
-								160
+								2123,
+								2158
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 627.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "php/libro.php",
+					"file": "php/estanteria.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5256,
+						"buffer_size": 1875,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3876,
-								3876
+								944,
+								944
 							]
 						],
 						"settings":
@@ -1019,10 +1040,39 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 486.0,
+						"translation.y": 57.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "php/clases/Estanteria.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1672,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1350,
+								1350
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 513.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1030,11 +1080,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"input":
 	{
-		"height": 38.0
+		"height": 40.0
 	},
 	"layout":
 	{
@@ -1067,7 +1117,7 @@
 	"project": "READARKRIT.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":

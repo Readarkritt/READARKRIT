@@ -172,3 +172,26 @@ function validarCamposLibroAnadido(campos){
 
 	return errores;
 }
+
+// Funcón que obtiene todos los valores de las tablas SQL que no tienen una clase en el modelo
+function obtenerValores(tablaSQL){
+
+	var phpUrl     = '';
+	var parametros = {};
+	var peticion   = {};
+	var respuesta  = false;
+
+	phpUrl = './php/' + tablaSQL + '.php'; // url del controlador
+
+	parametros.opcion = tablaSQL;
+    parametros.accion = 'listar';
+
+	peticion = peticionAJAX(phpUrl, parametros, false);
+
+    peticion.done(function( data, textStatus, jqXHR ) {
+    		
+        respuesta = data;
+    });
+
+	return respuesta;
+}

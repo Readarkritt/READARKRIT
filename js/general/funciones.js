@@ -57,16 +57,22 @@ function formTOobject(){
 
 // Comprueba si ya existe un valor en la bbdd
 
-function existeRegistro(campoSQL, valor, tablaSQL){
+function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 
 	var phpUrl     = '';
 	var parametros = {};
 	var peticion   = {};
 	var respuesta  = false;
 
+
 	tablaSQL = tablaSQL.toLowerCase();
 
-	phpUrl = './php/' + tablaSQL + '.php'; // url del controlador
+
+	if (typeof conAngular === 'undefined')
+		phpUrl = './php/' + tablaSQL + '.php'; // url del controlador
+	else
+		phpUrl = '../../php/' + tablaSQL + '.php';
+
 
 	parametros.opcion = tablaSQL;
     parametros.accion = 'existe';
@@ -80,7 +86,6 @@ function existeRegistro(campoSQL, valor, tablaSQL){
 
         respuesta = data.existe;
     });
-
 
 	return respuesta;
 

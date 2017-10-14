@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <div class="row">
+    	<div class="col-md-4">
+            <div class="card">
+                <div class="card-header" data-background-color="blue">
+                    <h4 class="title">Mis estanterías</h4>
+					<p class="category">Crea tus propias estanterías</p>
+					<div class="anadirRegistro" ng-click="modalAltaEstanteria()">
+						<i class="fa fa-plus-square" aria-hidden="true"></i>
+					</div>
+                </div>
+                <div class="card-content">
+                	<table id="tablaListado" class="table table-striped table-bordered dt-responsive nowrap row-border hover hidden" width="100%" datatable="ng" cellspacing="0" dt-options="dtOptions" dt-instance="dtInstance">
+						<thead>
+				            <tr>
+				            	<th class="all">NOMBRE</th>
+				                <th>CANTIDAD DE LIBROS</th>
+				                <th class="all">ACCIONES</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				        	<tr ng-repeat="estanteria in estanterias">	
+				        		<td>{{estanteria.nombre}}</td>					        		
+				        		<td>{{estanteria.cantidad_libros}}</td>
+				        		<td>
+				        			<button type="button" rel="tooltip" title="Administrar Estantería" class="btn btn-info btn-simple acciones-registro" ng-click="modalAdminEstanteria()">
+										<i class="fa fa-eye" aria-hidden="true"></i>
+									</button>
+				        			<button type="button" rel="tooltip" title="Cambiar Nombre a la Estantería" class="btn btn-primary btn-simple acciones-registro" ng-click="modalAltaEstanteria(estanteria.id_estanteria, estanteria.nombre)">
+										<i class="fa fa-pencil" aria-hidden="true"></i>
+									</button>
+									<button type="button" rel="tooltip" title="Eliminar Estantería" class="btn btn-danger btn-simple acciones-registro" ng-click="eliminarEstanteria(estanteria.id_estanteria, $index)">
+										<i class="fa fa-trash" aria-hidden="true"></i>
+									</button>
+				        		</td>
+				        	</tr>
+				        </tbody>
+				    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header" data-background-color="orange">
+                    <h4 class="title">Estanterías que sigo</h4>
+					<p class="category">Listado de estanterías que te interesan</p>
+                </div>
+                <div class="card-content">
+                	
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header" data-background-color="green">
+                    <h4 class="title">Recomendaciones ARKRIT</h4>
+					<p class="category">Los profesores te recomiendan</p>
+                </div>
+                <div class="card-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
