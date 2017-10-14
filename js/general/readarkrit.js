@@ -103,7 +103,7 @@ function validarCamposAlumno(campos){
 			errores += '<li>El número de expediente está compuesto únicamente de números.</li>';
 		else if( existeRegistro('num_expediente', campos.numExpediente, 'alumno') )
 			errores += '<li>El número de expediente se encuentra en uso.</li>';
-	if( parseInt(campos.idTitulacion) <= 0 )
+	if( campos.idTitulacion === undefined || campos.idTitulacion == '' || parseInt(campos.idTitulacion) <= 0 )
 		errores += '<li>Elija una titulación válida.</li>';
 	if( parseInt(campos.curso) <= 0 )
 		errores += '<li>Elija un curso válido.</li>';
@@ -131,15 +131,15 @@ function validarCamposLibro(campos){
 	} else{
 		if(campos.titulo== undefined || campos.titulo == '')
 			errores += '<li>El título no se ha proporcionado.</li>';
-			else if(campos.titulo.length>50)
-				errores += '<li>El título no puede superar los 50 caracteres.</li>';
+			else if(campos.titulo.length>100)
+				errores += '<li>El título no puede superar los 100 caracteres.</li>';
 			else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
 				errores += '<li>El título sólo puede contener letras o dígitos.</li>';
 
 		if(campos.tituloOriginal === undefined || campos.tituloOriginal == '')
 			errores += '<li>El título original no se ha proporcionado.</li>';
-			else if(campos.tituloOriginal.length>50)
-				errores += '<li>El título original no puede superar los 50 caracteres.</li>';
+			else if(campos.tituloOriginal.length>100)
+				errores += '<li>El título original no puede superar los 100 caracteres.</li>';
 			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
 				errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
 
@@ -260,4 +260,5 @@ function obtenerNivelesEspecializacion(){
 	};
 
 	return niveles;
+
 }

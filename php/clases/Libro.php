@@ -3,7 +3,7 @@
 	class Libro{
 		private $idLibro 			= 0;
 		private $portada 			= '';
-		private $titulo 			= '':
+		private $titulo 			= '';
 		private $tituloOriginal 	= '';
 		private $autor				= '';
 		private $ano				= 0;
@@ -102,7 +102,7 @@
 			actualizar('titulo',$this->titulo, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarTituloOriginal($){
+		public function modificarTituloOriginal($tituloOriginal){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->tituloOriginal = $tituloOriginal;
@@ -110,7 +110,7 @@
 			actualizar('titulo_original',$this->tituloOriginal, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarAutor($){
+		public function modificarAutor($autor){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->autor = $autor;
@@ -118,7 +118,7 @@
 			actualizar('autor',$this->autor, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarAno($){
+		public function modificarAno($ano){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->ano = $ano;
@@ -126,7 +126,7 @@
 			actualizar('ano',$this->ano, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarIdAnadidoPor($){
+		public function modificarIdAnadidoPor($idAnadidoPor){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->idAnadidoPor = $idAnadidoPor;
@@ -134,7 +134,7 @@
 			actualizar('id_anadido_por',$this->idAnadidoPor, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarIdTitulacion($){
+		public function modificarIdTitulacion($idTitulacion){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->idTitulacion = $idTitulacion;

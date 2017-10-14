@@ -93,4 +93,67 @@
 		return $alumno;
 	}
 
+	function validarCamposLibro($libro){
+
+		//CASTEO
+		$libro['titulo'] 			= (string) $libro['titulo'];
+		$libro['tituloOriginal'] 	= (string) $libro['tituloOriginal'];
+		$libro['autor'] 			= (string) $libro['autor'];		
+		$libro['ano'] 				= (int) $libro['ano'];
+		$libro['idTitulacion'] 		= (int) $libro['idTitulacion'];
+		$libro['idAnadidoPor'] 		= (int) $libro['idAnadidoPor'];
+
+		//VALIDACIÓN
+		if(existeRegistro('titulo', $libro['titulo'], 'libro') && existeRegistro('titulo_original',$libro['tituloOriginal'], 'libro')){
+			return false;
+		} else{
+			if( $libro['titulo'] == '' || strlen($libro['titulo']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $libro['titulo']) )
+				return false;
+
+			if( $libro['tituloOriginal'] == '' || strlen($libro['tituloOriginal']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $libro['tituloOriginal']) )
+				return false;
+
+			if( $libro['autor'] == '' || strlen($libro['autor']) > 50 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $libro['autor']) )
+				return false;	
+
+			if($libro['ano'] < 1900 || $libro['ano'] > date("Y"))
+				return false;
+
+			if(!existeRegistro('id_titulacion', $libro['idTitulacion'], 'titulacion'))
+				return false;
+
+			if(!existeRegistro('id_usuario', $libro['idAnadidoPor'], 'usuario') && $libro['idAnadidoPor'] != 0)
+				return false;
+		}	
+
+		return $libro;
+	}
+
+	function validarCamposLibroAnadido($libroAnadido ){
+
+		//CASTEO
+		$libroAnadido['idPais']					= (int) $libroAnadido['idPais'];
+		$libroAnadido['idCategoria']			= (int) $libroAnadido['idCategoria'];
+		$libroAnadido['posicionRanking']		= (int) $libroAnadido['posicionRanking'];
+		$libroAnadido['mediaNumUsuarios']		= (int) $libroAnadido['mediaNumUsuarios'];
+		$libroAnadido['nivelEspecializacion']	= (string) $libroAnadido['nivelEspecializacion'];
+
+		//VALIDACIÓN
+		if(!existeRegistro('id_Pais', $libroAnadido['idPais'], 'pais'))
+			return false;
+
+		if(!existeRegistro('id_Categoria', $libroAnadido['idCategoria'], 'categoria_libro'))
+			return false;
+
+		if($libroAnadido['posicionRanking'] < 0 || $libroAnadido['posicionRanking'] > consulta('count(id_libro)','libro')+1 )
+			return false;
+
+		if($libroAnadido['mediaNumUsuarios']<0)
+			return false;
+
+		if($libroAnadido['nivelEspecializacion'] =! 'basico' && $libroAnadido['nivelEspecializacion'] != 'especialidad')
+			return false;
+
+		return $libroAnadido;
+	}
 ?>

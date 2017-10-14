@@ -18,7 +18,7 @@
 
 		public function __construct(){
 			$this->tablaSQL = 'libro_anadido';
-			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, _posicion_ranking, media_num_usuarios, nivel_especializacion';
+			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, posicion_ranking, media_num_usuarios, nivel_especializacion';
 
 			$this->libro = new Libro();
 		}

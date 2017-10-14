@@ -112,6 +112,13 @@
 		}
 	}
 
+	else if( $obj['opcion'] == 'alumno' && $obj['accion'] == 'listar' ){
+		$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, a.num_expediente, a.id_titulacion, a.curso from usuario u inner join alumno a on u.id_usuario = a.id_usuario where f_baja is null';
+
+		$respuesta['alumnos'] = consulta( '', '', '', $sql);
+		$respuesta['error']      = ($respuesta['alumnos'] === false);
+	}
+
 	echo json_encode( $respuesta );
 
 ?>

@@ -2,13 +2,9 @@ angular.module('readArkrit')
   .controller('libroCtrl', function ($scope, DTOptionsBuilder) {
 
   	$scope.usuario  = {};
-    $scope.profesor = {};
-    $scope.profesores = [];
+    $scope.libros = [];
 	$scope.libroAnadido = {};
   	$scope.libro = {};
-
-    $scope.profesor.esAdmin = false;
-	$scope.profesor.evitarNotificacion = false;
 
 	$scope.titulaciones = obtenerTitulaciones();
 	$scope.paises = obtenerPaises();
@@ -19,11 +15,11 @@ angular.module('readArkrit')
   	$('#ano').mask("9999",{placeholder:"0000"});
 
     // FUNCIONES
-    $scope.listarProfesores = function(){
+    $scope.listarLibros = function(){
 
-    	peticionAJAX('./php/profesor.php', {
+    	peticionAJAX('./php/libro.php', {
 
-			opcion: 'profesor',
+			opcion: 'libro',
 			accion: 'listar'
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
@@ -31,12 +27,8 @@ angular.module('readArkrit')
 			if( !data.error ){
 
 				$('#tablaListado').removeClass('hidden');
-				$scope.profesores = $.makeArray(data.profesores);
+				$scope.libros = $.makeArray(data.libros);
 
-				$.each( $scope.profesores, function( index, value ){
-				    $scope.profesores[index].es_admin = smallintTOsino($scope.profesores[index].es_admin);
-				    $scope.profesores[index].evitar_notificacion = smallintTOsino($scope.profesores[index].evitar_notificacion);
-				});
 			}
 		});
     };
@@ -233,8 +225,17 @@ angular.module('readArkrit')
 	      	formData.append('portada', portada);
 			formData.append('opcion', 'libro');
 			formData.append('accion', 'alta');
-			formData.append('libro', datosLibro);
-			formData.append('libroAnadido', datosLibroAnadido);
+
+			formData.append('titulo', 			datosLibro.titulo);
+			formData.append('tituloOriginal', 	datosLibro.tituloOriginal);
+			formData.append('autor', 			datosLibro.autor);
+			formData.append('ano', 				datosLibro.ano);
+			formData.append('idTitulacion', 	datosLibro.idTitulacion);
+
+			formData.append('idPais', 				datosLibroAnadido.idPais);
+			formData.append('idCategoria', 			datosLibroAnadido.idCategoria);
+			formData.append('posicionRanking', 		datosLibroAnadido.posicionRanking);
+			formData.append('nivelEspecializacion',	datosLibroAnadido.nivelEspecializacion);
 
       		 $.ajax({
       		 	url:'./php/libro.php',                    
@@ -270,11 +271,11 @@ angular.module('readArkrit')
 
     // EVENTOS
 
-    /*cargarJS("./js/clases/Usuario.js");
-    cargarJS("./js/clases/Profesor.js");*/
+    cargarJS("./js/clases/Libro.js");
+    cargarJS("./js/clases/LirboAnadido.js");
 
     	// Listar
-    //$scope.listarProfesores();
+    $scope.listarLibros();
 
     	// Añadir
 
