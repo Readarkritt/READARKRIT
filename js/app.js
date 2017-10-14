@@ -26,6 +26,10 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
         })
 
         // ALUMNO
+        .when('/alumno', {
+            templateUrl: './html/alumno/adminAlumno.html',
+            controller: 'alumnoCtrl'
+        })        
         .when('/alumno/modificar', {
             templateUrl: './html/alumno/formAlumno.html',
             controller: 'modificarAlumnoCtrl'

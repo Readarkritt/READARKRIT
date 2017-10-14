@@ -3,6 +3,8 @@
 	require_once("./general/bbdd.php");
 	require_once("./general/funciones.php");
 	require_once("./general/token.php");
+	require_once("./general/readarkrit.php");
+	require_once("./clases/Libro.php");
 	require_once("./clases/LibroAnadido.php");
 
 	$obj       = $_POST;
@@ -154,6 +156,78 @@
 			$respuesta['error'] = true;
 			$respuesta['descripcionError'] = 'Los ficheros subidos sólo pueden ser .xls, .xlsx o .zip.';
 		}
+	}
+
+	else if( $obj['opcion'] == 'libro' && $obj['accion'] == 'alta' ){
+
+//		print_r($obj);
+
+		//Validación
+		$libro = array();
+		$libroAnadido = array();
+
+		$libro['idLibro'] 			= '';
+		$libro['portada']			= '';
+		$libro['titulo'] 			= $obj['titulo'];
+		$libro['tituloOriginal'] 	= $obj['tituloOriginal'];
+		$libro['autor'] 			= $obj['autor'];
+		$libro['ano'] 				= $obj['ano'];
+		$libro['idAnadidoPor'] 		= 0;
+		$libro['idTitulacion'] 		= $obj['idTitulacion'];
+
+		$libroAnadido['idLibroAnadido']			= '';
+		$libroAnadido['idLibro'] 				= '';
+		$libroAnadido['idPais']					= $obj['idPais'];
+		$libroAnadido['idCategoria']			= $obj['idCategoria'];
+		$libroAnadido['posicionRanking']		= $obj['posicionRanking'];
+		$libroAnadido['mediaNumUsuarios']		= 0;
+		$libroAnadido['nivelEspecializacion']	= $obj['nivelEspecializacion'];
+
+		$libroValidado = validarCamposLibro($libro);
+		$libroAnadidoValidado = validarCamposLibroAnadido($libroAnadido);
+		$portadaVacia = !isset($_FILES["portada"]);
+
+		if(!$libroValidado) echo 1;
+		if(!$libroAnadidoValidado) echo 2;
+		if($portadaVacia) echo 3;
+		if($libroValidado && $libroAnadidoValidado && !$portadaVacia){
+
+			//Inserción imagen
+			$folder = '../img/tmp/';
+			$nuevoNombre = generarFechaMicrosegundos() . '.' . obtenerExtension($_FILES['portada']['name']);
+			move_uploaded_file($_FILES["portada"]["tmp_name"], $folder.$nuevoNombre);
+
+			$libro['portada'] = $nuevoNombre;
+			//Inserción libro
+			$libroAnadidoObj = new LibroAnadido();
+			$libroAnadidoObj->rellenar($libro, $libroAnadido);
+
+			$respuesta['error'] = false;
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Datos manipulados.';
+		}
+
+
+	}
+
+	else if( $obj['opcion'] == 'libro' && $obj['accion'] == 'obtenerPosicionesRanking'){
+		$numPosiciones = consulta('count(id_libro)','libro');
+
+		if($numPosiciones != null){
+			$respuesta['error'] = false;
+			$respuesta['posicionesRanking'] = $numPosiciones;
+		} else{
+			$respuesta['error'] = true;			
+		}
+	}
+
+	else if( $obj['opcion'] == 'libro' && $obj['accion'] == 'listar'){
+		$sql = 'select l.nombre, l.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, p.es_admin, p.evitar_notificacion, p.id_profesor from usuario u inner join profesor p on u.id_usuario = p.id_usuario where f_baja is null';
+
+		$respuesta['profesores'] = consulta( '', '', '', $sql);
+		$respuesta['error']      = ($respuesta['profesores'] === false);
 	}
 
 	echo json_encode( $respuesta );

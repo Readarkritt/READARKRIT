@@ -133,12 +133,13 @@
 			actualizar('ano',$this->ano, $this->tablaSQL, $condicion);
 		}
 
-		public function modificaranadidoPor($anadidoPor){
+		public function modificarAnadidoPor($anadidoPor){
+
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->anadidoPor = $anadidoPor;
 
-			actualizar('id_anadido_por',$this->anadidoPor, $this->tablaSQL, $condicion);
+			actualizar('anadido_por',$this->anadidoPor, $this->tablaSQL, $condicion);
 		}
 
 		public function modificarIdTitulacion($idTitulacion){

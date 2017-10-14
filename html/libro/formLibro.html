@@ -38,7 +38,7 @@
 					        <div class="col-md-6">
 								<div class="form-group label-floating">
 									<label class="control-label">País</label>
-									<select id="idPais" name="idPais" ng-model="libroAnadido.idPais">
+									<select id="idPais" name="idPais" ng-model="libroAnadido.idPais" ng-options="pais as pais.nombre for pais in paises">
 									  	<!-- Se cargarán los distintos valores -->
 									</select> 
 								</div>

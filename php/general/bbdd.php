@@ -136,7 +136,7 @@
 
 
 			$sql = 'INSERT INTO ' . $tabla . ' (' . $campos . ') VALUES (' . $strValores . ')';
-
+			echo $sql;
 			if( $link->query($sql) === TRUE )
 				$idRegistro = $link->insert_id; // devuelvo el id del registro insertado
 

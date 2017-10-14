@@ -2,10 +2,20 @@ angular.module('readArkrit')
   .controller('libroCtrl', function ($scope, DTOptionsBuilder) {
 
     $scope.librosAnadidos = [];
+	$scope.libroAnadido = {};
+  	$scope.libro = {};
 
 	$scope.titulaciones = obtenerValores('titulacion');
 	$scope.paises 		= obtenerValores('pais');
 	$scope.categorias 	= obtenerValores('categoriaLibro');
+
+
+	/*$scope.titulaciones = obtenerTitulaciones();
+	$scope.paises = obtenerPaises();
+	$scope.categorias = obtenerCategoriasLibro();*/
+	$scope.nivelEspecializacion = obtenerNivelesEspecializacion();
+
+  	$('#ano').mask("9999",{placeholder:"0000"});
 
     // FUNCIONES
     $scope.listarLibrosAnadidos = function(){
@@ -179,10 +189,98 @@ angular.module('readArkrit')
     	}
     };
 
+
+
+  	$scope.altaLibro = function(){
+
+  		var errores = '';
+  		var datosLibro = {};
+  		var datosLibroAnadido = {};
+
+      	$('#errores').addClass('hidden');
+      	$('#errores span').html('');
+      	$('#exito').addClass('hidden');
+      	$('#exito span').html('');
+
+      	//Preparar datos para la petición
+      	datosLibro.idLibro 			= '';
+      	datosLibro.titulo 			= $scope.libro.titulo;
+      	datosLibro.tituloOriginal 	= $scope.libro.tituloOriginal;
+      	datosLibro.autor 			= $scope.libro.autor;
+      	datosLibro.ano 				= $scope.libro.ano;
+      	datosLibro.idAnadidoPor 	= "";
+      	datosLibro.idTitulacion 	= $scope.libro.idTitulacion;
+
+      	datosLibroAnadido.idLibroAnadido 		= '';
+      	datosLibroAnadido.idLibro 				= '';
+      	datosLibroAnadido.idPais				= $scope.libroAnadido.idPais;
+      	datosLibroAnadido.idCategoria 			= $scope.libroAnadido.idCategoria;
+      	datosLibroAnadido.posicionRanking 		= $scope.libroAnadido.posicionRanking;
+      	datosLibroAnadido.mediaNumUsuarios 		= '';
+      	datosLibroAnadido.nivelEspecializacion 	= $scope.libroAnadido.nivelEspecializacion;
+
+      	var portada = $('#inputPortada').prop('files')[0];
+
+      	//Validar campos
+      	errores = validarCamposLibro(datosLibro);
+     	errores += validarCamposLibroAnadido(datosLibroAnadido);
+     	if(portada == undefined)
+     		errores += '<li>Se debe añadir una portada.</li>'
+
+      	if(errores==''){
+
+	     	var formData = new FormData();
+	      	formData.append('portada', portada);
+			formData.append('opcion', 'libro');
+			formData.append('accion', 'alta');
+
+			formData.append('titulo', 			datosLibro.titulo);
+			formData.append('tituloOriginal', 	datosLibro.tituloOriginal);
+			formData.append('autor', 			datosLibro.autor);
+			formData.append('ano', 				datosLibro.ano);
+			formData.append('idTitulacion', 	datosLibro.idTitulacion);
+
+			formData.append('idPais', 				datosLibroAnadido.idPais);
+			formData.append('idCategoria', 			datosLibroAnadido.idCategoria);
+			formData.append('posicionRanking', 		datosLibroAnadido.posicionRanking);
+			formData.append('nivelEspecializacion',	datosLibroAnadido.nivelEspecializacion);
+
+      		 $.ajax({
+      		 	url:'./php/libro.php',                    
+	            type: 'POST',
+		        data:formData,
+	            contentType: false,
+	            processData: false,     
+	            success: function(data){
+				   	if(data.error){
+				   		errores = 'Error: datos manipulados.';
+				   	} else {
+				   		swal("Libro añadido", "success");
+				   	}
+	            }
+	     	});
+		   
+      	}
+
+      	if(errores != ''){
+	        var html =  '<b> Se han encontrado errores al rellenar el formulario: </b>' +
+	              '<ul>' +
+	                  errores
+	              '</ul>';
+	        $('#errores').removeClass('hidden');
+	        $('#errores span').html(html);
+       } else{
+        	var html =  '<b> Cambios introducidos con éxito. </b>';
+        	$('#exito').removeClass('hidden');
+        	$('#exito span').html(html);           	
+       }
+
+  	}
+
     // EVENTOS
 
-    /*cargarJS("./js/clases/Usuario.js");
-    cargarJS("./js/clases/Profesor.js");*/
+    cargarJS("./js/clases/Libro.js");
+    cargarJS("./js/clases/LirboAnadido.js");
 
     	// Listar
     $scope.listarLibrosAnadidos();
