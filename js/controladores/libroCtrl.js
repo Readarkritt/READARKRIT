@@ -11,6 +11,7 @@ angular.module('readArkrit')
 	$scope.titulaciones = obtenerValores('titulacion');
 	$scope.paises 		= obtenerValores('pais');
 	$scope.categorias 	= obtenerValores('categoriaLibro');
+	
 	$scope.nivelEspecializacion = obtenerNivelesEspecializacion();
 
   	$('#ano').mask("9999",{placeholder:"0000"});

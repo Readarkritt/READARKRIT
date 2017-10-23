@@ -9,6 +9,23 @@
 
 	}
 
+	function validarCampoTexto( $cadena, $longitudMax ){
+
+		$cadena      = (string) $cadena;
+		$longitudMax = (int) $longitudMax;
+
+		if( $longitudMax > 0 ){
+
+			if( $cadena == '' || strlen($cadena) > $longitudMax || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $cadena) )
+				return false;
+			else
+				return $cadena;
+
+		} else
+			return false;
+
+	}
+
 
 	function validarCamposUsuario( $usuario , $comprobarExistente = false, $comprobarContrasena = true, $comprobarBloqueado = false){
 

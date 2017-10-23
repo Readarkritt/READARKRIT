@@ -253,3 +253,18 @@ function smallintTOsino(dato){
 	else
 		return 'NO';
 }
+
+
+// busca en un array de objetos, el valor de la propiedad indicada y devuelve el índice en el que se encuentra
+
+function buscarValorEnArrObj(arrObj, propiedad, valor){
+
+	var encontrado = -1;
+	var i 		   = 0;
+
+    for (i=0; i < arrObj.length && encontrado == -1; i++)
+    	if( arrObj[i][propiedad] == valor )
+    		encontrado = i;
+
+    return encontrado;
+}

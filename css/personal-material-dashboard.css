@@ -44,6 +44,21 @@ form select option {
   cursor: pointer;
 }
 
+/* LISTAS */
+ul{
+  list-style-type: none;
+  padding: 0px;
+}
+li.cabecera{
+  margin: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+li button.acciones-registro{
+  margin: 0px;
+  padding: 0px;
+}
+
 /* MODAL */
 .modal-content .modal-header{
   border-bottom: 1px solid #e5e5e5;
