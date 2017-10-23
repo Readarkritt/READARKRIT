@@ -1,21 +1,20 @@
 angular.module('readArkrit')
   .controller('libroCtrl', function ($scope, DTOptionsBuilder) {
 
-    $scope.librosAnadidos = [];
-	$scope.libroAnadido = {};
-  	$scope.libro = {};
+    $scope.librosAnadidos 	= [];
+	$scope.libroAnadido 	= {};
+  	$scope.libro 			= {};
+  	$scope.modLibro 		= {};
+  	$scope.modLibroAnadido 	= {};
+  	$scope.indexModificando;
 
 	$scope.titulaciones = obtenerValores('titulacion');
 	$scope.paises 		= obtenerValores('pais');
 	$scope.categorias 	= obtenerValores('categoriaLibro');
-
-
-	/*$scope.titulaciones = obtenerTitulaciones();
-	$scope.paises = obtenerPaises();
-	$scope.categorias = obtenerCategoriasLibro();*/
 	$scope.nivelEspecializacion = obtenerNivelesEspecializacion();
 
   	$('#ano').mask("9999",{placeholder:"0000"});
+  	$('#modAno').mask("9999",{placeholder:"0000"});
 
     // FUNCIONES
     $scope.listarLibrosAnadidos = function(){
@@ -73,69 +72,159 @@ angular.module('readArkrit')
 	    }
     };
 
-	$scope.altaProfesor = function() {
+    $scope.cargarModificarLibro = function(idLibroAnadido, indexScope){
+		$scope.indexModificando = indexScope;
+		$scope.modLibro = {};
+		$scope.modLibroAnadido = {};
 
-    	var erroresUsuario  = validarCamposUsuario($scope.usuario);
-    	var erroresProfesor = validarCamposProfesor($scope.profesor);
+    	$('#menu-adminLibro li').removeClass('active');
 
-		if( erroresUsuario != '' || erroresProfesor != '' ){
+    	peticionAJAX('./php/libroAnadido.php', {
 
-			var html = 	'<b> Se han encontrado errores al rellenar el formulario: </b>' +
-						'<ul>' +
-				   			erroresUsuario +
-				   			erroresProfesor +
-						'</ul>';
+			opcion : 'libroAnadido',
+			accion : 'obtener',
+			idLibroAnadido: idLibroAnadido
+		}, false)
+		.done(function( data, textStatus, jqXHR ){
 
-			$('#erroresAltaProfesor span').html(html);
-			$('#erroresAltaProfesor').removeClass('hidden');
+			if( data.error )
+				swal("Editar libro", "Error recuperando los datos.", "error");
+			else{
 
-		} else {
+				console.log(data.libroAnadido);
+				console.log(data.libro);
 
-			cerrarAlerta($('#erroresAltaProfesor'));
+				$scope.modLibro.id 				= data.libro.ID_LIBRO
+				$scope.modLibro.titulo 			= data.libro.TITULO;
+				$scope.modLibro.tituloOriginal 	= data.libro.TITULO_ORIGINAL;
+				$scope.modLibro.autor 			= data.libro.AUTOR;
+				$scope.modLibro.ano 			= data.libro.ANO;
+				$scope.modLibro.idTitulacion	= data.libro.ID_TITULACION;
+				$scope.modLibro.portada			= data.libro.PORTADA;
 
-			var usuario = new Usuario(	'', // id usuario
-										$scope.usuario.nombre, 
-										$scope.usuario.primerApellido,
-										$scope.usuario.segundoApellido,
-										$scope.usuario.fNacimiento,
-										$scope.usuario.correo,
-										$scope.usuario.nombreUsuario,
-										$scope.usuario.contrasena,
-										0,
-										null);
+				$scope.modLibroAnadido.idLibroAnadido		=data.libroAnadido.ID_LIBRO_ANADIDO;
+				$scope.modLibroAnadido.idPais 				=data.libroAnadido.ID_PAIS;
+				$scope.modLibroAnadido.idCategoria 			=data.libroAnadido.ID_CATEGORIA;
+				$scope.modLibroAnadido.nivelEspecializacion =data.libroAnadido.NIVEL_ESPECIALIZACION;
+				$scope.modLibroAnadido.posicionRanking		=data.libroAnadido.POSICION_RANKING;
 
-	    	var profesor = new Profesor('',	// id profesor
-										'',	// id usuario
-										$scope.profesor.esAdmin,
-										$scope.profesor.evitarNotificacion );
+				$('#modPortadaImg').attr("src", "./img/portadasLibros/"+$scope.modLibro.portada);
+			}
+		});
 
-			console.log(usuario);
-			console.log(profesor);
+    }
 
-			peticionAJAX('./php/profesor.php', {
+    $scope.modificarLibro = function(){
+    	var errores = '';
+  		var datosLibro = {};
+  		var datosLibroAnadido = {};
+  		var portada = false;
 
-				opcion: 'profesor',
-				accion: 'alta',
-				usuario: usuario,
-				profesor: profesor
-			})
-			.done(function( data, textStatus, jqXHR ){
+      	$('#erroresModificar').addClass('hidden');
+      	$('#erroresModificar span').html('');
+      	$('#exitoModificar').addClass('hidden');
+      	$('#exitoModificar span').html('');
 
-				if( data.error ){
+      //Preparar datos
+      	datosLibro.idLibro 			= $scope.modLibro.id;
+      	datosLibro.titulo 			= $scope.modLibro.titulo;
+      	datosLibro.tituloOriginal 	= $scope.modLibro.tituloOriginal;
+      	datosLibro.autor 			= $scope.modLibro.autor;
+      	datosLibro.ano 				= $scope.modLibro.ano;
+      	datosLibro.idTitulacion 	= $scope.modLibro.idTitulacion;
 
-					swal("Datos incorrectos", data.descripcionError, "error");
-				} else {
+      	datosLibroAnadido.idLibroAnadido 		= $scope.modLibroAnadido.idLibroAnadido;
+      	datosLibroAnadido.idPais				= $scope.modLibroAnadido.idPais;
+      	datosLibroAnadido.idCategoria 			= $scope.modLibroAnadido.idCategoria;
+      	datosLibroAnadido.posicionRanking 		= $scope.modLibroAnadido.posicionRanking;
+      	datosLibroAnadido.nivelEspecializacion 	= $scope.modLibroAnadido.nivelEspecializacion;
 
-					usuario.idUsuario   = data.idUsuario;
-					profesor.idProfesor = data.idProfesor;
-					profesor.idUsuario  = data.idUsuario;
+      	if($('#modInputPortada').get(0).files.length > 0){
+      		portada = $('#modInputPortada').prop('files')[0];
+      		datosLibro.portadaAnadida = true;
+      	} else{
+      		datosLibro.portadaAnadida = false;
+      	}
 
-					swal("Alta Profesor", "Profesor creado correctamente", "success");
-				}
+      	console.log('DATOS PETICION MODIFICAR: ')      
+      	console.log(datosLibro);
+      	console.log(datosLibroAnadido);
 
-			});
-		}
-    };
+	     //VALIDAR
+	     errores = validarCamposLibro(datosLibro);
+	     errores += validarCamposLibroAnadido(datosLibroAnadido);
+
+
+	     //PETICIÓN
+	     if(errores==''){
+
+	     	//Preparar datos
+	     	var formData = new FormData();
+	      	formData.append('portada', portada);
+			formData.append('opcion', 'libroAnadido');
+			formData.append('accion', 'modificar');
+
+			formData.append('idLibro', 			datosLibro.idLibro);
+			formData.append('titulo', 			datosLibro.titulo);
+			formData.append('tituloOriginal', 	datosLibro.tituloOriginal);
+			formData.append('autor', 			datosLibro.autor);
+			formData.append('ano', 				datosLibro.ano);
+			formData.append('idTitulacion', 	datosLibro.idTitulacion);
+			formData.append('portadaAñadida', 	datosLibro.portadaAnadida);
+
+			formData.append('idLibroAnadido', 		datosLibroAnadido.idLibroAnadido);
+			formData.append('idPais', 				datosLibroAnadido.idPais);
+			formData.append('idCategoria', 			datosLibroAnadido.idCategoria);
+			formData.append('posicionRanking', 		datosLibroAnadido.posicionRanking);
+			formData.append('nivelEspecializacion',	datosLibroAnadido.nivelEspecializacion);
+
+      		$.ajax({
+      		 	url:'./php/libroAnadido.php',                    
+	            type: 'POST',
+		        data:formData,
+	            contentType: false,
+	            processData: false,     
+	            success: function(data){
+	            	data = $.parseJSON(data);
+				   	if(data.error){
+				   		errores = 'Error: datos manipulados.';
+				   	} else {				   		
+				   		swal("Libro modificado", "");
+				   		data.libro.portada = './img/portadasLibros/'+data.libro.portada;
+				   		$scope.librosAnadidos.splice($scope.indexModificando,1);
+				   		$scope.librosAnadidos.push(data.libro);
+				   		$scope.$apply();
+
+						$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
+
+					    $scope.reloadData = reloadData;
+					    $scope.dtInstance = {};
+
+					    function reloadData() {
+					        var resetPaging = false;
+					        $scope.dtInstance.reloadData(callback, resetPaging);
+					    }
+				   	}
+	            }
+	     	});
+		   
+      	}
+
+      	if(errores != ''){
+	        var html =  '<b> Se han encontrado errores al rellenar el formulario: </b>' +
+	              '<ul>' +
+	                  errores
+	              '</ul>';
+	        $('#erroresModificar').removeClass('hidden');
+	        $('#erroresModificar span').html(html);
+       } else{
+        	var html =  '<b> Cambios introducidos con éxito. </b>';
+        	$('#exitoModificar').removeClass('hidden');
+        	$('#exitoModificar span').html(html);           	
+       }
+
+    }
+
 
     $scope.procesarLibrosExcel = function(){
 
@@ -189,8 +278,6 @@ angular.module('readArkrit')
     	}
     };
 
-
-
   	$scope.altaLibro = function(){
 
   		var errores = '';
@@ -208,7 +295,7 @@ angular.module('readArkrit')
       	datosLibro.tituloOriginal 	= $scope.libro.tituloOriginal;
       	datosLibro.autor 			= $scope.libro.autor;
       	datosLibro.ano 				= $scope.libro.ano;
-      	datosLibro.idAnadidoPor 	= "";
+      	datosLibro.anadidoPor 		= "";
       	datosLibro.idTitulacion 	= $scope.libro.idTitulacion;
 
       	datosLibroAnadido.idLibroAnadido 		= '';
@@ -250,12 +337,33 @@ angular.module('readArkrit')
 	            type: 'POST',
 		        data:formData,
 	            contentType: false,
-	            processData: false,     
+	            processData: false,
+	            async: false,     
 	            success: function(data){
+	            	data = $.parseJSON(data);
+	            	console.log(data);
 				   	if(data.error){
-				   		errores = 'Error: datos manipulados.';
+				   		errores = data.descripcionError;
 				   	} else {
-				   		swal("Libro añadido", "success");
+				   		swal("Libro añadido", "");
+				   		data.libro.portada = './img/portadasLibros/'+data.libro.portada;
+				   		$scope.librosAnadidos.push(data.libro);
+						console.log($scope.librosAnadidos);
+
+						$scope.libroAnadido 	= {};
+					  	$scope.libro 			= {};
+					  	$('#inputPortada').val('');
+
+						$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
+
+					    $scope.reloadData = reloadData;
+					    $scope.dtInstance = {};
+
+					    function reloadData() {
+					        var resetPaging = false;
+					        $scope.dtInstance.reloadData(callback, resetPaging);
+					    }
+
 				   	}
 	            }
 	     	});
@@ -280,7 +388,7 @@ angular.module('readArkrit')
     // EVENTOS
 
     cargarJS("./js/clases/Libro.js");
-    cargarJS("./js/clases/LirboAnadido.js");
+    cargarJS("./js/clases/LibroAnadido.js");
 
     	// Listar
     $scope.listarLibrosAnadidos();

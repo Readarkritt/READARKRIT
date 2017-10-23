@@ -6,7 +6,7 @@
 					<div class="nav-tabs-navigation">
 						<div class="nav-tabs-wrapper">
 							<span class="nav-tabs-title">ALUMNO:</span>
-							<ul class="nav nav-tabs navTabsResponsive" data-tabs="tabs">
+							<ul class="nav nav-tabs navTabsResponsive" data-tabs="tabs" id="menu-adminAlumno">
 								<li class="active">
 									<a href="" data-target="#listadoAlumnos" data-toggle="tab" ng-click="marcarTabla()">
 										<i class="fa fa-bars" aria-hidden="true"></i>
@@ -51,9 +51,11 @@
 						        		<td>{{alumno.id_titulacion}}</td>
 						        		<td>{{alumno.curso}}</td>
 						        		<td>
-						        			<button type="button" rel="tooltip" title="Modificar" class="btn btn-primary btn-simple acciones-registro" ng-click="modificarAlumno()">
-												<i class="fa fa-pencil" aria-hidden="true"></i>
-											</button>
+						        			<a href="" data-toggle="tab" data-target="#modificarAlumno">
+							        			<button type="button" rel="tooltip" title="Modificar" class="btn btn-primary btn-simple acciones-registro" ng-click="cargarModificarAlumno(alumno.id_alumno, $index)">
+													<i class="fa fa-pencil" aria-hidden="true"></i>
+												</button>
+											</a>
 											<button type="button" rel="tooltip" title="Eliminar" id="botonPrueba" class="btn btn-danger btn-simple acciones-registro" ng-click="eliminarAlumno(alumno.id_alumno, $index)">
 												<i class="fa fa-trash" aria-hidden="true"></i>
 											</button>
@@ -180,7 +182,152 @@
 				                    </div>
 						        </div>
 						    </div>
-						</div>       
+						</div>   
+						<div class="tab-pane" id="modificarAlumno">
+							<div class="row">
+						        <div class="col-md-12">
+						        	<form>
+
+				                        <div class="row">
+				                            <div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Nombre</label>
+													<input type="text" class="form-control" id="modNombre" name="modNombre" ng-model="modAlumno.usuario.nombre">
+												</div>
+				                            </div>
+				                            <div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Primer Apellido</label>
+													<input type="text" class="form-control" id="modPrimerApellido" name="modPrimerApellido"  ng-model="modAlumno.usuario.primerApellido">
+												</div>
+				                            </div>
+				                            <div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Segundo Apellido</label>
+													<input type="text" class="form-control" id="modSegundoApellido" name="modSegundoApellido" ng-model="modAlumno.usuario.segundoApellido">
+												</div>
+				                            </div>
+				                        </div>
+
+				                        <div class="row">
+				                            <div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Fecha de Nacimiento</label>
+													<input type="text" class="form-control" id="modFNacimiento" name="modFNacimiento" pattern="\d{1,2}/\d{1,2}/\d{4}" ng-model="modAlumno.usuario.fNacimiento">
+												</div>
+				                            </div>
+				                            <div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Correo Electrónico</label>
+													<input type="text" class="form-control" id="modCorreo" name="modCorreo" ng-model="modAlumno.usuario.correo">
+												</div>
+				                            </div>
+				                            <div class="col-md-4">
+												<div class="form-group label-floating input-group">
+													<label class="control-label">Nombre de Usuario</label>
+												    <input type="text" class="form-control" id="modNombreUsuario" name="modNombreUsuario" ng-model="modAlumno.usuario.nombreUsuario">
+												    <div class="input-group-btn">
+												      	<button class="btn btn-info" id="comprobarDisponibilidadNombreUsuario" style="padding: 6px 12px;">
+												        	<i class="fa fa-check-circle" aria-hidden="true"></i>
+												      	</button>
+												    </div>
+												</div>
+				                            </div>
+				                            
+				                        </div>
+
+				                        <div class="row">
+				                            <div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">Contraseña</label>
+													<input type="password" class="form-control" id="modContrasena" name="modContrasena" ng-model="modAlumno.usuario.contrasena">
+												</div>
+
+												<div class="alert alert-info hidden" id="infoContrasena">
+				                                    <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+				                                    <span><b> Info - </b> La contraseña debe tener mas de ocho caracteres y tener como mínimo: un dígito, una minúscula y una mayúscula.</span>
+				                                </div>
+				                            </div>
+				                            <div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">Repetir Contraseña</label>
+													<input type="password" class="form-control" id="modContrasenaRepetida" name="modContrasenaRepetida" ng-model="modAlumno.usuario.contrasenaRepetida">
+												</div>
+				                            </div>
+				                        </div>
+
+				                        <div class="row">
+				                        	<div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Número de Expediente</label>
+													<input type="text" class="form-control" id="modNumExpediente" name="modNumExpediente" ng-model="modAlumno.numExpediente">
+												</div>
+				                            </div>
+				                            <div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Titulación</label>
+													<select id="modIdTitulacion" name="modIdTitulacion" ng-model="modAlumno.idTitulacion" ng-change="cargarCursosModificacion()">
+														<option ng-selected="modAlumno.idTitulacion == titulacion.id_titulacion" ng-repeat="titulacion in titulaciones" ng-value="titulacion.id_titulacion">{{titulacion.nombre}}</option> 
+													  	<!-- Se cargarán los distintos valores --> 
+													</select>
+												</div>
+				                            </div>
+				                            <div class="col-md-4">
+												<div class="form-group label-floating">
+													<label class="control-label">Curso</label>
+													<select id="modCurso" name="modCurso" ng-model="modAlumno.curso" disabled>
+														<option ng-selected="modAlumno.curso == curso.curso" ng-repeat="curso in cursos" ng-value="curso.curso">{{curso.nombre}}</option> 
+													  	<!-- Se cargarán los distintos valores --> 
+													 </select>
+												</div>
+				                            </div>                                      
+				                        </div>
+				                        <div class="row">
+				                        	<div class="col-md-12">
+				                            	<div class="checkbox checkbox-inline">
+													<label>
+														<input type="checkbox" id="modBloqueado" name="modBloqueado" ng-model="modAlumno.usuario.bloqueado">
+														<span class="checkbox-material">
+															<span class="check"></span>
+														</span>
+															Bloqueado
+													</label>
+												</div>				                        		
+						                    </div>
+						                </div>
+
+				                        <div class="row">
+				                        	<div class="col-md-12">
+						                        <button type="button" class="btn btn-info pull-right" ng-click="modificarAlumno()">MODIFICAR</button>
+						                    </div>
+						                </div>
+				                        <div class="clearfix"></div>
+						        	</form>
+						        </div>
+						    </div>
+
+		                    <div class="row">
+						        <div class="col-md-12">
+				                    <div class="alert alert-danger hidden" id="erroresModificar">
+		                                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+		                                <span>
+		                                	<!-- Errores -->
+		                                </span>
+				                    </div>
+						        </div>
+						    </div>
+
+		                    <div class="row">
+						        <div class="col-md-12">
+				                    <div class="alert alert-success hidden" id="exitoModificar">
+		                                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+		                                <span>
+		                                	<!-- Errores -->
+		                                </span>
+				                    </div>
+						        </div>
+						    </div>
+						</div>     
 					</div>
 				</div>
 			</div>

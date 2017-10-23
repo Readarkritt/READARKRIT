@@ -38,6 +38,11 @@ angular.module('readArkrit')
       	$('#exito').addClass('hidden');
       	$('#exito span').html('');
 
+        if($scope.profesor.evitarNotificacion === '1')
+          $scope.modProfesor.esAdmin = true;
+        else if($scope.profesor.evitarNotificacion === '0')
+          $scope.modProfesor.esAdmin = false;        
+
       	//Comprobar validez de los campos
 	    if($scope.profesor.usuario.contrasena != ""){
 	       errores += validarPass($scope.profesor.usuario.contrasena, $scope.profesor.usuario.contrasenaRepetida);
@@ -45,11 +50,13 @@ angular.module('readArkrit')
       if($scope.profesor.usuario.correo != $scope.copiaProfesor.usuario.correo){
         errores += validarCorreo($scope.profesor.usuario.correo);
       }
+      if( typeof $scope.profesor.evitarNotificacion != 'boolean' )
+         errores += '<li>Dato inválido en el campo de evitar notificaciones.</li>';
 
 	    if(errores == ''){
 		     peticionAJAX('./php/profesor.php', {
 		        opcion:'profesor',
-		        accion:'modificar',
+		        accion:'modificarConectado',
 		        profesor:$scope.profesor
 		    }, false).
 		    done(function(data,textStatus,jqXHR){

@@ -20,7 +20,13 @@
 		$usuarioValidado = validarCamposUsuario( $obj['usuario'] );
 		$alumnoValidado  = validarCamposAlumno( $obj['alumno'] );
 
-		if( $usuarioValidado && $alumnoValidado && count($obj['librosLeidos']) != 0 ){
+		if(isset($obj['administracion']) && ($obj['administracion'] == 'true' || $obj['administracion'] === 1)){
+			$obj['administracion'] = true;
+		} else{
+			$obj['administracion'] = false;
+		}
+
+		if( $usuarioValidado && $alumnoValidado && ( $obj['administracion'] || count($obj['librosLeidos']) != 0  ) ){
 
 			// 1) Crear usuario
 			$alumno = new Alumno();
@@ -31,19 +37,21 @@
 			$estanteria->rellenarDefault( $alumno->obtenerIdUsuario() );
 
 			// 3) Relacionar la estantería con los libros leídos
-			$camposSQL = 'id_rel_libro_estanteria, id_libro, id_estanteria, libro_leido';
-			$arrValores = array();
+			if(!$obj['administracion']){
+				$camposSQL = 'id_rel_libro_estanteria, id_libro, id_estanteria, libro_leido';
+				$arrValores = array();
 
-			for($i=0; $i<count($obj['librosLeidos']); $i++){
+				for($i=0; $i<count($obj['librosLeidos']); $i++){
 
-				$idLibro = consulta( 'id_libro', 'libro_anadido', 'id_libro_anadido = '. $obj['librosLeidos'][$i] );
+					$idLibro = consulta( 'id_libro', 'libro_anadido', 'id_libro_anadido = '. $obj['librosLeidos'][$i] );
 
-				$arrValores[0] = ''; // id_rel_libro_estanteria
-				$arrValores[1] = $idLibro; 
-				$arrValores[2] = $estanteria->obtenerId();
-				$arrValores[3] = 1;
+					$arrValores[0] = ''; // id_rel_libro_estanteria
+					$arrValores[1] = $idLibro; 
+					$arrValores[2] = $estanteria->obtenerId();
+					$arrValores[3] = 1;
 
-				insertar( $camposSQL, $arrValores, 'rel_libro_estanteria' );
+					insertar( $camposSQL, $arrValores, 'rel_libro_estanteria' );
+				}
 			}
 
 			// 4) Respuesta de la petición
@@ -63,7 +71,7 @@
 		$respuesta['existe'] = existeRegistro($obj['campo'], $obj['valor'], $obj['opcion']);
 	}
 
-	if( $obj['opcion'] == 'alumno' && $obj['accion'] == 'modificar' ){
+	if( $obj['opcion'] == 'alumno' && $obj['accion'] == 'modificarConectado' ){
 
 		$alumnoPeticion = $obj['alumno'];
 		$usuarioPeticion = $alumnoPeticion['usuario'];
@@ -80,7 +88,7 @@
 			$usuario = $alumno->obtenerUsuario();
 
 			if($usuarioPeticion['contrasena'] != ''){
-				if(Hash::esValido( $usuarioPeticion['contrasenaVieja'], $usuario->obtenerContrasena()) && validarContrasena($usuarioPeticion['contrasena'], $usuarioPeticion['contrasenaRepetida'])){
+				if($usuarioPeticion['contrasena'] == $usuarioPeticion['contrasenaRepetida']){
 					$usuario->cambiarContrasena($usuarioPeticion['contrasena']);
 				} else{			
 					$respuesta['errorContrasena'] = true;
@@ -138,12 +146,79 @@
 	}
 
 	else if( $obj['opcion'] == 'alumno' && $obj['accion'] == 'listar' ){
-		$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, a.num_expediente, a.id_titulacion, a.curso from usuario u inner join alumno a on u.id_usuario = a.id_usuario where f_baja is null';
+		$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, a.id_alumno, a.num_expediente, a.id_titulacion, a.curso from usuario u inner join alumno a on u.id_usuario = a.id_usuario where f_baja is null';
 
 		$respuesta['alumnos'] = consulta( '', '', '', $sql);
 		$respuesta['error']      = ($respuesta['alumnos'] === false);
 	}
 
+	else if( $obj['opcion'] == 'alumno' && $obj['accion'] == 'obtener' ){
+		$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.f_nacimiento, u.correo, u.bloqueado, a.id_alumno, a.num_expediente, a.id_titulacion, a.curso from usuario u inner join alumno a on u.id_usuario = a.id_usuario where id_alumno ='.$obj['idAlumno'];
+
+		$respuesta['alumno'] = consulta( '', '', '', $sql);
+		$respuesta['alumno']['f_nacimiento'] = formatearFecha($respuesta['alumno']['f_nacimiento'],'objeto');
+		$respuesta['error'] = false;
+	}
+
+	else if( $obj['opcion'] == 'alumno' && $obj['accion'] == 'modificar' ){
+
+		if($obj['usuario']['contrasena'] == '')
+			$comprobarContrasena = false;
+		else
+			$comprobarContrasena = true;
+
+		$usuarioValidado	= validarCamposUsuario($obj['usuario'], false,$comprobarContrasena,true);
+		$alumnoValidado		= validarCamposAlumno($obj['alumno'], false);
+
+		if($alumnoValidado && $usuarioValidado){
+			$alumnoOriginal = new Alumno();
+			$alumnoOriginal->cargar($alumnoValidado['idAlumno']);
+
+			//CAMBIAR DATOS
+			if($alumnoOriginal->obtenerUsuario()->obtenerNombre() != $usuarioValidado['nombre'])
+				$alumnoOriginal->obtenerUsuario()->cambiarNombre($usuarioValidado['nombre']);
+
+			if($alumnoOriginal->obtenerUsuario()->obtenerPrimerApellido() != $usuarioValidado['primerApellido'])
+				$alumnoOriginal->obtenerUsuario()->modificarPrimerApellido($usuarioValidado['primerApellido']);
+
+			if($alumnoOriginal->obtenerUsuario()->obtenerSegundoApellido() != $usuarioValidado['segundoApellido'])
+				$alumnoOriginal->obtenerUsuario()->modificarSegundoApellido($usuarioValidado['segundoApellido']);
+
+			if(formatearFecha($alumnoOriginal->obtenerUsuario()->obtenerFNacimiento(),'bbdd') != $usuarioValidado['fNacimiento'])	
+				$alumnoOriginal->obtenerUsuario()->modificarFNacimiento($usuarioValidado['fNacimiento'],'bbdd');			
+
+			if($alumnoOriginal->obtenerUsuario()->obtenerCorreo() != $usuarioValidado['correo'])
+				$alumnoOriginal->obtenerUsuario()->modificarCorreo($usuarioValidado['correo']);
+
+			if($alumnoOriginal->obtenerUsuario()->obtenerNombreUsuario() != $usuarioValidado['nombreUsuario'])
+				$alumnoOriginal->obtenerUsuario()->modificarNombreUsuario($usuarioValidado['nombreUsuario']);
+			
+			if($obj['usuario']['contrasena'] != '')
+				$alumnoOriginal->obtenerUsuario()->cambiarContrasena($usuarioValidado['contrasena']);
+
+			if($alumnoOriginal->obtenerNumExpediente() != $alumnoValidado['numExpediente'])
+				$alumnoOriginal->cambiarNumExpediente($alumnoValidado['numExpediente']);
+
+			if($alumnoOriginal->obtenerIdTitulacion() != $alumnoValidado['idTitulacion'])
+				$alumnoOriginal->cambiarIdTitulacion($alumnoValidado['idTitulacion']);
+
+			if($alumnoOriginal->obtenerCurso() != $alumnoValidado['curso'])
+				$alumnoOriginal->cambiarCurso($alumnoValidado['curso']);			
+
+			if($alumnoOriginal->obtenerUsuario()->estaBloqueado() != $usuarioValidado['bloqueado'])
+				$alumnoOriginal->obtenerUsuario()->modificarBloqueado($usuarioValidado['bloqueado']);
+
+			$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, a.id_alumno, a.num_expediente, a.id_titulacion, a.curso, u.bloqueado from usuario u inner join alumno a on u.id_usuario = a.id_usuario where u.id_usuario = '.$alumnoValidado['idUsuario'];
+
+			$respuesta['alumno'] = consulta( '', '', '', $sql);
+			$respuesta['error'] = false;
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['errorDescripcion'] = 'Datos manipulados';
+
+		}
+
+	}
 	echo json_encode( $respuesta );
 
 ?>

@@ -5,6 +5,9 @@ angular.module('readArkrit')
     $scope.profesor = {};
     $scope.profesores = [];
 
+    $scope.modProfesor = {};
+    $scope.indexModificando;
+
     $scope.profesor.esAdmin = false;
 	$scope.profesor.evitarNotificacion = false;
 
@@ -61,7 +64,134 @@ angular.module('readArkrit')
 	        var resetPaging = false;
 	        $scope.dtInstance.reloadData(callback, resetPaging);
 	    }
-    };
+    }
+
+    $scope.cargarModificarProfesor = function(id, indexScope){
+    	$scope.indexModificando = indexScope;
+    	$scope.modProfesor = {};
+
+		$('#menu-adminProfesor li').removeClass('active');
+
+    	peticionAJAX('./php/profesor.php', {
+			opcion : 'profesor',
+			accion : 'obtener',
+			idProfesor: id
+		}, false)
+		.done(function( data, textStatus, jqXHR ){
+			if( data.error )
+				swal("Editar profesor", "Error recuperando los datos.", "error");
+			else{
+				console.log(data.profesor);
+				if(data.profesor.esAdmin == '1' || data.profesor.esAdmin == 'true' || data.profesor.esAdmin == 1)
+					data.profesor.esAdmin = true;
+				else
+					data.profesor.esAdmin = false;
+
+				if(data.profesor.evitarNotificacion == '1' || data.profesor.evitarNotificacion == 'true' || data.profesor.evitarNotificacion == 1)
+					data.profesor.evitarNotificacion = true;
+				else
+					data.profesor.evitarNotificacion = false;
+
+				if(data.profesor.usuario.bloqueado == '1' || data.profesor.usuario.bloqueado == 'true' || data.profesor.usuario.bloqueado == 1)
+					data.profesor.usuario.bloqueado = true;
+				else
+					data.profesor.usuario.bloqueado = false;
+
+				$scope.modProfesor = data.profesor;
+			}
+		});
+    }
+
+    $scope.modificarProfesor = function(){
+    	var errores = '';
+    	var datos;
+    	var validarContrasena = true;
+
+      	$('#erroresModificar').addClass('hidden');
+      	$('#erroresModificar span').html('');
+      	$('#exitoModificar').addClass('hidden');
+      	$('#exitoModificar span').html('');
+
+
+		console.log('DATOS PETICION MODIFICAR: ');      
+      	console.log($scope.modProfesor);
+
+    	//VALIDACIÓN
+    	if($scope.modProfesor.esAdmin === '1')
+    		$scope.modProfesor.esAdmin = true;
+    	else if($scope.modProfesor.esAdmin === '0')
+    		$scope.modProfesor.esAdmin = false;
+
+    	if($scope.modProfesor.evitarNotificacion === '1')
+    		$scope.modProfesor.evitarNotificacion = true;
+    	else if($scope.modProfesor.evitarNotificacion === '0')
+    		$scope.modProfesor.evitarNotificacion = false;
+
+    	if($scope.modProfesor.usuario.bloqueado === '1' || $scope.modProfesor.usuario.bloqueado == 'true')
+    		$scope.modProfesor.usuario.bloqueado = true;
+    	else if($scope.modProfesor.usuario.bloqueado === '0'|| $scope.modProfesor.usuario.bloqueado == 'false')
+    		$scope.modProfesor.usuario.bloqueado = false;
+
+    	if($scope.modProfesor.usuario.contrasena === undefined || $scope.modProfesor.usuario.contrasena == ''){
+    		$scope.modProfesor.usuario.contrasena = '';
+			validarContrasena = false;
+    	}
+    	
+    	errores = validarCamposProfesor($scope.modProfesor);
+    	errores += validarCamposUsuario($scope.modProfesor.usuario, false, validarContrasena, true);
+
+    	//PETICIÓN
+    	if(errores==''){
+    		var profesor = {};
+    		profesor.idProfesor 		= $scope.modProfesor.idProfesor;
+    		profesor.idUsuario 			= $scope.modProfesor.idUsuario;
+    		profesor.esAdmin 			= $scope.modProfesor.esAdmin;
+    		profesor.evitarNotificacion = $scope.modProfesor.evitarNotificacion;
+
+
+      		peticionAJAX('./php/profesor.php', {
+				opcion: 'profesor',
+				accion: 'modificar',
+				profesor: profesor,
+				usuario: $scope.modProfesor.usuario
+			}, false).done(function(data,textStatus,jqXHR){
+				   	if(data.error){
+				   		errores = 'Error: datos manipulados.';
+				   	} else {
+				   		swal("Profesor modificado", "");
+
+				   		$scope.profesores.splice($scope.indexModificando,1);
+				   		$scope.profesores.push(data.profesor);
+				   		$scope.$apply();
+
+						$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
+
+					    $scope.reloadData = reloadData;
+					    $scope.dtInstance = {};
+
+					    function reloadData() {
+					        var resetPaging = false;
+					        $scope.dtInstance.reloadData(callback, resetPaging);
+					    }
+
+				   	}
+	     	});
+		   
+      	}
+
+      	if(errores != ''){
+	        var html =  '<b> Se han encontrado errores al rellenar el formulario: </b>' +
+	              '<ul>' +
+	                  errores
+	              '</ul>';
+	        $('#erroresModificar').removeClass('hidden');
+	        $('#erroresModificar span').html(html);
+       } else{
+        	var html =  '<b> Cambios introducidos con éxito. </b>';
+        	$('#exitoModificar').removeClass('hidden');
+        	$('#exitoModificar span').html(html);           	
+       }
+    }
 
 	$scope.altaProfesor = function() {
 
@@ -119,6 +249,31 @@ angular.module('readArkrit')
 					usuario.idUsuario   = data.idUsuario;
 					profesor.idProfesor = data.idProfesor;
 					profesor.idUsuario  = data.idUsuario;
+					peticionAJAX('./php/profesor.php',{
+						opcion: 'profesor',
+						accion: 'obtener',
+						usuario: data.idProfesor,
+					},false)				
+					.done(function(data2,textStatus,jqXHR){
+						$scope.profesores.push(data2.profesor);
+						$scope.$apply();
+					});
+
+					$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
+
+				    $scope.reloadData = reloadData;
+				    $scope.dtInstance = {};
+
+				    function reloadData() {
+				        var resetPaging = false;
+				        $scope.dtInstance.reloadData(callback, resetPaging);
+				    }
+
+					$scope.usuario = {};
+					$scope.profesor = {};
+
+				    $scope.profesor.esAdmin = false;
+					$scope.profesor.evitarNotificacion = false;
 
 					swal("Alta Profesor", "Profesor creado correctamente", "success");
 				}
@@ -174,6 +329,7 @@ angular.module('readArkrit')
 
     	// Añadir
     $('#fNacimiento').mask("99/99/9999",{placeholder:"dd/mm/aaaa"});
+    $('#modFNacimiento').mask("99/99/9999",{placeholder:"dd/mm/aaaa"});
 
 	$('#correo').focus(function(){
 
@@ -230,6 +386,34 @@ angular.module('readArkrit')
 							});
 
 
+
+
+	$('#modContrasena').focus(function(){
+
+						$(this).removeClass('text-danger text-success');
+
+						$('#infoContrasena').removeClass('hidden');
+					})
+					.blur(function(){
+
+					    if( contrasenaSegura(this.value) )
+					    	$(this).addClass('text-success');
+					    else
+					    	$(this).addClass('text-danger');
+					});
+
+
+	$('#modContrasenaRepetida').focus(function(){
+
+								$(this).removeClass('text-danger text-success');
+							})
+							.blur(function(){
+
+							    if( contrasenaSegura(this.value) )
+							    	$(this).addClass('text-success');
+							    else
+							    	$(this).addClass('text-danger');
+							});
 
 
 		// Invitar

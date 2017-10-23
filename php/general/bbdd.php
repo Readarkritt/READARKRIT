@@ -46,8 +46,6 @@
       		$sql = 'SELECT ' . $campos . ' FROM ' . $tabla . $condicion;
 		}
 
-		//echo $sql;
-
       	$result = $link->query($sql);
 
 
@@ -136,7 +134,7 @@
 
 
 			$sql = 'INSERT INTO ' . $tabla . ' (' . $campos . ') VALUES (' . $strValores . ')';
-			echo $sql;
+
 			if( $link->query($sql) === TRUE )
 				$idRegistro = $link->insert_id; // devuelvo el id del registro insertado
 
@@ -189,12 +187,13 @@
 
 	function actualizar( $campo, $valor, $tabla, $condicion = '' ){
 
-		if( $campo == '' || $valor == '' || $tabla == '' ){
+
+		if( $campo == '' || $valor === '' || $tabla == '' ){
 
 			return false;
 
 		} else {
-
+			
 			$link = conectar();
 			$registroActualizado = false;
 

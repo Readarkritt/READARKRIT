@@ -89,9 +89,9 @@
 
 	    	$condicion = 'id_usuario = ' . $this->idUsuario;
 
-	    	$this->id_titulacion = $idTitulacion;
+	    	$this->idTitulacion = $idTitulacion;
 
-	    	actualizar( 'contrasena', $this->id_titulacion, $this->tablaSQL, $condicion );
+	    	actualizar( 'id_titulacion', $this->idTitulacion, $this->tablaSQL, $condicion );
 	    }
 
 	    public function cambiarCurso( $curso ) {
@@ -100,7 +100,16 @@
 
 	    	$this->curso = $curso;
 
-	    	actualizar( 'contrasena', $this->curso, $this->tablaSQL, $condicion );
+	    	actualizar( 'curso', $this->curso, $this->tablaSQL, $condicion );
+	    }
+
+	    public function cambiarNumExpediente( $numExpediente ) {
+
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+	    	$this->numExpediente = $numExpediente;
+
+	    	actualizar( 'num_Expediente', $this->numExpediente, $this->tablaSQL, $condicion );
 	    }
 
 		public function toArray(){

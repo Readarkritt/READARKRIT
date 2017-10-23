@@ -172,8 +172,9 @@
 		$libro['tituloOriginal'] 	= $obj['tituloOriginal'];
 		$libro['autor'] 			= $obj['autor'];
 		$libro['ano'] 				= $obj['ano'];
-		$libro['idAnadidoPor'] 		= 0;
+		$libro['anadidoPor'] 		= 0;
 		$libro['idTitulacion'] 		= $obj['idTitulacion'];
+		$libro['fBaja']				= null;
 
 		$libroAnadido['idLibroAnadido']			= '';
 		$libroAnadido['idLibro'] 				= '';
@@ -183,27 +184,31 @@
 		$libroAnadido['mediaNumUsuarios']		= 0;
 		$libroAnadido['nivelEspecializacion']	= $obj['nivelEspecializacion'];
 
-		$libroValidado = validarCamposLibro($libro);
-		$libroAnadidoValidado = validarCamposLibroAnadido($libroAnadido);
-		$portadaVacia = !isset($_FILES["portada"]);
+		if(!existeRegistro('titulo', $libro['titulo'], 'libro') || !existeRegistro('titulo_original',$libro['tituloOriginal'], 'libro')){
+			$libroValidado = validarCamposLibro($libro);
+			$libroAnadidoValidado = validarCamposLibroAnadido($libroAnadido,true);
+			$portadaVacia = !isset($_FILES["portada"]);
 
-		if(!$libroValidado) echo 1;
-		if(!$libroAnadidoValidado) echo 2;
-		if($portadaVacia) echo 3;
-		if($libroValidado && $libroAnadidoValidado && !$portadaVacia){
 
-			//Inserción imagen
-			$folder = '../img/tmp/';
-			$nuevoNombre = generarFechaMicrosegundos() . '.' . obtenerExtension($_FILES['portada']['name']);
-			move_uploaded_file($_FILES["portada"]["tmp_name"], $folder.$nuevoNombre);
+			if($libroValidado && $libroAnadidoValidado && !$portadaVacia){
 
-			$libro['portada'] = $nuevoNombre;
-			//Inserción libro
-			$libroAnadidoObj = new LibroAnadido();
-			$libroAnadidoObj->rellenar($libro, $libroAnadido);
+				//Inserción imagen
+				$folder = '../img/portadasLibros/';
+				$nuevoNombre = generarFechaMicrosegundos() . '.' . obtenerExtension($_FILES['portada']['name']);
+				move_uploaded_file($_FILES["portada"]["tmp_name"], $folder.$nuevoNombre);
 
-			$respuesta['error'] = false;
+				$libro['portada'] = $nuevoNombre;
+				//Inserción libro
+				$libroAnadidoObj = new LibroAnadido();
+				$libroAnadidoObj->rellenar($libro, $libroAnadido);
+				$sql = 'select a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.id_libro = '.$libroAnadidoObj->obtenerIdLibro();
 
+				$respuesta['libro'] = consulta( '', '', '', $sql);
+				$respuesta['error'] = false;
+			} else{
+				$respuesta['error'] = true;
+				$respuesta['descripcionError'] = 'Datos manipulados.';
+			}
 		} else{
 			$respuesta['error'] = true;
 			$respuesta['descripcionError'] = 'Datos manipulados.';

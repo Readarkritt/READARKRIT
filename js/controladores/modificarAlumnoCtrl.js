@@ -41,7 +41,7 @@ angular.module('readArkrit')
       if( errores == ''){
             peticionAJAX('./php/alumno.php', {
               opcion:'alumno',
-              accion:'modificar',
+              accion:'modificarConectado',
               alumno:$scope.alumno
             }, false).
             done(function(data,textStatus,jqXHR){

@@ -172,7 +172,7 @@ function cargarLibrosAnadidos(){
         if( !data.error ){
 
 			$.each( data.librosAnadidos, function( index, element ) {
-
+console.log(element);
 				html += '<tr data-idLibroAnadido=' + element.id_libro_anadido + '>';
 				html += '<td><img src="../../img/portadasLibros/' + element.portada + '" alt="portada" height="40" width="40"></td>';
 				html += '<td>' + element.titulo + '</td>';

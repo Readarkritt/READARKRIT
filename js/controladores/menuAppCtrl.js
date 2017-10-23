@@ -60,7 +60,7 @@ angular.module('readArkrit')
             if(data.rol == 'alumno'){
               $location.path('/alumno/modificar');
               $scope.$apply();
-            } else if(data.rol == 'profesor'){
+            } else if(data.rol == 'profesor' || data.rol == 'admin'){
               $location.path('/profesor/modificar');
               $scope.$apply();
             }

@@ -110,14 +110,15 @@
 
 	    	$this->nombre = $nombre;
 
-	    	actualizar( 'nombre', '"'.$this->nombre.'"', $this->tablaSQL, $condicion );
+	    	actualizar( 'nombre', $this->nombre, $this->tablaSQL, $condicion );
 	    }
 
-	    public function cambiarContrasena( $hash ) {
+	    public function cambiarContrasena( $contrasena ) {
+	    	$hash = new Hash($contrasena);
 
 	    	$condicion = 'id_usuario = ' . $this->idUsuario;
 
-	    	$this->contrasena = $hash;
+	    	$this->contrasena = $hash->get();
 
 	    	actualizar( 'contrasena', $this->contrasena, $this->tablaSQL, $condicion );
 	    }
@@ -152,14 +153,31 @@
 
 	    }
 
-	    public function modificarFNacimiento($apellido){
+	    public function modificarFNacimiento($fNacimiento){
+	    	
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+	    	$this->fNacimiento = $fNacimiento;
+
+	    	actualizar( 'F_NACIMIENTO ', $this->fNacimiento, $this->tablaSQL, $condicion );
+	    }
+
+
+	    public function modificarNombreUsuario($nombreUsuario){
 
 	    	$condicion = 'id_usuario = ' . $this->idUsuario;
 
-	    	$this->fNacimiento = $apellido;
+	    	$this->nombreUsuario = $nombreUsuario;
 
-	    	actualizar( 'F_NACIMIENTO ', $this->fNacimiento, $this->tablaSQL, $condicion );
+	    	actualizar( 'nombre_Usuario ', $this->nombreUsuario, $this->tablaSQL, $condicion );
+	    }
 
+	    public function modificarBloqueado($bloqueado) {
+
+	    	$this->bloqueado = $bloqueado;
+
+	    	$condicion = 'id_usuario = ' . $this->idUsuario;
+
+	    	actualizar( 'bloqueado', $this->bloqueado, $this->tablaSQL, $condicion );
 	    }
 
 	    public function bloquear() {

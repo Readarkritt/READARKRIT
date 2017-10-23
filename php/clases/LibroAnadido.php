@@ -148,4 +148,30 @@
 			return $libroAnadido;
 		}
 
+		public function toSingleArray(){		
+		
+			$libro 				= $this->libro->toArray();
+			$libroAnadido = array(
+				'idLibro' 				=> $this->idLibro,
+				'idLibroAnadido' 		=> $this->idLibroAnadido,
+				'idPais' 				=> $this->idPais,
+				'idCategoria' 			=> $this->idCategoria,
+				'posicionRanking' 		=> $this->posicionRanking,
+				'mediaNumUsuarios' 		=> $this->mediaNumUsuarios,
+				'nivelEspecializacion' 	=> $this->nivelEspecializacion,
+
+				'portada'				=> $libro['portada'],
+				'titulo'				=> $libro['titulo'],
+				'tituloOriginal'		=> $libro['tituloOriginal'],
+				'autor'					=> $libro['autor'],
+				'ano'					=> $libro['ano'],
+				'anadidoPor'			=> $libro['anadidoPor'],
+				'idTitulacion'			=> $libro['idTitulacion'],
+				'fBaja'					=> $libro['fBaja'],
+
+			);
+			return $libroAnadido;
+		}
+
+
 	}	

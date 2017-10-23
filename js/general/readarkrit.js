@@ -14,7 +14,7 @@ function validarPass(contrasena, contrasenaRepetida){
 	return errores;
 }
 
-function validarCorreo(correo){
+function validarCorreo(correo, $comprobarExistente = true){
 	errores = '';
 	if( correo === undefined || correo == '' ){
 		errores += '<li>El correo electrónico es incorrecto.</li>';
@@ -25,13 +25,13 @@ function validarCorreo(correo){
 	else if( !emailCorrecto(correo) ){
 		errores += '<li>El correo electrónico no sigue un formato conocido.</li>';
 	}
-	else if( existeRegistro('correo', correo, 'usuario') ){
+	else if( $comprobarExistente && existeRegistro('correo', correo, 'usuario') ){
 		errores += '<li>El correo electrónico se encuentra registrado.</li>';
 	}
 	return errores;
 }
 
-function validarCamposUsuario(campos){
+function validarCamposUsuario(campos, comprobarExistente = true, comprobarContrasenas = true, comprobarBloqueado = false){
 
 	var errores = '';
 
@@ -61,13 +61,15 @@ function validarCamposUsuario(campos){
 			errores += '<li>La fecha de nacimiento tiene que seguir el patrón "dd/mm/aaaa", rellenado sólo por números.</li>';
 		else if( !fechaPermitida(campos.fNacimiento) )
 			errores += '<li>La fecha no existe.</li>';
+		else if( !fechaMenorQueActual(campos.fNacimiento))
+			errores += '<li>La fecha de nacimiento no puede ser una fecha futura.</li>'; 
 	if( campos.correo === undefined || campos.correo == '' )
 		errores += '<li>El correo electrónico no se ha completado.</li>';
 		else if( campos.correo.length > 50 )
 			errores += '<li>El correo electrónico no puede superar los 50 caracteres.</li>';
 		else if( !emailCorrecto(campos.correo) )
 			errores += '<li>El correo electrónico no sigue un formato conocido.</li>';
-		else if( existeRegistro('correo', campos.correo, 'usuario') )
+		else if( comprobarExistente && existeRegistro('correo', campos.correo, 'usuario') )
 			errores += '<li>El correo electrónico se encuentra registrado.</li>';
 	if( campos.nombreUsuario === undefined || campos.nombreUsuario == '' )
 		errores += '<li>El nombre de usuario no se ha completado.</li>';
@@ -75,23 +77,31 @@ function validarCamposUsuario(campos){
 			errores += '<li>El nombre de usuario no puede exceder de los 20 caracteres.</li>';
 		else if( !campos.nombreUsuario.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
 			errores += '<li>El nombre de usuario sólo puede contener letras.</li>';
-		else if( existeRegistro('nombre_usuario', campos.nombreUsuario, 'usuario') )
+		else if( comprobarExistente && existeRegistro('nombre_usuario', campos.nombreUsuario, 'usuario') )
 			errores += '<li>El nombre de usuario se encuentra ya en uso.</li>';
-	if( (campos.contrasena === undefined || campos.contrasena == '') || (campos.contrasenaRepetida === undefined || campos.contrasenaRepetida == '') )
-		errores += '<li>Las contraseñas no se han completado.</li>';
-		else if( campos.contrasena.length > 20 || campos.contrasenaRepetida.length > 20 )
-			errores += '<li>Las contraseñas no pueden tener más de 20 caracteres.</li>';
-		else if( campos.contrasena.length != campos.contrasenaRepetida.length )
-			errores += '<li>Las contraseñas tienen diferentes longitudes.</li>';
-		else if( campos.contrasena != campos.contrasenaRepetida )
-			errores += '<li>Las contraseñas no coinciden.</li>';
-		else if( !contrasenaSegura(campos.contrasena) || !contrasenaSegura(campos.contrasenaRepetida) )
-			errores += '<li>Las contraseñas no son seguras.</li>';
+
+	if(comprobarContrasenas){
+		if( (campos.contrasena === undefined || campos.contrasena == '') || (campos.contrasenaRepetida === undefined || campos.contrasenaRepetida == '') )
+			errores += '<li>Las contraseñas no se han completado.</li>';
+			else if( campos.contrasena.length > 20 || campos.contrasenaRepetida.length > 20 )
+				errores += '<li>Las contraseñas no pueden tener más de 20 caracteres.</li>';
+			else if( campos.contrasena.length != campos.contrasenaRepetida.length )
+				errores += '<li>Las contraseñas tienen diferentes longitudes.</li>';
+			else if( campos.contrasena != campos.contrasenaRepetida )
+				errores += '<li>Las contraseñas no coinciden.</li>';
+			else if( !contrasenaSegura(campos.contrasena) || !contrasenaSegura(campos.contrasenaRepetida) )
+				errores += '<li>Las contraseñas no son seguras.</li>';
+	}
+
+	if(comprobarBloqueado){
+		if( typeof campos.bloqueado != 'boolean' )
+			errores += '<li>Dato inválido en el campo de bloqueado.</li>';
+	}
 
 	return errores;
 }
 
-function validarCamposAlumno(campos){
+function validarCamposAlumno(campos, comprobarExistente=true){
 
 	var errores = '';
 
@@ -101,7 +111,7 @@ function validarCamposAlumno(campos){
 			errores += '<li>El número de expediente no puede superar los 8 números.</li>';
 		else if( !campos.numExpediente.match( /^[0-9]+$/) )
 			errores += '<li>El número de expediente está compuesto únicamente de números.</li>';
-		else if( existeRegistro('num_expediente', campos.numExpediente, 'alumno') )
+		else if( comprobarExistente && existeRegistro('num_expediente', campos.numExpediente, 'alumno') )
 			errores += '<li>El número de expediente se encuentra en uso.</li>';
 	if( campos.idTitulacion === undefined || campos.idTitulacion == '' || parseInt(campos.idTitulacion) <= 0 )
 		errores += '<li>Elija una titulación válida.</li>';
@@ -126,10 +136,7 @@ function validarCamposProfesor(campos){
 function validarCamposLibro(campos){
 	var errores = '';
 
-	if(existeRegistro('titulo', campos.titulo, 'libro') && existeRegistro('titulo_original',campos.tituloOriginal, 'libro')){
-			errores += '<li>Ya existe un libro registrado con el título y el título original indicado.</li>';
-	} else{
-		if(campos.titulo== undefined || campos.titulo == '')
+	if(campos.titulo== undefined || campos.titulo == '')
 			errores += '<li>El título no se ha proporcionado.</li>';
 			else if(campos.titulo.length>100)
 				errores += '<li>El título no puede superar los 100 caracteres.</li>';
@@ -143,6 +150,10 @@ function validarCamposLibro(campos){
 			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
 				errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
 
+	if(errores=='' && existeRegistro('titulo', campos.titulo, 'libroAnadido') && existeRegistro('titulo_original',campos.tituloOriginal, 'libroAnadido')){
+			errores += '<li>Ya existe un libro registrado con el título y el título original indicado.</li>';
+	} else{
+		
 		if(campos.autor=== undefined || campos.autor == '')
 			errores += '<li>El autor no se ha proporcionado.</li>';
 			else if(campos.autor.length>50)
@@ -163,7 +174,7 @@ function validarCamposLibro(campos){
 
 function validarCamposLibroAnadido(campos){
 	var errores = '';
-
+	
 	if( campos.idPais === undefined || parseInt(campos.idPais) <= 0 )
 		errores += '<li>Elija un país válido.</li>';
 
