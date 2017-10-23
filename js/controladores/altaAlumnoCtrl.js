@@ -42,7 +42,7 @@ function altaAlumno(){
 	// Comprobar que se han seleccionado libros
 
 	$.each( $('#tablaListado').find('.selected'), function( index, element ) {
-		librosLeidos.push( $(element).attr("data-idLibroAnadido") );			
+		librosLeidos.push( $(element).attr('data-idLibro') );			
 	});
 
 	console.log(librosLeidos);
@@ -173,7 +173,7 @@ function cargarLibrosAnadidos(){
 
 			$.each( data.librosAnadidos, function( index, element ) {
 
-				html += '<tr data-idLibroAnadido=' + element.id_libro_anadido + '>';
+				html += '<tr data-idLibro=' + element.id_libro + '>';
 				html += '<td><img src="../../img/portadasLibros/' + element.portada + '" alt="portada" height="40" width="40"></td>';
 				html += '<td>' + element.titulo + '</td>';
 				html += '<td>' + element.titulo_original + '</td>';

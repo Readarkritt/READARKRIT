@@ -40,17 +40,16 @@
 			
 	    }
 
-	    public function cargar( $idUsuario ) {
+	    public function cargar( $idEstanteria ) {
 	        
-			$condicion = 'creada_por = ' . $idUsuario;
-
+			$condicion = 'id_estanteria = ' . $idEstanteria;
 
 			$resultado = consulta($this->camposSQL, $this->tablaSQL, $condicion);
 
 
-			$this->creadaPor    = $idUsuario;
+			$this->creadaPor    = $resultado['creada_por'];
 			$this->nombre 		= $resultado['nombre'];
-			$this->idEstanteria = $resultado['id_estanteria'];
+			$this->idEstanteria = $idEstanteria;
 
 			return $resultado;
 	    }
@@ -61,7 +60,7 @@
 
 	    public function cambiarNombre( $nuevoNombre ){
 
-	    	$condicion = 'creada_por = ' . $this->creadaPor;
+	    	$condicion = 'creada_por = ' . $this->creadaPor . ' and id_estanteria = ' . $this->idEstanteria;
 
 	    	$this->nombre = $nuevoNombre;
 

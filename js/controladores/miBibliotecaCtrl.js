@@ -1,24 +1,12 @@
 angular.module('readArkrit')
   .controller('miBibliotecaCtrl', function ($scope, DTOptionsBuilder) {
 
-  	$scope.nuevoNombreEstanteria = '';
     $scope.estanterias = [];
-    $scope.nombreEstanterias = [];
     $scope.librosAnadidos = [];
     $scope.librosEstanteria = [];
-    $scope.htmlLibrosAnadidos = '';
+    $scope.idEstanteriaSeleccionada = 0;
 
     // FUNCIONES
-    $scope.obtenerNombreEstanterias = function(){
-
-    	if( $scope.estanterias.lenght != 0 ){
-
-    		$.each( $scope.estanterias, function( index, element ) {
-
-    			$scope.nombreEstanterias.push( element.nombre );
-    		});
-    	}
-    };
 
     $scope.modalAltaEstanteria = function(idEstanteria, nombreEstanteria){
 
@@ -29,15 +17,14 @@ angular.module('readArkrit')
     	if( typeof idEstanteria === 'undefined' && typeof nombreEstanteria === 'undefined' ){
 
     		operacion = 'Alta';
-    		inputHtml = '<input type="text" class="form-control" name="nuevoNombreEstanteria" ng-model="nuevoNombreEstanteria">';
-    		botonHtml = '<button type="button" class="btn btn-xs btn-success pull-right" ng-click="altaEstanteria()">DAR DE ALTA</button>';
+    		inputHtml = '<input type="text" class="form-control" name="nuevoNombreEstanteria" id="nuevoNombreEstanteria">';
+    		botonHtml = '<button type="button" class="btn btn-xs btn-success pull-right" onclick="altaModificarEstanteria(' + "'" + operacion + "'" + ')">DAR DE ALTA</button>';
     	} else {
 
     		operacion = 'Modificar';
-    		inputHtml = '<input type="text" class="form-control" name="nuevoNombreEstanteria" ng-model="nuevoNombreEstanteria" value="' + nombreEstanteria + '">';
-    		botonHtml = '<button type="button" class="btn btn-xs btn-success pull-right" ng-click="cambiarNombreEstanteria()">MODIFICAR</button>';
+    		inputHtml = '<input type="text" class="form-control" name="nuevoNombreEstanteria" id="nuevoNombreEstanteria" value="' + nombreEstanteria + '">';
+    		botonHtml = '<button type="button" class="btn btn-xs btn-success pull-right" onclick="altaModificarEstanteria(' + "'" + operacion + "'" + ', ' + idEstanteria + ')">MODIFICAR</button>';
     	}
-
 
     	var html = '<div id="altaEstanteriaModal" class="modal fade" role="dialog">' +
 					  '<div class="modal-dialog">' +
@@ -63,7 +50,7 @@ angular.module('readArkrit')
 							    '</div>' +
 
 			                    '<div class="row">' +
-			                    	'<div class="alert hidden" id="notificacionesAltaEstanteria">' +
+			                    	'<div class="alert hidden" id="notificacionesModalEstanteria">' +
 		                                '<button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>' +
 		                                '<span>' +
 		                                '</span>' +
@@ -87,135 +74,6 @@ angular.module('readArkrit')
 		$('#altaEstanteriaModal').modal();
     };
 
-    $scope.modalAdminEstanteria = function(){
-
-    	$scope.listarLibrosAnadidos();
-    	//$scope.cargarLibrosEstanteria();
-
-    	var html = '<div id="adminEstanteriaModal" class="modal fade" role="dialog">' +
-					  '<div class="modal-dialog">' +
-					    '<div class="modal-content">' +
-
-					      '<div class="modal-header">' +
-					        '<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-					        '<h4 class="modal-title">Modificar Libros Estantería</h4>' +
-					      '</div>' +
-
-					      '<div class="modal-body">' +
-					      	'<div class="container col-md-12">' +
-					      		'<div class="row">' +
-							        '<div class="col-md-12">' +
-							        	'Selecciona y deselecciona a tu gusto:</br></br>' + 
-							        	'<div class="tab-pane active table-responsive">' +
-											'<table id="tablaListadoLibrosAnadidos" class="table table-striped table-bordered dt-responsive nowrap row-border" width="100%" datatable="ng" cellspacing="0">' +
-										        '<thead>' +
-										            '<tr>' +
-										            	'<th class="no-sort all">PORTADA</th>' +
-										                '<th class="all">TÍTULO</th>' +
-										                '<th>TÍTULO ORIGINAL</th>' +
-										                '<th>AUTOR</th>' +
-										                '<th>AÑO</th>' +
-										            '</tr>' +
-										        '</thead>' +
-										        '<tbody>' +
-													$scope.htmlLibrosAnadidos +									     
-										        '</tbody>' +
-										    '</table>' +
-										'</div>' +
-							        '</div>' +
-							    '</div>' +
-							    '<div class="row">' +
-							    	'<div class="col-md-12">' +
-							        	'</br>Los libros que tienes en esta estantería son:</br>' +
-							        	'<ul>' + 
-							        	'</ul>' +
-							        '</div>' +
-							    '</div>' +
-						      	'<div class="row">' +
-							        '<div class="col-md-12">' +
-							        	'<form>' +
-											'<button type="button" class="btn btn-xs btn-success pull-right" ng-click="modificarEstanteria()">MODIFICAR</button>' +
-							        	'</form>' +
-							        '</div>' +
-							    '</div>' +
-
-			                    '<div class="row">' +
-			                    	'<div class="alert hidden" id="notificacionesAltaEstanteria">' +
-		                                '<button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>' +
-		                                '<span>' +
-		                                '</span>' +
-				                    '</div>' +
-							    '</div>' +
-							'</div>' +
-					      '</div>' +
-
-					      '<div class="modal-footer">' +
-					     	'&nbsp;' +
-					      '</div>' +
-
-					    '</div>' +
-					  '</div>' +
-					'</div>';
-
-		$('body').append(html);
-
-		$('#adminEstanteriaModal').modal();
-		$('#tablaListadoLibrosAnadidos').DataTable({
-        	// hace que no se pueda ordenar por la columna de checkbox
-		    "ordering": true,
-		    columnDefs: [{
-		      orderable: false,
-		      targets: "no-sort"
-		    }],
-		    "order": [[ 2, "asc" ]]	
-		});
-    };
-
-    $scope.altaEstanteria = function(){
-
-    	var estanteria = new Estanteria('', $scope.nuevoNombreEstanteria, ID_USUARIO);
-    	var html = '';
-
-    	if( $scope.nuevoNombreEstanteria == '' )
-    		html += 'Debes introducir un nombre para tu estantería.';
-    	else if( $.inArray( $scope.nuevoNombreEstanteria, $scope.nombreEstanterias ) != -1 )
-    		html += 'Ya tienes una estantería que se llama así.';
-		else if( $scope.nuevoNombreEstanteria.length > 20 )
-			html += 'El nombre de tu estantería no puede exceder de los 20 caracteres.</li>';
-		else if( !$scope.nuevoNombreEstanteria.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
-			html += 'El nombre de tu estantería sólo puede contener letras.</li>';
-
-    	if( html != '' ){
-
-    		$('#notificacionesAltaEstanteria span').html(html);
-			$('#notificacionesAltaEstanteria').addClass('alert-danger');
-    	} else {
-
-    		cerrarAlerta($('#notificacionesAltaEstanteria'));
-
-    		peticionAJAX('./php/estantería.php', {
-
-				opcion: 'estanteria',
-				accion: 'alta',
-				estanteria: estanteria
-			})
-			.done(function( data, textStatus, jqXHR ){
-
-				if( !data.error ){
-
-					$('#notificacionesAltaEstanteria span').html('Estantería creada correctamente.');
-					$('#notificacionesAltaEstanteria').addClass('alert-success');
-				} else{
-
-					$('#notificacionesAltaEstanteria span').html('No se ha podido crear la estantería.');
-					$('#notificacionesAltaEstanteria').addClass('alert-danger');
-				}
-			});
-    	}
-
-    	$('#notificacionesAltaEstanteria').removeClass('hidden');
-    };
-
     $scope.listarEstanterias = function(){
 
     	peticionAJAX('./php/estanteria.php', {
@@ -228,64 +86,12 @@ angular.module('readArkrit')
 
 			if( !data.error ){
 
-				$('#tablaListado').removeClass('hidden');
 				$scope.estanterias = $.makeArray(data.estanterias);
-				$scope.nombreEstanterias = $scope.obtenerNombreEstanterias();
+
+				$scope.$apply();
 			}
 		});
     };
-
-    $scope.cambiarNombreEstanteria = function(){
-
-    	if( $.inArray( $scope.nuevoNombreEstanteria, $scope.nombreEstanterias ) == -1 ){
-
-    		peticionAJAX('./php/estanteria.php', {
-
-				opcion: 'estanteria',
-				accion: 'cambiarNombre',
-				nombreEstanteria: $scope.nuevoNombreEstanteria,
-				idUsuario: 64/*ID_USUARIO*/
-			})
-			.done(function( data, textStatus, jqXHR ){
-
-				if( !data.error ){
-
-					$('#notificacionesAltaEstanteria span').html('Estantería actualizada.');
-					$('#notificacionesAltaEstanteria').addClass('alert-success');
-				} else {
-
-					$('#notificacionesAltaEstanteria span').html('No se ha podido cambiar el nombre de la estantería.');
-					$('#notificacionesAltaEstanteria').addClass('alert-danger');
-				}
-			});
-    	} else {
-
-    		$('#notificacionesAltaEstanteria span').html('Ya tienes una estantería que se llama así.');
-			$('#notificacionesAltaEstanteria').addClass('alert-danger');
-    	}
-
-    	$('#notificacionesAltaEstanteria').removeClass('hidden');
-    };
-
-    /*$scope.cargarLibrosAnadidos = function(){
-
-    	var parametros = {};
-		var peticion   = {};
-
-		parametros.opcion = 'libroAnadido';
-	    parametros.accion = 'listar';
-
-		peticion = peticionAJAX('./php/libroAnadido.php', parametros);
-
-	    peticion.done(function( data, textStatus, jqXHR ) {
-
-	        if( !data.error ){
-
-	        	$('#tablaListadoLibrosAnadidos').removeClass('hidden');
-				$scope.librosAnadidos = $.makeArray(data.librosAnadidos);
-	        }
-	    });
-    };*/
 
     $scope.listarLibrosAnadidos = function(){
 
@@ -293,101 +99,234 @@ angular.module('readArkrit')
 
 			opcion: 'libroAnadido',
 			accion: 'listar'
-		}, false)
+		})
 		.done(function( data, textStatus, jqXHR ){
 
 			if( !data.error ){
 
 				var rutaDefinitiva = './img/portadasLibros/';
 
-				$('#tablaListadoLibrosAnadidos').removeClass('hidden');
+				$('#tablaListado').removeClass('hidden');
 				$scope.librosAnadidos = $.makeArray(data.librosAnadidos);
 
-				$.each( $scope.librosAnadidos, function( index, element ){
-
-					$scope.htmlLibrosAnadidos += '<tr data-idLibroAnadido=' + element.id_libro_anadido + '>';
-					$scope.htmlLibrosAnadidos += '<td><img src="' + rutaDefinitiva + element.portada + '" alt="portada" height="40" width="40"></td>';
-					$scope.htmlLibrosAnadidos += '<td>' + element.titulo + '</td>';
-					$scope.htmlLibrosAnadidos += '<td>' + element.titulo_original + '</td>';
-					$scope.htmlLibrosAnadidos += '<td>' + element.autor + '</td>';
-					$scope.htmlLibrosAnadidos += '<td>' + element.ano + '</td>';
-					$scope.htmlLibrosAnadidos += '</tr>';
-
+				$.each( $scope.librosAnadidos, function( index, value ){
 				    $scope.librosAnadidos[index].portada = rutaDefinitiva + $scope.librosAnadidos[index].portada;
 				});
 			}
 		});
     };
 
-    /*$scope.cargarLibrosEstanteria = function(){
+    $scope.listarLibrosEstanteria = function(){
 
     	var parametros = {};
 		var peticion   = {};
 
-		parametros.opcion = 'libroAnadido';
-	    parametros.accion = 'listar';
+		$scope.idEstanteriaSeleccionada = $('input:checked').val();
 
-		peticion = peticionAJAX('./php/libroAnadido.php', parametros);
+		parametros.opcion = 'estanteria';
+	    parametros.accion = 'listarLibros';
+	    parametros.idEstanteria = $scope.idEstanteriaSeleccionada;
+
+		peticion = peticionAJAX('./php/estanteria.php', parametros);
 
 	    peticion.done(function( data, textStatus, jqXHR ) {
 
+	    	$scope.librosEstanteria = [];
+
 	        if( !data.error ){
 
-				$scope.librosEstanteria = $.makeArray(data.librosEstanteria);
+	        	var arrLibrosEstanteria = [];
+	        	var i = 0;
+	        	var index;
+
+				arrLibrosEstanteria = $.makeArray(data.idsLibrosEstanteria);
+
+				$('tr.selected').removeClass('selected');// limpiamos los tr que están seleccionados
+
+				if( arrLibrosEstanteria.length > 0 ){
+
+					for(i=0; i<arrLibrosEstanteria.length; i++){
+
+						index = buscarValorEnArrObj($scope.librosAnadidos, 'id_libro', arrLibrosEstanteria[i].id_libro);
+
+						$scope.librosEstanteria[i] = angular.copy($scope.librosAnadidos[index]);
+						$scope.librosEstanteria[i].libro_leido = arrLibrosEstanteria[i].libro_leido;
+
+						//if( arrLibrosEstanteria[i].libro_leido == 1 )	
+						$('tr[data-idLibro=' + $scope.librosEstanteria[i].id_libro + ']').addClass('selected'); // Seleccionamos el libro que hay en la estantería
+					}
+				}
+
+				$scope.$apply();			
 	        }
 	    });
-    };*/
+    };
 
-    /*$scope.eliminarProfesor = function(idProfesor, indexScope){
+    $scope.modificarEstanteria = function( e ){
 
-    	peticionAJAX('./php/profesor.php', {
+    	var idLibro = $(e.currentTarget).attr('data-idLibro');
+    	var index   = -1;
 
-			opcion    : 'profesor',
-			accion	  : 'eliminar',
-			idProfesor: idProfesor
-		}, false)
+    	if( $(e.currentTarget).hasClass('selected') ){
+
+    		index = buscarValorEnArrObj($scope.librosEstanteria, 'id_libro', idLibro);
+
+    		$scope.librosEstanteria.splice(index, 1);// quitar de librosEstanteria
+    	} else {
+
+    		index = buscarValorEnArrObj($scope.librosAnadidos, 'id_libro', idLibro);
+
+    		$scope.librosEstanteria.push($scope.librosAnadidos[index]);
+    	}
+
+		$(e.currentTarget).toggleClass('selected');
+    };
+
+    $scope.marcarLibroComoLeido = function( e ){
+
+    	$(e.currentTarget).find('.fa').toggleClass("fa-eye-slash fa-eye");
+    };
+
+    $scope.guardarModificacionEstanteria = function(){
+
+    	// Grabamos en bbdd los cambios
+    	var libros = [];
+    	var index = -1;
+
+    	for(var i=0; i< $scope.librosEstanteria.length; i++){
+
+    		libros.push({
+
+    			idLibro: $scope.librosEstanteria[i].id_libro,
+    			libroLeido: $('li[data-idLibro=' + $scope.librosEstanteria[i].id_libro + '] button i').hasClass('fa-eye')
+    		});
+    	}
+
+    	peticionAJAX('./php/estanteria.php', {
+
+			opcion: 'estanteria',
+			accion: 'modificarEstanteria',
+			idEstanteria: $scope.idEstanteriaSeleccionada,
+			libros: libros
+		})
 		.done(function( data, textStatus, jqXHR ){
 
-			if( data.error )
-				swal("Eliminar Profesor", "Error en la transacción.", "error");
-			else{
+			$('#erroresMisEstanterias').removeClass('alert-success')
+									   .removeClass('alert-danger');
 
-				swal("Profesor Eliminado", "Profesor eliminado con éxito.", "success");
+			if( !data.error ){
 
-				$scope.profesores.splice(indexScope, 1);
+				$('#erroresMisEstanterias span').html('Estantería actualizada.');
+				$('#erroresMisEstanterias').addClass('alert-success');
+			} else {
+
+				$('#erroresMisEstanterias span').html(data.descripcionError);
+				$('#erroresMisEstanterias').addClass('alert-danger');
 			}
+
+			$('#erroresMisEstanterias').removeClass('hidden');
+
+			index = buscarValorEnArrObj($scope.estanterias, 'id_estanteria', $scope.idEstanteriaSeleccionada);
+
+			$scope.estanterias[index].cantidad_libros = $scope.librosEstanteria.length;
+
+			$scope.$apply();
 		});
-
-		$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.profesores ).withOption('stateSave', true).withDataProp('data');
-
-	    $scope.reloadData = reloadData;
-	    $scope.dtInstance = {};
-
-	    function reloadData() {
-	        var resetPaging = false;
-	        $scope.dtInstance.reloadData(callback, resetPaging);
-	    }
-    };*/
+    };
 
     // EVENTOS
 
     cargarJS("./js/clases/Estanteria.js");
     /*cargarJS("./js/clases/Profesor.js");*/
 
+    // Mis Estanterías
     	// Listar
     $scope.listarEstanterias();
-
-    	// Añadir Estanterías
-
-
-    $('#tablaListadoLibrosAnadidos tbody tr').click(function(){
-        $(this).toggleClass('selected');
-        console.log('daaaa');
-	});
-
-	$('#tablaListadoLibrosAnadidos tbody').click(function(){
-        $(this).toggleClass('selected');
-        console.log('daaaa');
-	});
+    $scope.listarLibrosAnadidos();
 
 }); // fin controller
+
+
+function altaModificarEstanteria(operacion, idEstanteria){
+
+	var parametros 		 = {};
+	var html 			 = '';
+	var nombreEstanteria = $('#nuevoNombreEstanteria').val();
+	var scope 			 = angular.element($('#listadoEstanterias')).scope();
+	var index			 = -1;
+
+	if( nombreEstanteria == '' )
+		html += 'Debes introducir un nombre para tu estantería.';
+	else if( existeRegistro('nombre', nombreEstanteria, 'estanteria') )
+		html += 'Ya tienes una estantería que se llama así.';
+	else if( nombreEstanteria.length > 20 )
+		html += 'El nombre de tu estantería no puede exceder de los 20 caracteres.</li>';
+	else if( !nombreEstanteria.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+		html += 'El nombre de tu estantería sólo puede contener letras.</li>';
+
+	if( html != '' ){
+
+		$('#notificacionesModalEstanteria span').html(html);
+		$('#notificacionesModalEstanteria').addClass('alert-danger');
+	} else {
+
+		cerrarAlerta($('#notificacionesModalEstanteria'));
+
+		if( operacion == 'Alta' ){
+
+			var estanteria = new Estanteria('', nombreEstanteria, 64/*ID_USUARIO*/);
+
+			parametros.opcion = 'estanteria';
+			parametros.accion = 'alta';
+			parametros.estanteria = estanteria;
+
+		} else {
+			// la modificación en este caso sólo es del nombre
+			parametros.opcion = 'estanteria';
+			parametros.accion = 'cambiarNombre';
+			parametros.nombreEstanteria = nombreEstanteria;
+			parametros.idEstanteria = idEstanteria;
+		}
+
+
+		peticionAJAX('./php/estanteria.php', parametros)
+		.done(function( data, textStatus, jqXHR ){
+
+			$('#notificacionesModalEstanteria').removeClass('alert-success')
+									   		   .removeClass('alert-danger');
+
+			if( !data.error ){
+
+				if( operacion == 'Alta' ){
+
+				    scope.$apply(function(){
+
+				        scope.estanterias.push({ id_estanteria: data.idEstanteria, nombre: nombreEstanteria, cantidad_libros: 0 });
+				    });
+
+					$('#notificacionesModalEstanteria span').html('Estantería creada correctamente.');
+
+				} else {
+
+					scope.$apply(function(){
+
+						index = buscarValorEnArrObj(scope.estanterias, 'id_estanteria', idEstanteria);
+
+				        scope.estanterias[index].nombre = nombreEstanteria;
+				    });
+
+					$('#notificacionesModalEstanteria span').html('Estantería modificada.');
+				}
+
+				$('#notificacionesModalEstanteria').addClass('alert-success');
+			} else{
+
+				$('#notificacionesModalEstanteria span').html(data.descripcionError);
+
+				$('#notificacionesModalEstanteria').addClass('alert-danger');
+			}
+		});
+	}
+
+	$('#notificacionesModalEstanteria').removeClass('hidden');
+}

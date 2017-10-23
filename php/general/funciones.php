@@ -185,4 +185,40 @@
 
 		return round(microtime(true) * 1000);
 	}
+
+
+	// busca en un array de objetos, el valor de la propiedad indicada y devuelve el índice en el que se encuentra
+	function buscarValorEnArrObj( $arrObj, $propiedad, $valor ){
+
+		$encontrado = -1;
+		$i 		    = 0;
+
+	    for ($i=0; $i < count($arrObj) && $encontrado == -1; $i++)
+	    	if( $arrObj[$i][$propiedad] == $valor )
+	    		$encontrado = $i;
+
+	    return $encontrado;
+	}
+
+	// cuenta las dimensiones de un array
+	function dimensionArray( $elemento ){
+
+		// 0 -> es una variable
+		// 1 o mas -> es un array/matriz
+
+	    if(is_array($elemento))
+	        return dimensionArray(reset($elemento)) + 1;
+	    else
+	        return 0;
+	}
+
+	function strTObool( $str ){
+
+		$str = strtolower($str);
+
+		if( strcmp($str, 'true') == 0 )
+			return true;
+		else
+			return false;
+	}
 ?>

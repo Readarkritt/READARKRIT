@@ -119,24 +119,28 @@
 			$idRegistro = 0;
 			$strValores = '';
 
-			foreach ($valores as $valor){
+			if( is_array( $valores ) ){
 
-				if( is_string( $valor ) )
-					$valor = '"' . $valor . '", ';
-				elseif( is_null( $valor ) )
-					$valor = 'null';
-				else
-					$valor = $valor . ', ';
+				foreach ($valores as $valor){
 
+					if( is_string( $valor ) )
+						$valor = '"' . $valor . '", ';
+					elseif( is_null( $valor ) )
+						$valor = 'null';
+					else
+						$valor = $valor . ', ';
 
-				$strValores .= $valor;
-			}
+					$strValores .= $valor;
+				}
 
-			$strValores = rtrim($strValores, ', ');
+				$strValores = rtrim( $strValores, ', ' );
+
+			} else
+				$strValores = $valores;
 
 
 			$sql = 'INSERT INTO ' . $tabla . ' (' . $campos . ') VALUES (' . $strValores . ')';
-			echo $sql;
+
 			if( $link->query($sql) === TRUE )
 				$idRegistro = $link->insert_id; // devuelvo el id del registro insertado
 
@@ -189,7 +193,7 @@
 
 	function actualizar( $campo, $valor, $tabla, $condicion = '' ){
 
-		if( $campo == '' || $valor == '' || $tabla == '' ){
+		if( $campo === '' || $valor === '' || $tabla === '' ){
 
 			return false;
 
@@ -200,6 +204,14 @@
 
 			if( is_string($valor) )
 				$valor = "'" . $valor . "'";
+
+			if( is_bool($valor) ){
+
+				if( $valor )
+					$valor = 1;
+				else
+					$valor = 0;
+			}
 			
 			if( $condicion != '' )
 				$condicion = ' WHERE ' . $condicion;

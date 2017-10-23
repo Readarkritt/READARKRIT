@@ -36,10 +36,10 @@
 
 			for($i=0; $i<count($obj['librosLeidos']); $i++){
 
-				$idLibro = consulta( 'id_libro', 'libro_anadido', 'id_libro_anadido = '. $obj['librosLeidos'][$i] );
+				//$idLibro = consulta( 'id_libro', 'libro_anadido', 'id_libro_anadido = '. $obj['librosLeidos'][$i] );
 
 				$arrValores[0] = ''; // id_rel_libro_estanteria
-				$arrValores[1] = $idLibro; 
+				$arrValores[1] = $obj['librosLeidos'][$i]; 
 				$arrValores[2] = $estanteria->obtenerId();
 				$arrValores[3] = 1;
 
