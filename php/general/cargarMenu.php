@@ -8,10 +8,10 @@
 
 	//CÓDIGO BUENO
 
-	/*if(!is_null($token)){
+	if(!is_null($token)){
 		if(comprobarToken($token)){
 			$rol = recuperarDeToken('rol');
-			$nombre = recuperarDeToken('nombre');
+			$nombre = recuperarDeToken('nombreUsuario');
 			if(!is_null($rol) && !is_null($nombre)){				
 				$respuesta['error'] = false;
 				$respuesta['nombre'] = $nombre;				
@@ -21,7 +21,7 @@
 					$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuProfesor.html');
 				} else if($rol == 'alumno'){
 					$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAlumno.html');
-				} else if($rol == 'invitado'{
+				} else if($rol == 'invitado'){
 					$respuesta['menu'] = '';
 				} 
 			} else{
@@ -33,11 +33,11 @@
 	} else{ //Si son visitantes
 		$respuesta['menu'] = file_get_contents('../../html/menuApp/menus/menuAlumno.html');
 		$respuesta['nombre'] = 'Visitante';
-	}*/
+	}
 
 
 	//CÓDIGO A ELIMINAR
-	$respuesta['error'] = false;
+	/*$respuesta['error'] = false;
 	$rol = '';
 	$nombre = 'Nombre';
 
@@ -50,7 +50,7 @@
 	} else {
 		$respuesta['menu'] = file_get_contents(dirname(__FILE__).'/../../html/menuApp/menus/menuAlumno.html');
 	}
-	$respuesta['nombre'] = $nombre;
+	$respuesta['nombre'] = $nombre;*/
 
 	//FIN CÓDIGO A ELIMINAR
 

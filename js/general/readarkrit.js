@@ -31,6 +31,36 @@ function validarCorreo(correo, $comprobarExistente = true){
 	return errores;
 }
 
+function validarCamposResena(campos){
+	var errores = '' ;
+	
+	peticionAJAX('./php/resena.php', {
+			opcion: 'resena',
+			accion: 'comentarioHechoConectado',
+			idLibro: campos.idLibro
+		}, false)
+		.done(function( data, textStatus, jqXHR ){
+
+			if( !data.error && data.existe ){
+				errores += '<li>No es posible comentar el mismo libro una segunda vez.</li>';
+			}
+		});
+
+	if(errores == ''){
+		if( campos.nota === undefined || campos.nota == '' )
+			errores += '<li>Se debe dar una nota al libro.</li>';
+			else if( campos.nota < 0 || campos.nota > 10 )
+				errores += '<li>La nota debe estar entre 0 y 10.</li>';
+
+		if( campos.comentario === undefined || campos.comentario == '' )
+			errores += '<li>No se ha escrito nada en el comentario.</li>';
+			else if( campos.comentario.length > 5000 )
+				errores += '<li>El comentario no puede exceder de los 5000 caracteres.</li>';
+	}
+	return errores;
+
+}
+
 function validarCamposUsuario(campos, comprobarExistente = true, comprobarContrasenas = true, comprobarBloqueado = false){
 
 	var errores = '';
@@ -150,7 +180,7 @@ function validarCamposLibro(campos){
 			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
 				errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
 
-	if(errores=='' && existeRegistro('titulo', campos.titulo, 'libroAnadido') && existeRegistro('titulo_original',campos.tituloOriginal, 'libroAnadido')){
+	if(errores=='' && existeRegistro('titulo', campos.titulo, 'libro') && existeRegistro('titulo_original',campos.tituloOriginal, 'libro')){
 			errores += '<li>Ya existe un libro registrado con el título y el título original indicado.</li>';
 	} else{
 		
@@ -192,10 +222,59 @@ function validarCamposLibroAnadido(campos){
 			errores += '<li>La posición del ranking debe estar entre 0 y '+rango+'.</li>';
 		}	
 
-	//FALTA POSICIONRANKING
+	return errores;
+}
+
+function validarCamposLibroPropuesto(campos){
+	var errores = '';
+
+	if(campos.propuestoPara === undefined || (campos.propuestoPara != 'añadir' && campos.propuestoPara != 'eliminar'))
+		errores += '<li>El campo propuesto para debe tener un valor válido.</li>';
+
+	if(campos.motivo === undefined || campos.motivo == '')
+		errores += '<li>Se debe rellenar el campo motivo</li>';
+	else if(campos.motivo.length > 2000)
+		errores += '<li>El comentario no puede exceder los 2.000 caracteres.</li>';
+
 
 	return errores;
 }
+
+//Nominación que manda un usuario por correo
+function validarCamposNominacion(campos){
+	var errores = '';
+
+	if(campos.titulo== undefined || campos.titulo == '')
+		errores += '<li>El título no se ha proporcionado.</li>';
+		else if(campos.titulo.length>100)
+			errores += '<li>El título no puede superar los 100 caracteres.</li>';
+		else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			errores += '<li>El título sólo puede contener letras o dígitos.</li>';
+
+	if(campos.tituloOriginal === undefined || campos.tituloOriginal == '')
+		errores += '<li>El título original no se ha proporcionado.</li>';
+		else if(campos.tituloOriginal.length>100)
+			errores += '<li>El título original no puede superar los 100 caracteres.</li>';
+		else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
+
+	if(campos.autor=== undefined || campos.autor == '')
+		errores += '<li>El autor no se ha proporcionado.</li>';
+		else if(campos.autor.length>50)
+			errores += '<li>El autor no puede superar los 50 caracteres.</li>';
+		else if( !campos.autor.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			errores += '<li>El autor sólo puede contener letras o dígitos.</li>';
+
+	if(campos.motivo === undefined || campos.motivo == '')
+		errores += '<li>Se debe rellenar el campo motivo</li>';
+		else if(campos.motivo.length > 2000)
+			errores += '<li>El comentario no puede exceder los 2.000 caracteres.</li>';
+
+	return errores;
+
+}
+
+
 // Funcón que obtiene todos los valores de las tablas SQL que no tienen una clase en el modelo
 function obtenerValores(tablaSQL){
 
@@ -233,53 +312,6 @@ function rangoRanking(){
 		});
 	return rangoRanking;
 }
-
-/*function obtenerPaises(){	
-	var paises = false;
-	peticionAJAX('./php/pais.php', {
-			opcion: 'pais',
-			accion: 'listar'
-		}, false)
-		.done(function( data, textStatus, jqXHR ){
-
-			if( !data.error ){
-				paises = data.paises;
-			}
-		});
-	return paises;
-}
-
-function obtenerTitulaciones(){	
-	var titulaciones = false;
-	peticionAJAX('./php/titulacion.php', {
-			opcion: 'titulacion',
-			accion: 'listar'
-		}, false)
-		.done(function( data, textStatus, jqXHR ){
-
-			if( !data.error ){
-				titulaciones = data.titulaciones;
-			}
-		});
-	return titulaciones;
-
-}
-
-function obtenerCategoriasLibro(){	
-	var categorias = false;
-	peticionAJAX('./php/categoriaLibro.php', {
-			opcion: 'categoriaLibro',
-			accion: 'listar'
-		}, false)
-		.done(function( data, textStatus, jqXHR ){
-
-			if( !data.error ){
-				categorias = data.categorias;
-			}
-		});
-	return categorias;
-
-}*/
 
 function obtenerNivelesEspecializacion(){
 	var niveles = {};

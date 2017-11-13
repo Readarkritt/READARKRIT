@@ -23,12 +23,13 @@ function comprobarLogin() {
             if( data.error )
                 swal("Usuario incorrecto", data.descripcionError, "error");
             else{
+                alert(123);
                 
-                sessionStorage.setItem('tokenREADARKRIT', data.token);
+               /* sessionStorage.setItem('tokenREADARKRIT', data.token);
                 parametros.token = data.token;
 
                 $('#insert_form').html('<form action="/READARKRIT/estadisticas" name="logged" method="post" style="display:none"><input type="text" name="token" value="'+data.token+'"/></form>');
-                document.forms['logged'].submit();
+                document.forms['logged'].submit();*/
             }
         });
     }

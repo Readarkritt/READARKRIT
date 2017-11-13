@@ -271,7 +271,7 @@ function altaModificarEstanteria(operacion, idEstanteria){
 	} else {
 
 		cerrarAlerta($('#notificacionesModalEstanteria'));
-
+		
 		if( operacion == 'Alta' ){
 
 			var estanteria = new Estanteria('', nombreEstanteria, 64/*ID_USUARIO*/);

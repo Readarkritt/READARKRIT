@@ -40,6 +40,14 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/libro/adminLibro.html',
             controller: 'libroCtrl'
         })
+        .when('/libro/nominar', {
+            templateUrl: './html/libro/nominarLibro.html',
+            controller: 'nominarLibroCtrl'
+        })
+        .when('/libro/nominaciones', {
+            templateUrl: './html/libro/adminNominaciones.html',
+            controller: 'nominacionesCtrl'
+        })
 
         // PROFESOR
         .when('/profesor', {
@@ -53,6 +61,16 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
         .when('/profesor/terminar',{
             templateUrl: './html/profesor/formProfesor.html',
             controller: 'terminarProfesorCtrl'
+        })
+
+        //RESEÑAS
+        .when('/comentarios',{
+            templateUrl: './html/resena/resena.html',
+            controller: 'resenaCtrl'
+        })
+        .when('/comentarios/moderar',{
+            templateUrl: './html/resena/resenaAdmin.html',
+            controller: 'resenaAdminCtrl'
         })
 
 

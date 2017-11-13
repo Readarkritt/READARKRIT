@@ -21,173 +21,199 @@
 	}
 
 	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'eliminar' ){
+		if(tienePermiso('profesor')){
 
-		$obj['idProfesor'] = (int) $obj['idProfesor'];
+			$obj['idProfesor'] = (int) $obj['idProfesor'];
 
-		$profesor = new Profesor();
-		$profesor->cargar( $obj['idProfesor'] );
+			$profesor = new Profesor();
+			$profesor->cargar( $obj['idProfesor'] );
 
-		$respuesta['error'] = !$profesor->eliminar();
+			$respuesta['error'] = !$profesor->eliminar();
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
+		}
+
 	}
 
 	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'alta' ){
+		if(tienePermiso('profesor')){
 
-		$usuarioValidado  = validarCamposUsuario( $obj['usuario'] );
-		$profesorValidado = validarCamposProfesor( $obj['profesor'] );
+			$usuarioValidado  = validarCamposUsuario( $obj['usuario'] );
+			$profesorValidado = validarCamposProfesor( $obj['profesor'] );
 
-		if( $usuarioValidado && $profesorValidado ){
+			if( $usuarioValidado && $profesorValidado ){
 
-			$profesor = new Profesor();
-			$profesor->rellenar( $usuarioValidado, $profesorValidado );
+				$profesor = new Profesor();
+				$profesor->rellenar( $usuarioValidado, $profesorValidado );
 
-			$respuesta['idUsuario']  = $profesor->obtenerIdUsuario();
-			$respuesta['idProfesor'] = $profesor->obtenerId();
-			$respuesta['error']      = false;
-		} else {
+				$respuesta['idUsuario']  = $profesor->obtenerIdUsuario();
+				$respuesta['idProfesor'] = $profesor->obtenerId();
+				$respuesta['error']      = false;
+			} else {
 
-			$respuesta['error']            = true;
-			$respuesta['descripcionError'] = 'Datos manipulados';
+				$respuesta['error']            = true;
+				$respuesta['descripcionError'] = 'Datos manipulados';
+			}		
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
 		}
 	}
 	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'modificar' ){
-		$idProfesor = $obj['profesor']['idProfesor'];
-		$profesorOriginal = new Profesor();
-		$profesorOriginal->cargar($idProfesor);
+		if(tienePermiso('profesor')){
+			$idProfesor = $obj['profesor']['idProfesor'];
+			$profesorOriginal = new Profesor();
+			$profesorOriginal->cargar($idProfesor);
 
-		if($obj['usuario']['contrasena'] == '')
-			$comprobarContrasena = false;
-		else
-			$comprobarContrasena = true;
+			if($obj['usuario']['contrasena'] == '')
+				$comprobarContrasena = false;
+			else
+				$comprobarContrasena = true;
 
-		$profesorValidado = validarCamposProfesor($obj['profesor']);
-		$usuarioValidado = validarCamposUsuario($obj['usuario'],false,$comprobarContrasena);
+			$profesorValidado = validarCamposProfesor($obj['profesor']);
+			$usuarioValidado = validarCamposUsuario($obj['usuario'],false,$comprobarContrasena);
 
-		//CAMBIAR DATOS
-		if($profesorValidado && $usuarioValidado){
+			//CAMBIAR DATOS
+			if($profesorValidado && $usuarioValidado){
 
-			if($profesorOriginal->obtenerUsuario()->obtenerNombre() != $usuarioValidado['nombre'])
-				$profesorOriginal->obtenerUsuario()->cambiarNombre($usuarioValidado['nombre']);
+				if($profesorOriginal->obtenerUsuario()->obtenerNombre() != $usuarioValidado['nombre'])
+					$profesorOriginal->obtenerUsuario()->cambiarNombre($usuarioValidado['nombre']);
 
-			if($profesorOriginal->obtenerUsuario()->obtenerPrimerApellido() != $usuarioValidado['primerApellido'])
-				$profesorOriginal->obtenerUsuario()->modificarPrimerApellido($usuarioValidado['primerApellido']);
+				if($profesorOriginal->obtenerUsuario()->obtenerPrimerApellido() != $usuarioValidado['primerApellido'])
+					$profesorOriginal->obtenerUsuario()->modificarPrimerApellido($usuarioValidado['primerApellido']);
 
-			if($profesorOriginal->obtenerUsuario()->obtenerSegundoApellido() != $usuarioValidado['segundoApellido'])
-				$profesorOriginal->obtenerUsuario()->modificarSegundoApellido($usuarioValidado['segundoApellido']);
-			
-			if($profesorOriginal->obtenerUsuario()->obtenerFNacimiento() != $usuarioValidado['fNacimiento'])				
-				$profesorOriginal->obtenerUsuario()->modificarFNacimiento($usuarioValidado['fNacimiento'],'bbdd');
+				if($profesorOriginal->obtenerUsuario()->obtenerSegundoApellido() != $usuarioValidado['segundoApellido'])
+					$profesorOriginal->obtenerUsuario()->modificarSegundoApellido($usuarioValidado['segundoApellido']);
+				
+				if($profesorOriginal->obtenerUsuario()->obtenerFNacimiento() != $usuarioValidado['fNacimiento'])				
+					$profesorOriginal->obtenerUsuario()->modificarFNacimiento($usuarioValidado['fNacimiento'],'bbdd');
 
-			if($profesorOriginal->obtenerUsuario()->obtenerCorreo() != $usuarioValidado['correo'])
-				$profesorOriginal->obtenerUsuario()->modificarCorreo($usuarioValidado['correo']);
+				if($profesorOriginal->obtenerUsuario()->obtenerCorreo() != $usuarioValidado['correo'])
+					$profesorOriginal->obtenerUsuario()->modificarCorreo($usuarioValidado['correo']);
 
-			if($profesorOriginal->obtenerUsuario()->obtenerNombreUsuario() != $usuarioValidado['nombreUsuario'])
-				$profesorOriginal->obtenerUsuario()->modificarNombreUsuario($usuarioValidado['nombreUsuario']);
+				if($profesorOriginal->obtenerUsuario()->obtenerNombreUsuario() != $usuarioValidado['nombreUsuario'])
+					$profesorOriginal->obtenerUsuario()->modificarNombreUsuario($usuarioValidado['nombreUsuario']);
 
-			if($obj['usuario']['contrasena'] != '')
-				$profesorOriginal->obtenerUsuario()->cambiarContrasena($usuarioValidado['contrasena']);
+				if($obj['usuario']['contrasena'] != '')
+					$profesorOriginal->obtenerUsuario()->cambiarContrasena($usuarioValidado['contrasena']);
 
-			if($profesorOriginal->esAdmin() != $profesorValidado['esAdmin'])
-				$profesorOriginal->cambiarEsAdmin($profesorValidado['esAdmin']);
+				if($profesorOriginal->esAdmin() != $profesorValidado['esAdmin'])
+					$profesorOriginal->cambiarEsAdmin($profesorValidado['esAdmin']);
 
-			if($profesorOriginal->evitarNotificacion() != $profesorValidado['evitarNotificacion'])
-				$profesorOriginal->cambiarEvitarNotificacion($profesorValidado['evitarNotificacion']);
+				if($profesorOriginal->evitarNotificacion() != $profesorValidado['evitarNotificacion'])
+					$profesorOriginal->cambiarEvitarNotificacion($profesorValidado['evitarNotificacion']);
 
-			if($profesorOriginal->obtenerUsuario()->estaBloqueado() != $usuarioValidado['bloqueado'])
-				$profesorOriginal->obtenerUsuario()->modificarBloqueado($usuarioValidado['bloqueado']);
+				if($profesorOriginal->obtenerUsuario()->estaBloqueado() != $usuarioValidado['bloqueado'])
+					$profesorOriginal->obtenerUsuario()->modificarBloqueado($usuarioValidado['bloqueado']);
 
-			$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, p.es_admin, p.evitar_notificacion, p.id_profesor, u.bloqueado from usuario u inner join profesor p on u.id_usuario = p.id_usuario where u.id_usuario = '.$profesorValidado['idUsuario'];
-			$respuesta['profesor'] = consulta( '', '', '', $sql);
+				$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, p.es_admin, p.evitar_notificacion, p.id_profesor, u.bloqueado from usuario u inner join profesor p on u.id_usuario = p.id_usuario where u.id_usuario = '.$profesorValidado['idUsuario'];
+				$respuesta['profesor'] = consulta( '', '', '', $sql);
 
-			$respuesta['error'] = false;
+				$respuesta['error'] = false;
 
-		} else{			
-			$respuesta['error'] = true;
-			$respuesta['descripcionError'] = 'Datos manipulados.';		
-		}
+			} else{			
+				$respuesta['error'] = true;
+				$respuesta['descripcionError'] = 'Datos manipulados.';		
+			}	
 
 
 	}
 	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'modificarConectado' ){
+		if(tienePermiso('profesor')){
 
-		$profesorPeticion = $obj['profesor'];
-		$usuarioPeticion = $profesorPeticion['usuario'];
+			$profesorPeticion = $obj['profesor'];
+			$usuarioPeticion = $profesorPeticion['usuario'];
 
-		if( $profesorPeticion['evitarNotificacion'] == 'true' || $profesorPeticion['evitarNotificacion'] === 1 )
-			$profesorPeticion['evitarNotificacion'] = 1;
-		else
-			$profesorPeticion['evitarNotificacion'] = 0;
-		
-		$respuesta['errorContrasena'] = false;
-		$respuesta['errorCorreo'] = false;
-		$respuesta['errorEvitarNotificacion'] = false;
-
-		$id = recuperarDeToken('id');
-		if($id != null){
-			$profesor = new Profesor();
-			$profesor->cargar($profesorPeticion['idProfesor']);
-			$usuario = $profesor->obtenerUsuario();
-
-			if($usuarioPeticion['contrasena'] != ''){
-				if($usuarioPeticion['contrasena'] == $usuarioPeticion['contrasenaRepetida']){
-					$contra = new Hash($usuarioPeticion['contrasena']);
-					$usuario->cambiarContrasena( $contra->get() );
-				} else{			
-					$respuesta['errorContrasena'] = true;
-				}
-			}
-
-			if($usuario->obtenerCorreo() != $usuarioPeticion['correo']){
-				if(validarCorreo($usuarioPeticion['correo'])){
-					$usuario->modificarCorreo($usuarioPeticion['correo']);
-				} else{
-					$respuesta['errorCorreo'] = true;	
-				}		
-			}
-			if(!$respuesta['errorCorreo']){
-				$respuesta['correo'] = $usuarioPeticion['correo'];
-			}
-
-			if($profesor->evitarNotificacion() != $profesorPeticion['evitarNotificacion']){
-				if( $profesorPeticion['evitarNotificacion'] == 0 || $profesorPeticion['evitarNotificacion'] == 1 ){ 
-					$profesor->cambiarEvitarNotificacion($profesorPeticion['evitarNotificacion']);
-				}
-				else
-					$respuesta['errorEvitarNotificacion'] = true;		
-			}
+			if( $profesorPeticion['evitarNotificacion'] == 'true' || $profesorPeticion['evitarNotificacion'] === 1 )
+				$profesorPeticion['evitarNotificacion'] = 1;
+			else
+				$profesorPeticion['evitarNotificacion'] = 0;
 			
+			$respuesta['errorContrasena'] = false;
+			$respuesta['errorCorreo'] = false;
+			$respuesta['errorEvitarNotificacion'] = false;
+
+			$id = recuperarDeToken('id');
+			if($id != null){
+				$profesor = new Profesor();
+				$profesor->cargar($profesorPeticion['idProfesor']);
+				$usuario = $profesor->obtenerUsuario();
+
+				if($usuarioPeticion['contrasena'] != ''){
+					if($usuarioPeticion['contrasena'] == $usuarioPeticion['contrasenaRepetida']){
+						$contra = new Hash($usuarioPeticion['contrasena']);
+						$usuario->cambiarContrasena( $contra->get() );
+					} else{			
+						$respuesta['errorContrasena'] = true;
+					}
+				}
+
+				if($usuario->obtenerCorreo() != $usuarioPeticion['correo']){
+					if(validarCorreo($usuarioPeticion['correo'])){
+						$usuario->modificarCorreo($usuarioPeticion['correo']);
+					} else{
+						$respuesta['errorCorreo'] = true;	
+					}		
+				}
+				if(!$respuesta['errorCorreo']){
+					$respuesta['correo'] = $usuarioPeticion['correo'];
+				}
+
+				if($profesor->evitarNotificacion() != $profesorPeticion['evitarNotificacion']){
+					if( $profesorPeticion['evitarNotificacion'] == 0 || $profesorPeticion['evitarNotificacion'] == 1 ){ 
+						$profesor->cambiarEvitarNotificacion($profesorPeticion['evitarNotificacion']);
+					}
+					else
+						$respuesta['errorEvitarNotificacion'] = true;		
+				}
+				
+			} else{
+				$respuesta['error'] = true;
+				$respuesta['descripcionError'] = 'Token erróneo';
+			}
+
 		} else{
 			$respuesta['error'] = true;
-			$respuesta['descripcionError'] = 'Token erróneo';
+			$respuesta['descripcionError'] = 'Falta de permisos';				
 		}
 	}
 
 	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'terminar' ){
+		if(tienePermiso('profesor')){
 
-		$profesor = $obj['profesor'];
-		$usuario = $obj['usuario'];
+			$profesor = $obj['profesor'];
+			$usuario = $obj['usuario'];
 
 
-		$usuarioValidado  = validarCamposUsuario($usuario);
-		$profesorValidado = validarCamposProfesor($profesor);
+			$usuarioValidado  = validarCamposUsuario($usuario);
+			$profesorValidado = validarCamposProfesor($profesor);
 
-		if($usuarioValidado && $profesorValidado){
-			unset($usuarioValidado['contrasenaRepetida']);
-			$profesor = new Profesor();
-			$profesor->rellenar($usuarioValidado, $profesorValidado);
+			if($usuarioValidado && $profesorValidado){
+				unset($usuarioValidado['contrasenaRepetida']);
+				$profesor = new Profesor();
+				$profesor->rellenar($usuarioValidado, $profesorValidado);
 
-			$tabla = 'invitacion';
-			$condicion = 'correo = "'.$profesor->obtenerUsuario()->obtenerCorreo().'"';
-			borrar($tabla,$condicion);
+				$tabla = 'invitacion';
+				$condicion = 'correo = "'.$profesor->obtenerUsuario()->obtenerCorreo().'"';
+				borrar($tabla,$condicion);
 
-			//CREAR TOKEN
-			$respuesta['token'] = generarToken($profesor->obtenerIdUsuario(), $profesor->obtenerUsuario()->obtenerNombre(), 'profesor', $profesor->obtenerUsuario()->obtenerCorreo());
+				//CREAR TOKEN
+				$respuesta['token'] = generarToken($profesor->obtenerIdUsuario(), $profesor->obtenerUsuario()->obtenerNombre(), $profesor->obtenerUsuario()->obtenerNombreUsuario(),'profesor', $profesor->obtenerUsuario()->obtenerCorreo());
 
-			$respuesta['idUsuario'] 	= $profesor->obtenerIdUsuario();
-			$respuesta['idProfesor']  	= $profesor->obtenerId();
-			$respuesta['error']    		= false;
+				$respuesta['idUsuario'] 	= $profesor->obtenerIdUsuario();
+				$respuesta['idProfesor']  	= $profesor->obtenerId();
+				$respuesta['error']    		= false;
+			} else{
+				$respuesta['error']            = true;
+				$respuesta['descripcionError'] = 'Datos manipulados';
+			}
+
 		} else{
-			$respuesta['error']            = true;
-			$respuesta['descripcionError'] = 'Datos manipulados';
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
 		}
 	}
 
@@ -197,43 +223,61 @@
 	}
 
 	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarConectado' ){
-		$id = recuperarDeToken('id');
-		if($id != null){
-			$idProfesor = consulta( 'id_Profesor', 'profesor', 'id_Usuario = '.$id );
-			if($idProfesor != null){
-				$respuesta['tokenErroneo'] = false;
-				$profesor = new Profesor();
-				$profesor->cargar($idProfesor);
-				$respuesta['profesor'] = $profesor->toArray();
-				$respuesta['profesor']['usuario']['contrasena'] = '';
-			} else{
+		if(tienePermiso('profesor')){
+			$id = recuperarDeToken('id');
+			if($id != null){
+				$idProfesor = consulta( 'id_Profesor', 'profesor', 'id_Usuario = '.$id );
+				if($idProfesor != null){
+					$respuesta['tokenErroneo'] = false;
+					$profesor = new Profesor();
+					$profesor->cargar($idProfesor);
+					$respuesta['profesor'] = $profesor->toArray();
+					$respuesta['profesor']['usuario']['contrasena'] = '';
+				} else{
+					$respuesta['tokenErroneo'] = true;
+				}
+			}else{
 				$respuesta['tokenErroneo'] = true;
 			}
-		}else{
-			$respuesta['tokenErroneo'] = true;
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
 		}
 	}
 
 	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'recuperarInvitado' ){
+		if(tienePermiso('profesor')){
 
-		$correo = recuperarDeToken('correo');
-		if($correo != null){
-			$respuesta['tokenErroneo'] = false;
-			$profesor = new Profesor();
-			$respuesta['profesor'] = $profesor->toArray();
-			$respuesta['profesor']['usuario']['correo'] = $correo;
-			$respuesta['profesor']['usuario']['contrasena'] = '';
-		}else{
-			$respuesta['tokenErroneo'] = true;
+			$correo = recuperarDeToken('correo');
+			if($correo != null){
+				$respuesta['tokenErroneo'] = false;
+				$profesor = new Profesor();
+				$respuesta['profesor'] = $profesor->toArray();
+				$respuesta['profesor']['usuario']['correo'] = $correo;
+				$respuesta['profesor']['usuario']['contrasena'] = '';
+			}else{
+				$respuesta['tokenErroneo'] = true;
+			}
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
 		}
 	} else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'obtener' ){
+		if(tienePermiso('alumno')){
 
-		$idProfesor = $obj['idProfesor'];
-		$profesor = new Profesor();
-		$profesor->cargar($idProfesor);
+			$idProfesor = $obj['idProfesor'];
+			$profesor = new Profesor();
+			$profesor->cargar($idProfesor);
 
-		$respuesta['profesor'] = $profesor->toArray();
-		$respuesta['error'] = false;
+			$respuesta['profesor'] = $profesor->toArray();
+			$respuesta['error'] = false;
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
+		}
 	}
 	
 	echo json_encode( $respuesta );

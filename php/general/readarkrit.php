@@ -1,5 +1,27 @@
 <?php
 	require_once(dirname(__FILE__).'./funciones.php');
+	require_once(dirname(__FILE__).'./token.php');
+
+	function tienePermiso($permiso){
+		if($permiso == 'visitante'){
+			return true;
+		} else{
+			$token = recuperarToken();
+			if(is_null($token)){
+				include('./general/autoToken.php');
+				exit();
+			} else{
+				$rol = recuperarDeToken('rol');
+
+				if($permiso == 'admin' && $rol == 'admin')
+					return true;
+				else if($permiso == 'profesor' && ($rol=='admin' || $rol=='profesor') )
+					return true;
+				else if($permiso == 'alumno')
+					return true;
+			}
+		}
+	}
 
 	function contrasenaValida($contrasena, $contrasenaRepetida){
 		$valida = true;
@@ -24,6 +46,33 @@
 		} else
 			return false;
 
+	}
+
+	function validarCamposResena($resena){
+		//CASTEO
+		$resena['nota']				= (int) $resena['nota'];
+		$resena['comentario']		= (string) $resena['comentario'];
+		$resena['idLibro']			= (int) $resena['idLibro'];
+		$resena['idUsuario']		= (int) $resena['idUsuario'];
+		$resena['fAlta']			= (string) $resena['fAlta'];
+
+		//VALIDACION
+
+		$sql = "SELECT COUNT(id_resena) FROM resena WHERE id_libro = ".$resena['idLibro']." AND id_usuario = ".$resena['idUsuario'];
+
+		if(consulta('','','',$sql) != 0)
+			return false;
+
+		if($resena['nota']<0 || $resena['nota']>10)
+			return false;
+
+		if($resena['comentario']<0 || $resena['nota']>10)
+			return false;
+
+		if( $resena['idLibro'] <= 0 || !existeRegistro('id_libro', $resena['idLibro'], 'libro'))
+			return false;
+
+		return $resena;
 	}
 
 
@@ -154,6 +203,24 @@
 
 	}
 
+	function validarCamposLibroPropuesto($libroPropuesto){
+
+		//CASTEO
+		$libroPropuesto['propuestoPara'] 	= (string) $libroPropuesto['propuestoPara'];
+		$libroPropuesto['motivo'] 			= (string) $libroPropuesto['motivo'];
+
+
+		//VALIDACIÓN
+		if( $libroPropuesto['motivo'] == '' || strlen($libroPropuesto['motivo']) > 2000 )
+			return false;
+
+		if($libroPropuesto['propuestoPara'] != 'añadir' && $libroPropuesto['propuestoPara'] != 'eliminar')
+			return false;
+
+
+		return $libroPropuesto;
+	}
+
 	function validarCamposLibroAnadido($libroAnadido,$rankingAnadir = false){
 		$posicionesRanking =consulta('count(id_libro)','libro');
 
@@ -178,5 +245,38 @@
 			return false;
 			
 		return $libroAnadido;
+	}
+
+	function validarCamposNominacion($nominacion){
+		//CASTEO
+
+		$nominacion['titulo'] 			= (string) $nominacion['titulo'];
+		$nominacion['tituloOriginal'] 	= (string) $nominacion['tituloOriginal'];
+		$nominacion['autor'] 			= (string) $nominacion['autor'];		
+		$nominacion['ano'] 				= (int) $nominacion['ano'];
+		$nominacion['propuestoPara'] 	= (string) $nominacion['propuestoPara'];
+		$nominacion['motivo'] 			= (string) $nominacion['motivo'];
+
+		//VALIDACIÓN
+		if( $nominacion['titulo'] == '' || strlen($nominacion['titulo']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $nominacion['titulo']) )
+			return false;
+
+		if( $nominacion['tituloOriginal'] == '' || strlen($nominacion['tituloOriginal']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $nominacion['tituloOriginal']) )
+			return false;
+
+		if( $nominacion['autor'] == '' || strlen($nominacion['autor']) > 50 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $nominacion['autor']) )
+			return false;
+
+		if($nominacion['ano'] < 1900 || $nominacion['ano'] > date("Y"))
+			return false;
+
+		if( $nominacion['motivo'] == '' || strlen($nominacion['motivo']) > 2000 )
+			return false;
+
+		if($nominacion['propuestoPara'] != 'añadir' && $nominacion['propuestoPara'] != 'eliminar')
+			return false;
+
+
+		return $nominacion;
 	}
 ?>

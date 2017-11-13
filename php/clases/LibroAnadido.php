@@ -23,19 +23,25 @@
 			$this->libro = new Libro();
 		}
 
+		private function rellenarCamposLibroAnadido($valores){
+
+			$this->idLibro 					= $valores['idLibro'];
+			$this->idPais 					= $valores['idPais'];
+			$this->idCategoria 				= $valores['idCategoria'];
+			$this->posicionRanking 			= $valores['posicionRanking'];
+			$this->mediaNumUsuarios 		= $valores['mediaNumUsuarios'];
+			$this->nivelEspecializacion 	= $valores['nivelEspecializacion'];
+
+			$this->idLibroAnadido = insertar($this->camposSQL, $valores, $this->tablaSQL);
+
+		}
+
 		public function rellenar($valoresLibro, $valoresLibroAnadido){
 			$this->libro->rellenar($valoresLibro);
 
 			$valoresLibroAnadido['idLibro'] = $this->libro->obtenerId();
 
-			$this->idLibro 					= $valoresLibroAnadido['idLibro'];
-			$this->idPais 					= $valoresLibroAnadido['idPais'];
-			$this->idCategoria 				= $valoresLibroAnadido['idCategoria'];
-			$this->posicionRanking 			= $valoresLibroAnadido['posicionRanking'];
-			$this->mediaNumUsuarios 		= $valoresLibroAnadido['mediaNumUsuarios'];
-			$this->nivelEspecializacion 	= $valoresLibroAnadido['nivelEspecializacion'];
-
-			$this->idLibroAnadido = insertar($this->camposSQL, $valoresLibroAnadido, $this->tablaSQL);
+			$this->rellenarCamposLibroAnadido($valoresLibroAnadido);
 		}
 
 		public function cargar($idLibroAnadido){
@@ -54,8 +60,18 @@
 			$this->libro->cargar($this->idLibro);
 		}
 
+		public function anadirAColeccion($valoresLibroAnadido){
+			$this->rellenarCamposLibroAnadido($valoresLibroAnadido);
+
+			borrar('libro_propuesto','id_libro = '.$this->idLibro);
+		}
+
 		public function eliminar(){
 			return $this->libro->eliminar();
+		}
+
+		public function reactivar(){
+			return $this->libro->reactivar();
 		}
 
 		public function obtenerId(){

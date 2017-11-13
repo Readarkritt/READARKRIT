@@ -59,6 +59,13 @@
 	    	return actualizar( 'f_baja', $fechaActual, $this->tablaSQL, $condicion );
 		}
 
+		public function reactivar(){
+
+	    	$sql = 'UPDATE libro SET f_baja = NULL WHERE id_libro = '.$this->idLibro;
+
+	    	return consulta( '','','',$sql );
+		}
+
 		public function obtenerId(){
 			return $this->idLibro;
 		}

@@ -36,6 +36,19 @@ function crearAvatar(nombre){
 	});
 }
 
+
+// Crea un Avatar en el elemento seleccionado (simula el de Google) mediante la inicial del nombre pasado por parámetro
+
+function crearAvatarElemento(nombre,idElemento){
+	$('#'+idElemento).initial({
+	 	name: nombre,
+	 	height: 20,
+	 	width: 20,
+	 	fontSize: 16
+	});
+}
+
+
 // Pasa los datos de un formulario a un objeto JS
 
 function formTOobject(){

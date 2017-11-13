@@ -1,5 +1,5 @@
 angular.module('readArkrit')
-  .controller('libroCtrl', function ($scope, DTOptionsBuilder) {
+  .controller('libroCtrl', function ($scope) {
 
     $scope.librosAnadidos 	= [];
 	$scope.libroAnadido 	= {};
@@ -23,7 +23,7 @@ angular.module('readArkrit')
     	peticionAJAX('./php/libroAnadido.php', {
 
 			opcion: 'libroAnadido',
-			accion: 'listar'
+			accion: 'listarTodos'
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
 
@@ -37,6 +37,8 @@ angular.module('readArkrit')
 				$.each( $scope.librosAnadidos, function( index, value ){
 				    $scope.librosAnadidos[index].portada = rutaDefinitiva + $scope.librosAnadidos[index].portada;
 				});
+
+				console.log($scope.librosAnadidos);
 			}
 		});
     };
@@ -53,24 +55,20 @@ angular.module('readArkrit')
 		.done(function( data, textStatus, jqXHR ){
 
 			if( data.error )
-				swal("Eliminar Libro", "Error en la transacción.", "error");
+				swal("Error", data.descripcionError, "error");
 			else{
 
-				swal("Libro Eliminado", "Libro eliminado con éxito.", "success");
+				swal("Libro Eliminado", "Libro eliminado con éxito.", "success");	
 
-				$scope.librosAnadidos.splice(indexScope, 1);
+				data.libro.portada = './img/portadasLibros/'+data.libro.portada;
+				$scope.librosAnadidos[indexScope] = data.libro;
+				console.log($scope.librosAnadidos);			
+				
 			}
 		});
 
-		$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
-
-	    $scope.reloadData = reloadData;
-	    $scope.dtInstance = {};
-
-	    function reloadData() {
-	        var resetPaging = false;
-	        $scope.dtInstance.reloadData(callback, resetPaging);
-	    }
+		var table = $('#tablaListado').DataTable();
+		table.draw( false );
     };
 
     $scope.cargarModificarLibro = function(idLibroAnadido, indexScope){
@@ -178,6 +176,8 @@ angular.module('readArkrit')
 			formData.append('idCategoria', 			datosLibroAnadido.idCategoria);
 			formData.append('posicionRanking', 		datosLibroAnadido.posicionRanking);
 			formData.append('nivelEspecializacion',	datosLibroAnadido.nivelEspecializacion);
+			
+			formData.append('token', sessionStorage.getItem('tokenREADARKRIT'));
 
       		$.ajax({
       		 	url:'./php/libroAnadido.php',                    
@@ -333,6 +333,8 @@ angular.module('readArkrit')
 			formData.append('posicionRanking', 		datosLibroAnadido.posicionRanking);
 			formData.append('nivelEspecializacion',	datosLibroAnadido.nivelEspecializacion);
 
+			formData.append('token', sessionStorage.getItem('tokenREADARKRIT'));
+
       		 $.ajax({
       		 	url:'./php/libro.php',                    
 	            type: 'POST',
@@ -349,6 +351,9 @@ angular.module('readArkrit')
 				   		swal("Libro añadido", "");
 				   		data.libro.portada = './img/portadasLibros/'+data.libro.portada;
 				   		$scope.librosAnadidos.push(data.libro);
+
+						$scope.$apply();
+
 						console.log($scope.librosAnadidos);
 
 						$scope.libroAnadido 	= {};
@@ -384,6 +389,30 @@ angular.module('readArkrit')
         	$('#exito span').html(html);           	
        }
 
+  	}
+
+  	$scope.reactivarLibroAnadido = function(idLibroAnadido, indexScope){
+		peticionAJAX('./php/libroAnadido.php', {
+
+			opcion : 'libroAnadido',
+			accion : 'reactivar',
+			idLibroAnadido: idLibroAnadido
+		}, false)
+		.done(function( data, textStatus, jqXHR ){
+
+			if( data.error )
+				swal("Error", data.descripcionError, "error");
+			else{
+
+				swal("Libro Reactivado", "Libro reactivado con éxito.", "success");
+				
+				data.libro.portada = './img/portadasLibros/'+data.libro.portada;
+				$scope.librosAnadidos[indexScope] = data.libro;
+				console.log($scope.librosAnadidos);
+				var table = $('#tablaListado').DataTable();
+				table.draw( false );
+			}
+		});
   	}
 
     // EVENTOS

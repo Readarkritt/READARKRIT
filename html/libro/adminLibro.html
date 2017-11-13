@@ -33,7 +33,7 @@
 				<div class="card-content">
 					<div class="tab-content">
 						<div class="tab-pane active table-responsive" id="listadoLibros">
-							<table id="tablaListado" class="table table-striped table-bordered dt-responsive nowrap row-border hover hidden" width="100%" datatable="ng" cellspacing="0" dt-options="dtOptions" dt-instance="dtInstance">
+							<table id="tablaListado" class="table table-striped table-bordered dt-responsive nowrap row-border hover hidden" width="100%" datatable="ng" cellspacing="0">
 						        <thead>
 						            <tr>
 						            	<th class="all">PORTADA</th>
@@ -71,8 +71,11 @@
 													<i class="fa fa-pencil" aria-hidden="true"></i>
 												</button>
 											</a>
-											<button type="button" rel="tooltip" title="Eliminar" id="botonPrueba" class="btn btn-danger btn-simple acciones-registro" ng-click="eliminarLibroAnadido(libro.id_libro_anadido, $index)">
+											<button type="button" rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple acciones-registro" ng-click="eliminarLibroAnadido(libro.id_libro_anadido, $index)" ng-if="libro.f_baja == null">
 												<i class="fa fa-trash" aria-hidden="true"></i>
+											</button>
+											<button type="button" rel="tooltip" title="Reactivar" class="btn btn-primary btn-simple acciones-registro" ng-click="reactivarLibroAnadido(libro.id_libro_anadido, $index)" ng-if="libro.f_baja != null">
+												<i class="fa fa-plus" aria-hidden="true"></i>
 											</button>
 						        		</td>
 						        	</tr>
