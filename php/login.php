@@ -33,7 +33,6 @@
 			} else {
 
 				session_start();
-
 				if( Hash::esValido( $obj['contrasena'], $usuario->obtenerContrasena() ) ){
 
 					// Se comprueba si la password necesita ser rehasheada
@@ -58,7 +57,7 @@
 					}
 					
 					//CREAR TOKEN
-					$respuesta['token'] = generarToken($idUsuario, $usuario->obtenerNombre(), $rol, $obj['correo']);
+					$respuesta['token'] = generarToken($idUsuario, $usuario->obtenerNombre(), $usuario->obtenerNombreUsuario(), $rol, $obj['correo']);
 					$respuesta['invitado'] = false;
 
 					//CERRAR SESIÓN
@@ -105,7 +104,7 @@
 				if( Hash::esValido( $obj['contrasena'], $contrasena) ){
 					$rol = 'invitado';
 					//CREAR TOKEN
-					$respuesta['token'] = generarToken(0,'', $rol, $obj['correo']);
+					$respuesta['token'] = generarToken(0,'', 'Invitado', $rol, $obj['correo']);
 					$respuesta['invitado'] = true;
 					//CERRAR SESIÓN
 					session_destroy();

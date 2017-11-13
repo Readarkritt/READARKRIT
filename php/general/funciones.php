@@ -101,6 +101,20 @@
 	    return true;
 	}
 
+	function fechaMenorQueActual ($fecha = '' ){
+		$fechaComprobar = explode('/',$fecha);
+		$fechaComprobar = $fechaComprobar[1].'/'.$fechaComprobar[0].'/'.$fechaComprobar[2].' 00:00:00';
+		$fechaComprobar = strtotime($fechaComprobar);
+
+		//La suma de 60*60 es para cambiar la fecha a GTM+1
+		if($fechaComprobar <= time()+(60*60)){
+			$menor = true;
+		} else{
+			$menor = false;
+		}
+		return $menor;
+	}
+
 
 	function generarContrasenaAleatoria(){
 
@@ -135,10 +149,9 @@
 
 	}
 
+	function validarCorreo( $correo = '', $comprobarExistente = true ){
 
-	function validarCorreo( $correo = '' ){
-
-		if( $correo == '' || strlen($correo) > 50 || !preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $correo) || existeRegistro( 'correo', $correo, 'usuario') )
+		if( $correo == '' || strlen($correo) > 50 || !preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $correo) || ($comprobarExistente && existeRegistro( 'correo', $correo, 'usuario') ) )
 			return false;
 		else
 			return true;

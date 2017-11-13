@@ -33,6 +33,8 @@
 	
 	if( $obj['opcion'] == 'usuario' && $obj['accion'] == 'getRol' ){
 		$respuesta['rol'] = recuperarDeToken('rol');
+		if($respuesta['rol'] == null)
+			$respuesta['rol'] = 'visitante';
 	}
 
 

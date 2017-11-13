@@ -23,7 +23,6 @@
 			include('./general/autoToken.php');
 			exit();
 		} else{
-
 			//Comprobar persmisos del fichero
 			$campos = "rol";
 			$condicion = "RUTA_FICHERO = '".$url."'";
@@ -35,11 +34,7 @@
 				if(!is_null($rol)){
 					//Si el profesor no está terminado, redireccionar
 					if($rol == rolInvitado){
-						if($url == '/READARKRIT/html/menuApp/menuApp.html' || $url == '/READARKRIT/php/usuario.php' || $url == '/READARKRIT/html/profesor/formProfesor.html' || $url == '/READARKRIT/php/profesor.php'){
-							$autorizado = true;
-						} else{
-							exit();
-						}
+						$autorizado = true;
 					}else{				
 
 						if($permisoPagina == rolAdmin && $rol == rolAdmin){
@@ -66,11 +61,10 @@
 		$url = '/READARKRIT/html/menuApp/menuApp.html';
 	}
 
-	/*if(autorizado($url)){
+	if(autorizado($url)){
 		include("../..".$url);
 	} else{
 		include('../html/error/error.html');
+	}
 
-	}*/
-
-	include('../..'.$url);
+	//include('../..'.$url);

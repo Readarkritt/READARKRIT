@@ -36,6 +36,19 @@ function crearAvatar(nombre){
 	});
 }
 
+
+// Crea un Avatar en el elemento seleccionado (simula el de Google) mediante la inicial del nombre pasado por parámetro
+
+function crearAvatarElemento(nombre,idElemento){
+	$('#'+idElemento).initial({
+	 	name: nombre,
+	 	height: 20,
+	 	width: 20,
+	 	fontSize: 16
+	});
+}
+
+
 // Pasa los datos de un formulario a un objeto JS
 
 function formTOobject(){
@@ -63,15 +76,27 @@ function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 	var parametros = {};
 	var peticion   = {};
 	var respuesta  = false;
-	
+	/*var opcionAr   = {};
+	var opcion     = '';
+
+
+	opcionAr = tablaSQL.split('_');
+	opcion = opcionAr[0];
+
+	for (var i = 1; i < opcionAr.length; i++) {
+		opcionAr[i] = opcionAr[i].charAt(0).toUpperCase() + opcionAr[i].slice(1);
+		opcion += opcionAr[i];
+	}
+
+	tablaSQL = tablaSQL.toLowerCase();*/
 
 	if (typeof conAngular === 'undefined')
-		phpUrl = './php/' + tablaSQL + '.php'; // url del controlador
+		phpUrl = './php/' + opcion + '.php'; // url del controlador
 	else
-		phpUrl = '../../php/' + tablaSQL + '.php';
+		phpUrl = '../../php/' + opcion + '.php';
 
 
-	parametros.opcion = tablaSQL;
+	parametros.opcion = opcion;
     parametros.accion = 'existe';
     parametros.campo  = campoSQL;
     parametros.valor  = valor;
@@ -213,6 +238,22 @@ function fechaPermitida(fecha){
     }
 
     return true;
+}
+
+// comprueba que la fecha enviada por parámetro (string con formato dd/mm/yyyy) sea menor o igual al día en el que se ejecuta
+function fechaMenorQueActual(fecha){
+	var menor = false;
+	var fechaActual = new Date();
+
+	fecha = fecha.split("/");
+	fecha = fecha[1]+"/"+fecha[0]+"/"+fecha[2];
+	fecha = new Date(fecha);
+
+	if(fecha<=fechaActual){
+		menor = true;
+	}
+
+	return menor;
 }
 
 // convierte un valor smallInt a SI/NO

@@ -1,0 +1,2 @@
+2. comentarios
+- resenaCtrl.js línea 126 -> Error al cargar el comentario y al pintar el avatar.

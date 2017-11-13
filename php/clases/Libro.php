@@ -59,6 +59,13 @@
 	    	return actualizar( 'f_baja', $fechaActual, $this->tablaSQL, $condicion );
 		}
 
+		public function reactivar(){
+
+	    	$sql = 'UPDATE libro SET f_baja = NULL WHERE id_libro = '.$this->idLibro;
+
+	    	return consulta( '','','',$sql );
+		}
+
 		public function obtenerId(){
 			return $this->idLibro;
 		}
@@ -93,7 +100,7 @@
 
 
 
-		public function modificarPortada($portada){
+		public function cambiarPortada($portada){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->portada = $portada;
@@ -101,7 +108,7 @@
 			actualizar('portada',$this->portada, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarTitulo($titulo){
+		public function cambiarTitulo($titulo){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->titulo = $titulo;
@@ -109,7 +116,7 @@
 			actualizar('titulo',$this->titulo, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarTituloOriginal($tituloOriginal){
+		public function cambiarTituloOriginal($tituloOriginal){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->tituloOriginal = $tituloOriginal;
@@ -117,7 +124,7 @@
 			actualizar('titulo_original',$this->tituloOriginal, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarAutor($autor){
+		public function cambiarAutor($autor){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->autor = $autor;
@@ -125,7 +132,7 @@
 			actualizar('autor',$this->autor, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarAno($ano){
+		public function cambiarAno($ano){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->ano = $ano;
@@ -133,7 +140,7 @@
 			actualizar('ano',$this->ano, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarAnadidoPor($anadidoPor){
+		public function cambiarAnadidoPor($anadidoPor){
 
 			$condicion = 'id_libro = '.$this->idLibro;
 
@@ -142,7 +149,7 @@
 			actualizar('anadido_por',$this->anadidoPor, $this->tablaSQL, $condicion);
 		}
 
-		public function modificarIdTitulacion($idTitulacion){
+		public function cambiarIdTitulacion($idTitulacion){
 			$condicion = 'id_libro = '.$this->idLibro;
 
 			$this->idTitulacion = $idTitulacion;
@@ -159,7 +166,8 @@
 				'autor'				=> $this->autor,
 				'ano'				=> $this->ano,
 				'anadidoPor'		=> $this->anadidoPor,
-				'idTitulacion'		=> $this->idTitulacion
+				'idTitulacion'		=> $this->idTitulacion,
+				'fBaja'				=> $this->fBaja
 			];
 
 			return $libro;

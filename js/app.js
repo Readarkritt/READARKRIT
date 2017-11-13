@@ -54,6 +54,14 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/libro/adminLibro.html',
             controller: 'libroCtrl'
         })
+        .when('/libro/nominar', {
+            templateUrl: './html/libro/nominarLibro.html',
+            controller: 'nominarLibroCtrl'
+        })
+        .when('/libro/nominaciones', {
+            templateUrl: './html/libro/adminNominaciones.html',
+            controller: 'nominacionesCtrl'
+        })
 
         // PROFESOR
         .when('/profesor', {
@@ -90,6 +98,17 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/almasGemelas/listarAlmasGemelas.html',
             controller: 'almasGemelasCtrl'
         })
+        
+        //RESEÑAS
+        .when('/comentarios',{
+            templateUrl: './html/resena/resena.html',
+            controller: 'resenaCtrl'
+        })
+        .when('/comentarios/moderar',{
+            templateUrl: './html/resena/resenaAdmin.html',
+            controller: 'resenaAdminCtrl'
+        })
+
 
         .otherwise({
             redirectTo: '/estadisticas'

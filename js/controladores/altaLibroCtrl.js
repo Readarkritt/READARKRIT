@@ -23,7 +23,7 @@ angular.module('readArkrit')
       	datosLibro.tituloOriginal 	= $scope.libro.tituloOriginal;
       	datosLibro.autor 			= $scope.libro.autor;
       	datosLibro.ano 				= $scope.libro.ano;
-      	datosLibro.idAnadidoPor 	= "";
+      	datosLibro.anadidoPor 	= "";
       	datosLibro.idTitulacion 	= $scope.libro.idTitulacion;
 
       	datosLibroAnadido.idLibroAnadido 		= '';

@@ -6,7 +6,7 @@
 	define("DURACION" , (60*60)); //Duración de la validez del token
 
 	//Genera un token a través de los parámetros proporcionados
-	function generarToken($idUsuario,$nombreUsuario,$rol,$correo){
+	function generarToken($idUsuario,$nombre,$nombreUsuario,$rol,$correo){
 		$tiempo = time();
 
 		$data = array(
@@ -14,7 +14,8 @@
 			'exp' => $tiempo + DURACION,
 			'data' =>[
 				'id' => $idUsuario,
-				'nombre' => $nombreUsuario,
+				'nombre' => $nombre,
+				'nombreUsuario' => $nombreUsuario,
 				'rol' => $rol,
 				'correo' => $correo
 			]

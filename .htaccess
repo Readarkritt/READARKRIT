@@ -8,13 +8,7 @@ RewriteRule ^ /READARKRIT/html/error/error.html
 
 #Si se solicita un fichero diferente a las listadas, redirigir al control de acceso
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteCond %{REQUEST_FILENAME} ^(.+).html [NC,OR]
-RewriteCond %{REQUEST_FILENAME} ^(.+).php [NC]
-
-RewriteCond %{REQUEST_URI} !^/READARKRIT/php/access.php
-RewriteCond %{REQUEST_URI} !^/READARKRIT/php/general/autoToken.php
-RewriteCond %{REQUEST_URI} !^/READARKRIT/php/login.php
-RewriteCond %{REQUEST_URI} !^/READARKRIT/php/pruebas.php
+RewriteCond %{REQUEST_FILENAME} ^(.+).html [NC]
 
 RewriteCond %{REQUEST_URI} !^/READARKRIT/html/error/error.html
 RewriteCond %{REQUEST_URI} !^/READARKRIT/index.html
