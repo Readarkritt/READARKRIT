@@ -63,10 +63,7 @@ function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 	var parametros = {};
 	var peticion   = {};
 	var respuesta  = false;
-
-
-	tablaSQL = tablaSQL.toLowerCase();
-
+	
 
 	if (typeof conAngular === 'undefined')
 		phpUrl = './php/' + tablaSQL + '.php'; // url del controlador
@@ -241,4 +238,16 @@ function buscarValorEnArrObj(arrObj, propiedad, valor){
     		encontrado = i;
 
     return encontrado;
+}
+
+function fechaActual(formato){
+
+	var f = new Date();
+
+	if( formato == 'dd/mm/yyyy' )
+		return f.getDate() + '/' + (f.getMonth() +1) + '/' + f.getFullYear();
+	else if( formato == 'dd-mm-yyyy' )
+		return f.getDate() + '-' + (f.getMonth() +1) + '-' + f.getFullYear();
+	else // yyyy-mm-dd
+		return f.getFullYear() + '-' + (f.getMonth() +1) + '-' + f.getDate();
 }

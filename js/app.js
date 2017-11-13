@@ -1,5 +1,19 @@
 var app = angular.module('readArkrit', ['ngRoute', 'datatables']);
 
+app.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+
 app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($routeProvider, $locationProvider,$httpProvider) {
 
     $locationProvider.html5Mode(true);
@@ -55,6 +69,27 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             controller: 'terminarProfesorCtrl'
         })
 
+        // CLUB DE LECTURA        
+        .when('/clubLectura', {
+            templateUrl: './html/clubLectura/anadirComentarioClub.html',
+            controller: 'comentarioClubCtrl'
+        })
+        .when('/clubLectura/adminClubLectura', {
+            templateUrl: './html/clubLectura/adminClubLectura.html',
+            controller: 'clubLecturaCtrl'
+        })
+
+        // SEGUIR ESTANTERÍAS DE OTROS USUARIOS
+        .when('/seguirEstanteria', {
+            templateUrl: './html/seguirEstanteria/listarSeguirEstanteria.html',
+            controller: 'seguirEstanteriaCtrl'
+        })
+
+        // ALMAS GEMELAS
+        .when('/almasGemelas', {
+            templateUrl: './html/almasGemelas/listarAlmasGemelas.html',
+            controller: 'almasGemelasCtrl'
+        })
 
         .otherwise({
             redirectTo: '/estadisticas'

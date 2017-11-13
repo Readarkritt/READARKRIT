@@ -82,7 +82,9 @@
 					<p class="category">Listado de estanterías que te interesan</p>
                 </div>
                 <div class="card-content">
-                	
+                	<ol ng-show="estanteriasSeguidas.length != 0">
+                		<li ng-repeat="estanteriaSeguida in estanteriasSeguidas">{{estanteriaSeguida.nombre}} - <i>{{estanteriaSeguida.nombre_usuario}}</i></li>
+                	</ol>
                 </div>
             </div>
         </div>
@@ -93,7 +95,9 @@
 					<p class="category">Los profesores te recomiendan</p>
                 </div>
                 <div class="card-content">
-
+                	<ol ng-show="recomendaciones.length != 0">
+                		<li ng-repeat="recomendacion in recomendaciones">{{recomendacion.titulo}}</li>
+                	</ol>
                 </div>
             </div>
         </div>

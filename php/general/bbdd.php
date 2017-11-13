@@ -126,7 +126,7 @@
 					if( is_string( $valor ) )
 						$valor = '"' . $valor . '", ';
 					elseif( is_null( $valor ) )
-						$valor = 'null';
+						$valor = 'null, ';
 					else
 						$valor = $valor . ', ';
 

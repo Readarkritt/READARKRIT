@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row">
+    	<div class="col-md-12">
+            <div class="card">
+                <div class="card-header" data-background-color="red">
+                    <h4 class="title">Almas Gemelas</h4>
+					<p class="category">Descubre qué usuarios han leído lo mismo que tú</p>
+                </div>
+                <div class="card-content">
+                	<div class="row">
+                		<div class="col-md-12">
+							<table class="table table-responsive" ng-show="almasGemelas.length != 0">
+						        <thead>
+						            <tr>
+						            	<th>USUARIO</th>
+						                <th>COINCIDENCIAS</th>
+						            </tr>
+						        </thead>
+						        <tbody>
+									<tr ng-repeat="alma in almasGemelas">
+										<td>{{alma.nombre_usuario}}</td>
+										<td>{{alma.coincidencias}</td>
+						            </tr>	 
+						        </tbody>
+						    </table>
+						</div>
+    				</div>
+    				<div class="row">
+				        <div class="col-md-12">
+				            <div class="alert alert-info" id="erroresAlmasGemelas" ng-show="almasGemelas.length == 0">
+				                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+				                <span>
+				                	0 coincidencias.
+				                </span>
+				            </div>
+				        </div>
+				    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

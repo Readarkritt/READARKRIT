@@ -22,17 +22,28 @@
 		//$sql .= 'where l.f_baja is null';
 		$respuesta['totalLibros'] = consulta('', '', '', $sql);
 
-		$sql = '';
-		$respuesta['numResenas'] = 0;
+		$sql  = 'select count(r.id_resena) ';
+		$sql .= 'from resena r ';
+		$sql .= 'where r.id_usuario = ' . $obj['idUsuario'];
+		$respuesta['numResenas'] = consulta('', '', '', $sql);
 
-		$sql = '';
-		$respuesta['numGrupos'] = 0;
+		$sql  = 'select count(mc.id_club) ';
+		$sql .= 'from miembro_club mc ';
+		$sql .= 'inner join club_lectura cl on mc.id_club = cl.id_club ';
+		$sql .= 'where cl.f_fin is null and mc.id_usuario = ' . $obj['idUsuario'];
+		$respuesta['numGrupos'] = consulta('', '', '', $sql);
 
-		$sql = '';
-		$respuesta['numSeguidores'] = 0;
+		$sql  = 'select count( distinct uses.id_usuario ) ';
+		$sql .= 'from usuario_sigue_estanteria uses ';
+		$sql .= 'inner join estanteria e on uses.id_estanteria = e.id_estanteria ';
+		$sql .= 'where e.creada_por = ' . $obj['idUsuario'];
+		$respuesta['numSeguidores'] = consulta('', '', '', $sql);
 
-		$sql = '';
-		$respuesta['numPersonasSeguidas'] = 0;
+		$sql  = 'select count( distinct e.creada_por ) ';
+		$sql .= 'from usuario_sigue_estanteria uses ';
+		$sql .= 'inner join estanteria e on uses.id_estanteria = e.id_estanteria ';
+		$sql .= 'where uses.id_usuario = ' . $obj['idUsuario'];
+		$respuesta['numPersonasSeguidas'] = consulta('', '', '', $sql);
 
 
 		$respuesta['error'] = false;

@@ -1,5 +1,45 @@
 <?php
 
+	function generarFechaActual(){
+
+		return date('d/m/Y');
+	}
+
+	function ordenarArrayMultidimensional($array, $key_array, $order=SORT_ASC){
+
+	    $new_array = array();
+	    $sortable_array = array();
+
+	    if (count($array) > 0) {
+	        foreach ($array as $k => $v) {
+	            if (is_array($v)) {
+	                foreach ($v as $k2 => $v2) {
+	                    if ($k2 == $key_array) {
+	                        $sortable_array[$k] = $v2;
+	                    }
+	                }
+	            } else {
+	                $sortable_array[$k] = $v;
+	            }
+	        }
+
+	        switch ($order) {
+	            case SORT_ASC:
+	                asort($sortable_array);
+	                break;
+	            case SORT_DESC:
+	                arsort($sortable_array);
+	                break;
+	        }
+
+	        foreach ($sortable_array as $k => $v) {
+	            $new_array[$k] = $array[$k];
+	        }
+	    }
+
+	    return $new_array;
+	}
+
 	function formatearFecha( $fecha, $formato ){
 
 		// $formato: bbdd; -> la fecha se transforma para pasarla a la bbdd 
@@ -70,12 +110,55 @@
 	}
 
 
+	function contrasenaValida($contrasena, $contrasenaRepetida){
+		$valida = true;
+		if( $contrasena == '' || $contrasena != $contrasenaRepetida || $contrasena > 20 || !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/', $contrasena) )
+			$valida = false;
+		return $valida;
+
+	}
+
+	function validarCampoTexto( $cadena, $longitudMax ){
+
+		$cadena      = (string) $cadena;
+		$longitudMax = (int) $longitudMax;
+
+		if( $longitudMax > 0 ){
+
+			if( $cadena == '' || strlen($cadena) > $longitudMax || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $cadena) )
+				return false;
+			else
+				return $cadena;
+
+		} else
+			return false;
+
+	}
+
+
 	function validarCorreo( $correo = '' ){
 
 		if( $correo == '' || strlen($correo) > 50 || !preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $correo) || existeRegistro( 'correo', $correo, 'usuario') )
 			return false;
 		else
 			return true;
+	}
+
+
+	function validarTextArea( $texto, $longitudMax ){
+
+		$texto       = (string) $texto;
+		$longitudMax = (int) $longitudMax;
+
+		if( $longitudMax > 0 ){
+
+			if( $texto == '' || strlen($texto) > $longitudMax || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ _\s]+$/', $texto) )
+				return false;
+			else
+				return $texto;
+
+		} else
+			return false;
 	}
 
 

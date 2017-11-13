@@ -63,7 +63,6 @@ angular.module('readArkrit')
 
     	var erroresUsuario  = validarCamposUsuario($scope.usuario);
     	var erroresAlumno = validarCamposAlumno($scope.alumno);
-    	console.log(123);
 
 		if( erroresUsuario != '' || erroresAlumno != '' ){
 
@@ -168,7 +167,7 @@ angular.module('readArkrit')
     cargarJS("./js/clases/Alumno.js");
 
     	//Cargar desplegables de los formularios
-	$scope.titulaciones = obtenerTitulaciones();
+	$scope.titulaciones = obtenerValores('titulacion');
 
     	// Listar
     $scope.listarAlumnos();

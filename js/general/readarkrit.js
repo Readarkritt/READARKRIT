@@ -1,5 +1,26 @@
+
+function generarRecomendacionesArkrit(idUsuario){
+
+	var recomendaciones = [];
+	
+	peticionAJAX('./php/estanteria.php', {
+
+		opcion: 'estanteria',
+		accion: 'generarRecomendacionesArkrit',
+		idUsuario: idUsuario
+	}, false)
+	.done(function( data, textStatus, jqXHR ){
+
+		recomendaciones = $.makeArray( data.recomendaciones );
+	});
+
+	return recomendaciones;
+}
+
 function validarPass(contrasena, contrasenaRepetida){
-	errores = '';
+	
+	var errores = '';
+
 	if( (contrasena === undefined || contrasena == '') || (contrasenaRepetida === undefined || contrasenaRepetida == '') )
 		errores += '<li>Las contraseñas no se han completado.</li>';
 	else if( contrasena.length > 20 || contrasenaRepetida.length > 20 )
@@ -15,7 +36,9 @@ function validarPass(contrasena, contrasenaRepetida){
 }
 
 function validarCorreo(correo){
-	errores = '';
+	
+	var errores = '';
+
 	if( correo === undefined || correo == '' ){
 		errores += '<li>El correo electrónico es incorrecto.</li>';
 	}
@@ -162,6 +185,7 @@ function validarCamposLibro(campos){
 }
 
 function validarCamposLibroAnadido(campos){
+
 	var errores = '';
 
 	if( campos.idPais === undefined || parseInt(campos.idPais) <= 0 )
@@ -170,7 +194,7 @@ function validarCamposLibroAnadido(campos){
 	if( campos.idCategoria === undefined || parseInt(campos.idCategoria) <= 0 )
 		errores += '<li>Elija una categoría válida.</li>';
 
-	if( campos.nivelEspecializacion== undefined || campos.nivelEspecializacion == '' )
+	if( campos.nivelEspecializacion === undefined || campos.nivelEspecializacion == '' )
 		errores += '<li>Elija un nivel de especialización válido.</li>';
 
 	if( campos.posicionRanking === undefined)
@@ -185,7 +209,30 @@ function validarCamposLibroAnadido(campos){
 
 	return errores;
 }
-// Funcón que obtiene todos los valores de las tablas SQL que no tienen una clase en el modelo
+
+function validarCamposClubLectura(campos){
+
+	var errores = '';
+
+	if( campos.nombre === undefined || campos.nombre == '' )
+		errores += '<li>El nombre del club no se ha proporcionado.</li>';
+		else if( campos.nombre.length > 20 )
+			errores += '<li>El nombre del club no puede superar los 20 caracteres.</li>';
+		else if( !campos.nombre.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			errores += '<li>El nombre del club sólo puede contener letras o dígitos.</li>';
+		else if( existeRegistro('nombre',campos.nombre, 'clubLectura') )
+			errores += '<li>El nombre del club ya existe.</li>';
+
+	if( !(campos.idTitulacion === undefined) && parseInt(campos.idTitulacion) <= 0 )
+		errores += '<li>Selecciona una titulación válida.</li>';
+
+	if( !(campos.curso === undefined) && parseInt(campos.curso) <= 0 )
+		errores += '<li>Selecciona un curso válido.</li>';
+
+	return errores;
+}
+
+// Función que obtiene todos los valores de las tablas SQL que no tienen una clase en el modelo
 function obtenerValores(tablaSQL){
 
 	var phpUrl     = '';
@@ -271,11 +318,14 @@ function obtenerCategoriasLibro(){
 }*/
 
 function obtenerNivelesEspecializacion(){
+
 	var niveles = {};
+
 	niveles[0] = {
 		'nombre' : 'Básico',
 		'id_nivel' : 'basico'
 	};
+
 	niveles[1] ={
 		'nombre' : 'Especialidad',
 		'id_nivel' : 'especialidad'		

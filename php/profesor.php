@@ -14,7 +14,7 @@
 
 	if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'listar' ){
 
-		$sql = 'select u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, p.es_admin, p.evitar_notificacion, p.id_profesor from usuario u inner join profesor p on u.id_usuario = p.id_usuario where f_baja is null';
+		$sql = 'select u.id_usuario, u.nombre, u.primer_apellido, u.segundo_apellido, u.nombre_usuario, u.correo, p.es_admin, p.evitar_notificacion, p.id_profesor from usuario u inner join profesor p on u.id_usuario = p.id_usuario where f_baja is null';
 
 		$respuesta['profesores'] = consulta( '', '', '', $sql);
 		$respuesta['error']      = ($respuesta['profesores'] === false);

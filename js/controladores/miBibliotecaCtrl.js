@@ -1,10 +1,11 @@
 angular.module('readArkrit')
   .controller('miBibliotecaCtrl', function ($scope, DTOptionsBuilder) {
 
-    $scope.estanterias = [];
-    $scope.librosAnadidos = [];
-    $scope.librosEstanteria = [];
+    $scope.estanterias 				= [];
+    $scope.librosAnadidos 			= [];
+    $scope.librosEstanteria 		= [];
     $scope.idEstanteriaSeleccionada = 0;
+    $scope.estanteriasSeguidas      = [];
 
     // FUNCIONES
 
@@ -234,6 +235,22 @@ angular.module('readArkrit')
 		});
     };
 
+
+    $scope.listarEstanteriasQueSigo = function(){
+
+    	peticionAJAX('./php/estanteria.php', {
+
+			opcion: 'estanteria',
+			accion: 'listarEstanteriasQueSigo',
+			idUsuario: 64 /*ID_USUARIO*/
+		})
+		.done(function( data, textStatus, jqXHR ){
+
+			if( !data.error )
+				$scope.estanteriasSeguidas = $.makeArray(data.estanteriasSeguidas);
+		});
+    };
+
     // EVENTOS
 
     cargarJS("./js/clases/Estanteria.js");
@@ -243,6 +260,12 @@ angular.module('readArkrit')
     	// Listar
     $scope.listarEstanterias();
     $scope.listarLibrosAnadidos();
+
+    // Recomendaciones ARKRIT
+    $scope.recomendaciones = generarRecomendacionesArkrit( 64 );	/* ID_USUARIO */
+
+    // Listar estanterías que sigo
+    $scope.listarEstanteriasQueSigo();
 
 }); // fin controller
 

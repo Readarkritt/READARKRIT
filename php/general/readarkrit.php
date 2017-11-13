@@ -1,29 +1,103 @@
 <?php
 	require_once(dirname(__FILE__).'./funciones.php');
 
-	function contrasenaValida($contrasena, $contrasenaRepetida){
-		$valida = true;
-		if( $contrasena == '' || $contrasena != $contrasenaRepetida || $contrasena > 20 || !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/', $contrasena) )
-			$valida = false;
-		return $valida;
+	function generarRecomendacionesArkrit($idUsuario){
 
-	}
+		$maxLibrosNivelIgual    = 3;
+		$maxLibrosNivelInferior = 2;
+		$recomendaciones        = array();
 
-	function validarCampoTexto( $cadena, $longitudMax ){
 
-		$cadena      = (string) $cadena;
-		$longitudMax = (int) $longitudMax;
+		$librosTitulacionInferiorBasico	  = array();
+		$librosTitulacionInferiorAvanzado = array();
+		$librosTitulacionIgualBasico	  = array();
+		$librosTitulacionIgualAvanzado	  = array();
 
-		if( $longitudMax > 0 ){
 
-			if( $cadena == '' || strlen($cadena) > $longitudMax || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $cadena) )
-				return false;
-			else
-				return $cadena;
+		$sql = 'select l.portada, l.titulo, l.id_titulacion, la.nivel_especializacion, la.id_categoria, la.posicion_ranking, rle.libro_leido from libro_anadido la inner join libro l on la.id_libro = l.id_libro left join rel_libro_estanteria rle on l.id_libro = rle.id_libro left join estanteria e on rle.id_estanteria = e.id_estanteria left join usuario u on e.creada_por = u.id_usuario left join alumno a on u.id_usuario = a.id_usuario where (rle.id_libro is null or rle.libro_leido = 0) and l.f_baja is null and (u.id_usuario is null or u.id_usuario = ' . $idUsuario . ')';
 
-		} else
-			return false;
+		$recomendaciones = consulta( '', '', '', $sql);
 
+		if( !$recomendaciones === false ){
+
+			// 1) Consulto la titulacion en la que está el usuario
+			$idTitulacion = consulta( 'id_titulacion', 'alumno', 'id_usuario = ' . $idUsuario );
+
+				// 1.1) Si es de Grado no tiene titulaciones por debajo de él
+			if( $idTitulacion == 1 ){
+				$maxLibrosNivelIgual    = 5;
+				$maxLibrosNivelInferior = 0;
+			}
+
+			// 2) Hacemos cuatro arrays para poder diferenciar los libros que son de: 
+			//		titulacion anterior y nivel básico,
+			//		titulacion anterior y nivel avanzado,
+			//		titulacion actual(igual) y nivel básico y
+			// 		titulacion actual(igual) y nivel avanzado
+			for( $i=0; $i<count( $recomendaciones ); $i++ ){
+
+				if( $recomendaciones[$i]['id_titulacion'] <= $idTitulacion ){
+
+					if( $recomendaciones[$i]['id_titulacion'] < $idTitulacion ){
+
+						if( $recomendaciones[$i]['nivel_especializacion'] == 'Básico' )
+							array_push($librosTitulacionInferiorBasico, $recomendaciones[$i]);
+						else
+							array_push($librosTitulacionInferiorAvanzado, $recomendaciones[$i]);
+					} else {
+
+						if( $recomendaciones[$i]['nivel_especializacion'] == 'Básico' )
+							array_push($librosTitulacionIgualBasico, $recomendaciones[$i]);
+						else
+							array_push($librosTitulacionIgualAvanzado, $recomendaciones[$i]);
+					}
+				}
+
+			}
+
+			// 3) Ordenamos todos los arrays según la posición que tienen en el ranking los libros
+			$numLibrosTitulacionInferiorBasico   = count($librosTitulacionInferiorBasico);
+			$numLibrosTitulacionInferiorAvanzado = count($librosTitulacionInferiorAvanzado);
+			$numLibrosTitulacionIgualBasico		 = count($librosTitulacionIgualBasico);
+			$numLibrosTitulacionIgualAvanzado	 = count($librosTitulacionIgualAvanzado);
+
+			if( $numLibrosTitulacionInferiorBasico != 0 )
+				$librosTitulacionInferiorBasico = ordenarArrayMultidimensional($librosTitulacionInferiorBasico, 'posicion_ranking', SORT_ASC);
+
+			elseif( $numLibrosTitulacionInferiorAvanzado != 0 )
+				$librosTitulacionInferiorAvanzado = ordenarArrayMultidimensional($librosTitulacionInferiorAvanzado, 'posicion_ranking', SORT_ASC);
+
+			elseif( $numLibrosTitulacionIgualBasico != 0 )
+				$librosTitulacionIgualBasico = ordenarArrayMultidimensional($librosTitulacionIgualBasico, 'posicion_ranking', SORT_ASC);
+
+			elseif( $numLibrosTitulacionIgualAvanzado != 0 )
+				$librosTitulacionIgualAvanzado = ordenarArrayMultidimensional($librosTitulacionIgualAvanzado, 'posicion_ranking', SORT_ASC);		
+
+			// 4) Generamos las 5 recomendaciones ARKRIT
+
+			$recomendaciones = array();
+
+				// 4.1) Generamos dos recomendaciones de titulaciones anteriores si no se está en grado
+
+			for( $i=0; $i < $numLibrosTitulacionInferiorBasico && $i< $maxLibrosNivelInferior; $i++ )
+				array_push($recomendaciones, $librosTitulacionInferiorBasico[$i]);
+
+			if( $maxLibrosNivelInferior > count($recomendaciones) )
+				for( $i=0; $i < $numLibrosTitulacionInferiorAvanzado && $i< $maxLibrosNivelInferior; $i++ )
+					array_push($recomendaciones, $librosTitulacionInferiorAvanzado[$i]);
+
+				// 4.2) Generamos tres o cinco (si se está en grado) recomendaciones de la titulacion actual
+
+			for( $i=0; $i < $numLibrosTitulacionIgualBasico && $i< $maxLibrosNivelIgual; $i++ )
+				array_push($recomendaciones, $librosTitulacionIgualBasico[$i]);
+	
+			if( ( $maxLibrosNivelInferior + $maxLibrosNivelIgual ) > count($recomendaciones) )
+				for( $i=0; $i < $numLibrosTitulacionIgualAvanzado && $i< ($maxLibrosNivelInferior + $maxLibrosNivelIgual); $i++ )
+					array_push($recomendaciones, $librosTitulacionIgualAvanzado[$i]);
+
+		}
+
+		return $recomendaciones;
 	}
 
 
@@ -172,5 +246,30 @@
 			return false;
 
 		return $libroAnadido;
+	}
+
+	function validarCamposClubLectura($clubLectura){
+
+		//CASTEO
+		$clubLectura['creadoPor']	 = (int) $clubLectura['creadoPor'];
+		$clubLectura['nombre']		 = (string) $clubLectura['nombre'];
+		$clubLectura['fFin']         = null;
+		$clubLectura['idTitulacion'] = (int) $clubLectura['idTitulacion'];
+		$clubLectura['curso']		 = (int) $clubLectura['curso']; 
+
+		//VALIDACIÓN
+		if( $clubLectura['creadoPor'] < 0 || existeRegistro('id_usuario', $clubLectura['creadoPor'], 'profesor') )
+			return false;
+
+		if( $clubLectura['nombre'] == '' || strlen($clubLectura['nombre']) > 20 || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $clubLectura['nombre']) || existeRegistro('nombre', $clubLectura['nombre'], 'clubLectura') )
+			return false;
+
+		if( $clubLectura['idTitulacion'] < 0 || consulta('id_titulacion', 'titulacion', 'id_titulacion = ' . $clubLectura['idTitulacion']) === false )
+			return false;
+		else
+			if( $clubLectura['curso'] < 0 || $clubLectura['curso'] > consulta('duracion', 'titulacion', 'id_titulacion = ' . $clubLectura['idTitulacion']) )
+				return false;
+
+		return $clubLectura;
 	}
 ?>

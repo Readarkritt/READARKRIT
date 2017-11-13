@@ -9,6 +9,14 @@
 	$obj       = $_POST;
 	$respuesta = array();
 
+	if( $obj['opcion'] == 'usuario' && $obj['accion'] == 'listar' ){
+
+		$sql = 'SELECT id_usuario, nombre, primer_apellido, segundo_apellido, f_nacimiento, correo, nombre_usuario, contrasena, bloqueado, f_baja FROM usuario';
+
+		$respuesta['usuarios'] = consulta( '', '', '', $sql);
+		$respuesta['error']    = ($respuesta['usuarios'] === false);
+	}
+
 	if( $obj['opcion'] == 'usuario' && $obj['accion'] == 'alta' ){
 
 		$usuario = new Usuario();

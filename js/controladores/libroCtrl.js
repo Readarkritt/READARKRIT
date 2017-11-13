@@ -276,7 +276,7 @@ angular.module('readArkrit')
     // EVENTOS
 
     cargarJS("./js/clases/Libro.js");
-    cargarJS("./js/clases/LirboAnadido.js");
+    cargarJS("./js/clases/LibroAnadido.js");
 
     	// Listar
     $scope.listarLibrosAnadidos();

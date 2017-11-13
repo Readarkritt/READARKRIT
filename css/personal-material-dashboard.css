@@ -17,6 +17,16 @@ form select option {
   color: #9c27b0;
 }
 
+img.portada {
+  height: 180px !important;
+  width: 160px !important;
+}
+
+.acciones-registro{
+  margin: 0px;
+  padding: 0px;
+}
+
 /* CUANDO LA PANTALLAS SON PEQUEÑAS */
 @media (min-width: 310px) and (max-width: 385px) { 
   .navTabsResponsive{
@@ -45,12 +55,12 @@ form select option {
 }
 
 /* LISTAS */
-ul{
+ul li.cabecera{
   list-style-type: none;
   padding: 0px;
 }
 li.cabecera{
-  margin: 5px;
+  margin: 5px 5px 5px -20px;
   width: 100%;
   cursor: pointer;
 }
@@ -58,6 +68,25 @@ li button.acciones-registro{
   margin: 0px;
   padding: 0px;
 }
+
+/* LISTAS AUXILIARES */
+.listaAuxiliar {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  background-color: #EEEEEE;
+}
+
+.listaAuxiliar ul{
+
+  list-style-type: disc;
+}
+
+.listaAuxiliar li{
+
+  margin-left: 8%;
+}
+
 
 /* MODAL */
 .modal-content .modal-header{
@@ -145,6 +174,103 @@ table.dataTable td.child span.dtr-data{
 }
 #navBarParticular{
   margin-top:0px !important;
+}
+
+
+/* CLUBS DE LECTURA */
+.conversacion{
+  height: 500px;
+  background-color: #EEEEEE;
+  overflow-x: scroll;
+}
+
+.comentario {
+  position: relative;
+  background: #FFFFCC;
+  border: 1px solid #FFCC00;
+  max-width: 250px;
+  padding: 10px;
+  font-family: arial;
+  margin: 5px;
+  font-size: 18px;
+  font-style: italic;
+  border-radius: 6px;
+  overflow-wrap: break-word;    
+}
+
+.comentario.me {
+  background: #aed6f1;
+  border: 1px solid #154360;
+  margin-left: auto;
+}
+
+.comentario:after,
+.comentario:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.comentario:after {
+  border-color: rgba(255, 255, 204, 0);
+  border-right-color: #FFFFCC;
+  border-width: 15px;
+  margin-top: -15px;
+}
+.comentario:before {
+  border-color: rgba(255, 204, 0, 0);
+  border-right-color: #FFCC00;
+  border-width: 16px;
+  margin-top: -16px;
+}
+
+.comentario.me:after {
+  right: -12.5%;
+  border-color: rgba(255, 255, 204, 0);
+  border-left-color: #aed6f1;
+  border-width: 16px;
+  margin-top: -16px;
+}
+.comentario.me:before {
+  right: -12.5%;
+  border-color: rgba(255, 204, 0, 0);
+  border-left-color: #154360;
+  border-width: 15px;
+  margin-top: -15px;
+}
+
+.comentario > .usuario, .comentario > .fecha {
+  font-size: 12px;
+}
+
+.comentario > .fecha {
+  text-align: right;
+}
+
+
+/* CAROUSEL */
+.carousel-caption {
+  bottom: 10px;
+  color: #FF2D2D;
+  background-color: white;
+  padding: 0px;
+  text-shadow: none;
+}
+
+.carousel .carousel-control .fa{
+  color: #FF2D2D;
+  line-height: 250px;
+}
+
+.carousel img {
+  margin: auto;
+}
+
 /* GENERALES */
 .display-inline {
   display: inline;

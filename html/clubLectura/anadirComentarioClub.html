@@ -1,0 +1,61 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header" data-background-color="blue">
+					<h4 class="title" id="titulo">Clubs de lectura</h4>
+				</div>
+				<div class="card-content">
+					<div class="row">
+						<div class="col-md-12">
+							<form>
+								<div class="form-group label-floating">
+									<label class="control-label">Selecciona uno de los clubes en los que estás</label>
+									<select id="clubSeleccionado" name="clubSeleccionado" ng-model="idClubSeleccionado" ng-change="cargarComentarios()">
+										<option ng-repeat="club in clubsLectura" ng-value="club.id_club">{{club.nombre}}</option>
+									</select> 
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card-content conversacion hidden" id="conversacion">
+								<!-- Se cargan todos los comentarios de todos los usuarios del club seleccionado -->
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card-avatar hidden" id="cajaComentario">
+								<a class="navbar-brand" href="#">
+									<img class="img-avatar img-circle mini-avatar" />
+								</a>
+
+								<div class="form-group label-floating input-group">
+				    				<label class="control-label">Escribe tu comentario</label>
+			    					<textarea class="form-control" id="comentario" name="comentario" ng-model="comentario" ng-enter="anadirComentarioClub()"></textarea>
+			    					<div class="input-group-btn">
+			    						<button type="submit" class="btn btn-info" ng-click="anadirComentarioClub()" style="padding: 6px 12px;">
+											<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+										</button>
+			    					</div>
+            					</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+				        <div class="col-md-12">
+		                    <div class="alert alert-danger hidden" id="erroresAnadirComentarioClub">
+                                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+                                <span>
+                                	<!-- Errores -->
+                                </span>
+		                    </div>
+				        </div>
+				    </div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</div>
