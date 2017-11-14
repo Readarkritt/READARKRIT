@@ -6,6 +6,7 @@
 	$obj       = $_POST;
 	$respuesta = array();
 	$sql       = '';
+	$idUsuario = recuperarDeToken('id');
 
 	if( $obj['opcion'] == 'estadisticas' && $obj['accion'] == 'listar' ){
 
@@ -24,25 +25,25 @@
 
 		$sql  = 'select count(r.id_resena) ';
 		$sql .= 'from resena r ';
-		$sql .= 'where r.id_usuario = ' . $obj['idUsuario'];
+		$sql .= 'where r.id_usuario = ' . $idUsuario;
 		$respuesta['numResenas'] = consulta('', '', '', $sql);
 
 		$sql  = 'select count(mc.id_club) ';
 		$sql .= 'from miembro_club mc ';
 		$sql .= 'inner join club_lectura cl on mc.id_club = cl.id_club ';
-		$sql .= 'where cl.f_fin is null and mc.id_usuario = ' . $obj['idUsuario'];
+		$sql .= 'where cl.f_fin is null and mc.id_usuario = ' . $idUsuario;
 		$respuesta['numGrupos'] = consulta('', '', '', $sql);
 
 		$sql  = 'select count( distinct uses.id_usuario ) ';
 		$sql .= 'from usuario_sigue_estanteria uses ';
 		$sql .= 'inner join estanteria e on uses.id_estanteria = e.id_estanteria ';
-		$sql .= 'where e.creada_por = ' . $obj['idUsuario'];
+		$sql .= 'where e.creada_por = ' . $idUsuario;
 		$respuesta['numSeguidores'] = consulta('', '', '', $sql);
 
 		$sql  = 'select count( distinct e.creada_por ) ';
 		$sql .= 'from usuario_sigue_estanteria uses ';
 		$sql .= 'inner join estanteria e on uses.id_estanteria = e.id_estanteria ';
-		$sql .= 'where uses.id_usuario = ' . $obj['idUsuario'];
+		$sql .= 'where uses.id_usuario = ' . $idUsuario;
 		$respuesta['numPersonasSeguidas'] = consulta('', '', '', $sql);
 
 

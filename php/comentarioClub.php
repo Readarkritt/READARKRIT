@@ -11,10 +11,11 @@
 	$obj        = $_POST;
 	$respuesta  = array();
 	$comentario = array();
+	$idUsuario  = recuperarDeToken('id');
 
 	if( $obj['opcion'] == 'comentarioClub' && $obj['accion'] == 'listar' ){
 
-		if( !is_null( consulta( 'id_usuario', 'miembro_club', 'id_usuario = ' . $obj['idUsuario'] . ' and id_club = ' . $obj['idClub']) ) ){
+		if( !is_null( consulta( 'id_usuario', 'miembro_club', 'id_usuario = ' . $idUsuario . ' and id_club = ' . $obj['idClub']) ) ){
 
 			$sql = 'SELECT cc.id_comentario_club, cc.id_club, cc.id_usuario, u.nombre, u.primer_apellido, cc.fecha, cc.comentario FROM comentario_club cc INNER JOIN usuario u ON cc.id_usuario = u.id_usuario WHERE cc.id_club = ' . $obj['idClub'];
 
@@ -30,6 +31,8 @@
 	if( $obj['opcion'] == 'comentarioClub' && $obj['accion'] == 'anadir' ){
 
 		$obj['comentario']['comentario'] = validarTextArea( $obj['comentario']['comentario'], 1000 );
+
+		$obj['comentario']['idUsuario'] = $idUsuario;
 
 		if( $obj['comentario']['comentario'] ){
 

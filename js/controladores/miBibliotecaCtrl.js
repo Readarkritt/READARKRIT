@@ -80,8 +80,7 @@ angular.module('readArkrit')
     	peticionAJAX('./php/estanteria.php', {
 
 			opcion: 'estanteria',
-			accion: 'listar',
-			idUsuario: 64/*ID_USUARIO*/
+			accion: 'listar'
 		})
 		.done(function( data, textStatus, jqXHR ){
 
@@ -241,8 +240,7 @@ angular.module('readArkrit')
     	peticionAJAX('./php/estanteria.php', {
 
 			opcion: 'estanteria',
-			accion: 'listarEstanteriasQueSigo',
-			idUsuario: 64 /*ID_USUARIO*/
+			accion: 'listarEstanteriasQueSigo'
 		})
 		.done(function( data, textStatus, jqXHR ){
 
@@ -262,7 +260,7 @@ angular.module('readArkrit')
     $scope.listarLibrosAnadidos();
 
     // Recomendaciones ARKRIT
-    $scope.recomendaciones = generarRecomendacionesArkrit( 64 );	/* ID_USUARIO */
+    $scope.recomendaciones = generarRecomendacionesArkrit();
 
     // Listar estanterías que sigo
     $scope.listarEstanteriasQueSigo();
@@ -297,7 +295,7 @@ function altaModificarEstanteria(operacion, idEstanteria){
 		
 		if( operacion == 'Alta' ){
 
-			var estanteria = new Estanteria('', nombreEstanteria, 64/*ID_USUARIO*/);
+			var estanteria = new Estanteria('', nombreEstanteria, ''/*ID_USUARIO*/);
 
 			parametros.opcion = 'estanteria';
 			parametros.accion = 'alta';

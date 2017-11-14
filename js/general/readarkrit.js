@@ -1,13 +1,12 @@
 
-function generarRecomendacionesArkrit(idUsuario){
+function generarRecomendacionesArkrit(){
 
 	var recomendaciones = [];
 	
 	peticionAJAX('./php/estanteria.php', {
 
 		opcion: 'estanteria',
-		accion: 'generarRecomendacionesArkrit',
-		idUsuario: idUsuario
+		accion: 'generarRecomendacionesArkrit'
 	}, false)
 	.done(function( data, textStatus, jqXHR ){
 

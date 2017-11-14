@@ -11,8 +11,7 @@ angular.module('readArkrit')
   	peticionAJAX('./php/estadisticas.php', {
 
 		opcion: 'estadisticas',
-		accion: 'listar',
-		idUsuario : 64, /* ID_USUARIO */
+		accion: 'listar'
 	})
 	.done(function( data, textStatus, jqXHR ){
 

@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"comenta",
+				"comentario"
+			],
+			[
+				"id",
+				"idUsuario"
+			],
+			[
 				"listar",
 				"listarEstanterias"
 			],
@@ -18,10 +26,6 @@
 			[
 				"nombre",
 				"nombre_usuario"
-			],
-			[
-				"id",
-				"idUsuario"
 			],
 			[
 				"usua",
@@ -510,20 +514,16 @@
 			[
 				"e",
 				"extensionExcel"
-			],
-			[
-				"fice",
-				"ficheroComprimido"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "js/app.js",
+			"file": "php/access.php",
 			"settings":
 			{
-				"buffer_size": 3066,
+				"buffer_size": 1647,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -562,45 +562,49 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/READARKRIT",
-		"/C/xampp/htdocs/READARKRIT/js"
+		"/C/xampp/htdocs/READARKRIT/js",
+		"/C/xampp/htdocs/READARKRIT/js/clases",
+		"/C/xampp/htdocs/READARKRIT/js/general",
+		"/C/xampp/htdocs/READARKRIT/php"
 	],
 	"file_history":
 	[
-		"/C/xampp/htdocs/READARKRIT/php/estanteria.php",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/miBibliotecaCtrl.js",
-		"/C/xampp/htdocs/READARKRIT/html/miBiblioteca/listarMiBiblioteca.html",
 		"/C/xampp/htdocs/READARKRIT/php/almasGemelas.php",
-		"/C/xampp/htdocs/READARKRIT/html/almasGemelas/listarAlmasGemelas.html",
-		"/C/xampp/htdocs/READARKRIT/php/estadisticas.php",
-		"/C/xampp/htdocs/READARKRIT/html/menuApp/menuApp.html",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/almasGemelasCtrl.js",
-		"/C/xampp/htdocs/READARKRIT/php/general/readarkrit.php",
-		"/C/xampp/htdocs/READARKRIT/js/app.js",
-		"/C/xampp/htdocs/READARKRIT/html/seguirEstanteria/listarSeguirEstanteria.html",
+		"/C/xampp/htdocs/READARKRIT/php/alumno.php",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/comentarioClubCtrl.js",
 		"/C/xampp/htdocs/READARKRIT/js/controladores/seguirEstanteriaCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/miBibliotecaCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/js/general/readarkrit.js",
+		"/C/xampp/htdocs/READARKRIT/php/general/readarkrit.php",
+		"/C/xampp/htdocs/READARKRIT/php/estanteria.php",
+		"/C/xampp/htdocs/READARKRIT/php/estadisticas.php",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/estadisticasCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/php/comentarioClub.php",
+		"/C/xampp/htdocs/READARKRIT/php/clubLectura.php",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/clubLecturaCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/almasGemelasCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/php/general/token.php",
+		"/C/xampp/htdocs/READARKRIT/php/general/funciones.php",
+		"/C/xampp/htdocs/READARKRIT/js/general/funciones.js",
+		"/C/xampp/htdocs/READARKRIT/js/controladores/alumnoCtrl.js",
+		"/C/xampp/htdocs/READARKRIT/html/menuApp/menuApp.html",
+		"/C/xampp/htdocs/READARKRIT/js/app.js",
+		"/C/xampp/htdocs/READARKRIT/html/miBiblioteca/listarMiBiblioteca.html",
+		"/C/xampp/htdocs/READARKRIT/html/almasGemelas/listarAlmasGemelas.html",
+		"/C/xampp/htdocs/READARKRIT/html/seguirEstanteria/listarSeguirEstanteria.html",
 		"/C/xampp/htdocs/READARKRIT/css/personal-material-dashboard.css",
 		"/C/xampp/htdocs/READARKRIT/html/clubLectura/adminClubLectura.html",
 		"/C/xampp/htdocs/READARKRIT/php/general/bbdd.php",
 		"/C/xampp/htdocs/READARKRIT/php/usuario.php",
-		"/C/xampp/htdocs/READARKRIT/js/general/readarkrit.js",
 		"/C/xampp/htdocs/READARKRIT/MEJORAS DE ÚLTIMA HORA.txt",
-		"/C/xampp/htdocs/READARKRIT/php/clubLectura.php",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/clubLecturaCtrl.js",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/alumnoCtrl.js",
 		"/C/Users/Carol/Downloads/readarkrit.sql",
 		"/C/xampp/htdocs/READARKRIT/recover_bbdd/readarkrit.sql",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/estadisticasCtrl.js",
 		"/C/xampp/htdocs/READARKRIT/php/clases/ClubLectura.php",
-		"/C/xampp/htdocs/READARKRIT/php/general/funciones.php",
 		"/C/xampp/htdocs/READARKRIT/php/clases/ComentarioClub.php",
-		"/C/xampp/htdocs/READARKRIT/php/comentarioClub.php",
-		"/C/xampp/htdocs/READARKRIT/js/controladores/comentarioClubCtrl.js",
 		"/C/xampp/htdocs/READARKRIT/html/clubLectura/anadirComentarioClub.html",
-		"/C/xampp/htdocs/READARKRIT/js/general/funciones.js",
 		"/C/xampp/htdocs/READARKRIT/js/clases/ComentarioClub.js",
 		"/C/xampp/htdocs/READARKRIT/js/controladores/libroCtrl.js",
 		"/C/xampp/htdocs/READARKRIT/recover_plantilla/material-dashboard-master/material-dashboard-master/examples/user.html",
-		"/C/xampp/htdocs/READARKRIT/php/alumno.php",
 		"/C/xampp/htdocs/READARKRIT/js/clases/ClubLectura.js",
 		"/C/xampp/htdocs/READARKRIT/php/profesor.php",
 		"/C/xampp/htdocs/READARKRIT/js/controladores/profesorCtrl.js",
@@ -635,7 +639,6 @@
 		"/C/xampp/htdocs/READARKRIT/php/clases/Hash.php",
 		"/C/xampp/htdocs/READARKRIT/php/clases/Alumno.php",
 		"/C/xampp/htdocs/READARKRIT/php/general/cargarMenu.php",
-		"/C/xampp/htdocs/READARKRIT/php/general/token.php",
 		"/C/xampp/htdocs/READARKRIT/php/access.php",
 		"/C/xampp/htdocs/READARKRIT/.htaccess",
 		"/C/xampp/htdocs/READARKRIT/php/general/access.php",
@@ -697,7 +700,7 @@
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -725,6 +728,22 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"listar",
+			" = 64",
+			"$obj['idUsuario']",
+			"ID_USUARIO",
+			"/* ID_USUARIO */",
+			"/*ID_USUARIO*/",
+			"63",
+			"64",
+			"idUsu",
+			"/*ID_USUARIO*/",
+			"ID_USUARIO",
+			"idUsua",
+			"id_usua",
+			"$obj['id_usu']",
+			"/*id_usuario*/",
+			"head",
 			"listarEst",
 			"ordenarArrayMultidimensional",
 			"in_arr",
@@ -836,23 +855,7 @@
 			"selected",
 			"{\n\n\t\t    \"ordering\": true,\n\t\t    columnDefs: [{\n\t\t      orderable: false,\n\t\t      targets: \"no-sort\"\n\t\t    }]\n\n\t\t}",
 			"no-sort",
-			"idAnadidoPor",
-			"echo",
-			"center",
-			"correo",
-			"validarCorreo",
-			"sesion.php",
-			">>>>",
-			"=======",
-			"<<<<<<<",
-			"\n<<<<<<<",
-			"erro",
-			"include(",
-			"(\"../",
-			"getcw",
-			"echo",
-			"include",
-			"access.php"
+			"idAnadidoPor"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -891,11 +894,11 @@
 			[
 				{
 					"buffer": 0,
-					"file": "js/app.js",
+					"file": "php/access.php",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 3066,
+						"buffer_size": 1647,
 						"regions":
 						{
 						},
@@ -908,12 +911,11 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 342.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

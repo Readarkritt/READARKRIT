@@ -8,28 +8,28 @@
 
 	// CONTROLADOR
 
-	$obj        = $_POST;
-	$respuesta  = array();
+	$obj         = $_POST;
+	$respuesta   = array();
 	$clubLectura = array();
+	$idUsuario   = recuperarDeToken('id');
 
 	if( $obj['opcion'] == 'clubLectura' && $obj['accion'] == 'listar' ){
 
-		if( empty( $obj['idUsuario'] ) ){
+		$campos = 'id_club, creado_por, nombre, f_inicio, f_fin, id_titulacion, curso';
+		$tabla  = 'club_lectura';
+		$where  = 'f_fin is null';
 
-			$campos = 'id_club, creado_por, nombre, f_inicio, f_fin, id_titulacion, curso';
-			$tabla  = 'club_lectura';
-			$where  = 'f_fin is null';
+		$respuesta['clubsLectura'] = consulta( $campos, $tabla, $where );
+		$respuesta['error']        = ($respuesta['clubsLectura'] === false);
+	}
 
-			$respuesta['clubsLectura'] = consulta( $campos, $tabla, $where );
 
-		} else {
+	if( $obj['opcion'] == 'clubLectura' && $obj['accion'] == 'listarMisClubs' ){
 
-			$sql = 'SELECT cl.id_club, cl.creado_por, cl.nombre, cl.f_inicio, cl.f_fin, cl.id_titulacion, cl.curso FROM club_lectura cl INNER JOIN miembro_club mc on cl.id_club = mc.id_club WHERE cl.f_fin is null and mc.id_usuario = ' . $obj['idUsuario']; 
+		$sql = 'SELECT cl.id_club, cl.creado_por, cl.nombre, cl.f_inicio, cl.f_fin, cl.id_titulacion, cl.curso FROM club_lectura cl INNER JOIN miembro_club mc on cl.id_club = mc.id_club WHERE cl.f_fin is null and mc.id_usuario = ' . $idUsuario; 
 
-			$respuesta['clubsLectura'] = consulta( '', '', '', $sql );
-		}
-
-		$respuesta['error'] = ($respuesta['clubsLectura'] === false);
+		$respuesta['clubsLectura'] = consulta( '', '', '', $sql );
+		$respuesta['error']        = ($respuesta['clubsLectura'] === false);
 	}
 
 	if( $obj['opcion'] == 'clubLectura' && $obj['accion'] == 'existe' ){
@@ -40,6 +40,8 @@
 	if( $obj['opcion'] == 'clubLectura' && $obj['accion'] == 'abrir' ){
 
 		$clubLecturaValidado = validarCamposClubLectura( $obj['clubLectura'] );
+
+		$obj['clubLectura']['creadoPor'] = $idUsuario;
 
 		if( $clubLecturaValidado ){
 

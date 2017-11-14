@@ -181,7 +181,7 @@ angular.module('readArkrit')
 			cerrarAlerta($('#erroresAbrirClubLectura'));
 
 			var clubLectura = new ClubLectura(	'', // id club
-												64, /* ID_USUARIO */ 
+												'', /* ID_USUARIO */ 
 												$scope.clubLectura.nombre,
 												null, // f_inicio
 												null, // f_fin

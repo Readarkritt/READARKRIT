@@ -3,13 +3,14 @@
 	require_once("./general/bbdd.php");
 	require_once("./general/funciones.php");
 	require_once("./general/readarkrit.php");
+	require_once("./general/token.php");
 	require_once("./clases/Hash.php");
 
 	// CONTROLADOR
 
 	$obj       = $_POST;
 	$respuesta = array();
-
+	$idUsuario = recuperarDeToken('id');
 
 	if( $obj['opcion'] == 'almasGemelas' && $obj['accion'] == 'listar' ){
 
@@ -22,13 +23,13 @@
 
 		// 1) Generamos los libros que he leído yo
 
-		$sql = 'select rle.id_libro from rel_libro_estanteria rle inner join estanteria e on rle.id_estanteria = e.id_estanteria where rle.libro_leido = 1 and e.creada_por = ' . $obj['idUsuario'];
+		$sql = 'select rle.id_libro from rel_libro_estanteria rle inner join estanteria e on rle.id_estanteria = e.id_estanteria where rle.libro_leido = 1 and e.creada_por = ' . $idUsuario;
 
 		$misLibrosLeidos = consulta( '', '', '', $sql);
 
 		// 2) Generamos los usuarios que hayan leído algún libro en el sistema
 
-		$sql = 'select e.creada_por from rel_libro_estanteria rle inner join estanteria e on rle.id_estanteria = e.id_estanteria where rle.libro_leido = 1 and e.creada_por != ' . $obj['idUsuario'];
+		$sql = 'select e.creada_por from rel_libro_estanteria rle inner join estanteria e on rle.id_estanteria = e.id_estanteria where rle.libro_leido = 1 and e.creada_por != ' . $idUsuario;
 
 		$usuariosConLibrosLeidos = consulta( '', '', '', $sql);
 

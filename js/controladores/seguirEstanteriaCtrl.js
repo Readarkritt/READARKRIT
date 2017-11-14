@@ -42,8 +42,7 @@ angular.module('readArkrit')
 
 			opcion: 'estanteria',
 			accion: 'listarEstanteriasSeguidas',
-			propietarioEstanteria: $(e.currentTarget).attr('data-idUsuario'),
-			idUsuario: 63 /* ID_USUARIO */	// se le pasa el id del usuario conectado para saber si sigue o no las estanterías del usuario seleccionado (propietario estantería) 
+			propietarioEstanteria: $(e.currentTarget).attr('data-idUsuario')	// se le pasa el id del usuario conectado para saber si sigue o no las estanterías del usuario seleccionado (propietario estantería) 
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
 
@@ -152,8 +151,7 @@ angular.module('readArkrit')
 
 			opcion: 'estanteria',
 			accion: 'seguirEstanteria',
-			idEstanteria: idEstanteria,
-			idUsuario: 63 /*ID_USUARIO*/
+			idEstanteria: idEstanteria
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
 

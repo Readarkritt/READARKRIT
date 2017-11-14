@@ -12,8 +12,7 @@ angular.module('readArkrit')
     peticionAJAX('./php/clubLectura.php', {
 
       opcion: 'clubLectura',
-      accion: 'listar',
-      idUsuario: 64 /* ID_USUARIO */
+      accion: 'listarMisClubs'
     }, false)
     .done(function( data, textStatus, jqXHR ){
 
@@ -28,7 +27,6 @@ angular.module('readArkrit')
 
       opcion: 'comentarioClub',
       accion: 'listar',
-      idUsuario: 64, /* ID_USUARIO */
       idClub: $scope.idClubSeleccionado
     }, false)
     .done(function( data, textStatus, jqXHR ){
@@ -91,7 +89,7 @@ angular.module('readArkrit')
 
       var comentario = new ComentarioClub(  '', // id comentario club
                                             $scope.idClubSeleccionado,
-                                            64, /* ID_USUARIO */
+                                            '', /* ID_USUARIO */
                                             null, // fecha
                                             $scope.comentario);
 

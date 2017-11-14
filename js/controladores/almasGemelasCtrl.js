@@ -10,8 +10,7 @@ angular.module('readArkrit')
     	peticionAJAX('./php/almasGemelas.php', {
 
 			opcion: 'almasGemelas',
-			accion: 'listar',
-			idUsuario: 64 /* ID_USUARIO */
+			accion: 'listar'
 		})
 		.done(function( data, textStatus, jqXHR ){
 
