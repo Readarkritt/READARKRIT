@@ -100,7 +100,7 @@ angular.module('readArkrit')
     $scope.mostrarLibro = function(idLibro){
     	$scope.resenas = {};
     	$scope.resena.nota = 5;
-    	$('#valor_slider').html(5);
+    	$('#valor_slider span').html(5);
     	$('#slider').val(5);
     	$('#erroresAlta').addClass('hidden');
     	$scope.resena.comentario = '';
@@ -118,19 +118,20 @@ angular.module('readArkrit')
 				$scope.libroSeleccionado = idLibro;
 
     			$('#listadoLibros').addClass('hidden');
-    			$('#comentarios').removeClass('hidden');
+    			$('#comentariosLibro').removeClass('hidden');
+
+				/*var table = $('#listadoComentarios').draw;
+				table.draw( true );*/
+    			pintarAvataresResenas();
 			}		
 		});
 
 				
-		var table = $('#listadoComentarios').draw;
-		table.draw( true );
-    	pintarAvataresResenas();
     }
 
-    function pintarAvataresResenas(){    	
+    function pintarAvataresResenas(){    
+    alert(123);	
 		$.each($scope.resenas, function(index, value){
-			console.log(value);
 			crearAvatarElemento(value.nombre, 'avatarResena'+value.id_resena);
 		});
     }
@@ -202,7 +203,7 @@ angular.module('readArkrit')
     }
 
     $scope.mostrarListaLibros = function(){
-		$('#comentarios').addClass('hidden');
+		$('#comentariosLibro').addClass('hidden');
 		$('#listadoLibros').removeClass('hidden');
     }
 

@@ -6,19 +6,6 @@ angular.module('readArkrit')
       // MENÚ
       cargarMenu($scope);
       marcarMenu();
-
-      $(".sidebar-wrapper > .nav > li").click(function(e){
-
-        // 1) Quitamos la clase 'active' al elemento que esté marcado
-        // 2) Y se la ponemos al elemento en el que se ha hecho click
-
-        $("li.active").removeClass('active');
-
-        $(this).addClass('active');
-      });
-
-
-
       
 
       //Comprobar si es invitado
@@ -35,7 +22,7 @@ angular.module('readArkrit')
       });
       //Redireccionar si es profesor invitado
       if( $scope.rol != null){
-        if( $scope.rol == 'invitado'){
+        if( $scope.rol == 'profesorInvitado'){
           $location.path('/profesor/terminar');
           $scope.$apply();    
 

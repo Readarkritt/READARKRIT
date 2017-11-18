@@ -40,6 +40,9 @@ function crearAvatar(nombre){
 // Crea un Avatar en el elemento seleccionado (simula el de Google) mediante la inicial del nombre pasado por parámetro
 
 function crearAvatarElemento(nombre,idElemento){
+	alert(nombre);
+	alert(idElemento);
+	alert($('#'+idElemento)).html();
 	$('#'+idElemento).initial({
 	 	name: nombre,
 	 	height: 20,
@@ -76,7 +79,7 @@ function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 	var parametros = {};
 	var peticion   = {};
 	var respuesta  = false;
-	/*var opcionAr   = {};
+	var opcionAr   = {};
 	var opcion     = '';
 
 
@@ -88,7 +91,7 @@ function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 		opcion += opcionAr[i];
 	}
 
-	tablaSQL = tablaSQL.toLowerCase();*/
+	tablaSQL = tablaSQL.toLowerCase();
 
 	if (typeof conAngular === 'undefined')
 		phpUrl = './php/' + opcion + '.php'; // url del controlador
@@ -135,9 +138,13 @@ function cargarMenu($scope){
         		sessionStorage.removeItem('tokenREADARKRIT');
        			window.location.replace('./');
         	} else{
-        		if(data.menu != ''){
+        		/*if(data.menu != ''){
         			$('#navBarGeneral').addClass('navBarDivisor');
         			$('#navBarParticular').append(data.menu);
+        		}*/
+        		if(data.menu != ''){
+        			//$('#navBarGeneral').addClass('navBarDivisor');
+        			$('#navBarGeneral').append(data.menu);
         		}
 
         		if(data.nombre != ''){
@@ -146,6 +153,15 @@ function cargarMenu($scope){
         			crearAvatar(data.nombre);
         		}
         	}
+        	 $(".sidebar-wrapper > .nav > li").click(function(e){
+
+        // 1) Quitamos la clase 'active' al elemento que esté marcado
+        // 2) Y se la ponemos al elemento en el que se ha hecho click
+
+        $("li.active").removeClass('active');
+
+        $(this).addClass('active');
+      });
         });
 }
 
