@@ -183,24 +183,24 @@ function validarCamposProfesor(campos){
 	return errores;
 }
 
-function validarCamposLibro(campos){
+function validarCamposLibro(campos, comprobarExistente=true){
 	var errores = '';
 
 	if(campos.titulo== undefined || campos.titulo == '')
 			errores += '<li>El título no se ha proporcionado.</li>';
 			else if(campos.titulo.length>100)
 				errores += '<li>El título no puede superar los 100 caracteres.</li>';
-			else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,\s]+$/) )
 				errores += '<li>El título sólo puede contener letras o dígitos.</li>';
 
 		if(campos.tituloOriginal === undefined || campos.tituloOriginal == '')
 			errores += '<li>El título original no se ha proporcionado.</li>';
 			else if(campos.tituloOriginal.length>100)
 				errores += '<li>El título original no puede superar los 100 caracteres.</li>';
-			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,\s]+$/) )
 				errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
 
-	if(errores=='' && existeRegistro('titulo', campos.titulo, 'libro') && existeRegistro('titulo_original',campos.tituloOriginal, 'libro')){
+	if(errores=='' && comprobarExistente && existeRegistro('titulo', campos.titulo, 'libro') && existeRegistro('titulo_original',campos.tituloOriginal, 'libro')){
 			errores += '<li>Ya existe un libro registrado con el título y el título original indicado.</li>';
 	} else{
 		
@@ -242,6 +242,9 @@ function validarCamposLibroAnadido(campos){
 			if( campos.posicionRanking > rangoRanking()+1 || campos.posicionRanking < 0)
 			errores += '<li>La posición del ranking debe estar entre 0 y '+rango+'.</li>';
 		}	
+		
+	if(campos.resena.length>5000)
+		errores += '<li>La reseña no puede superar los 5.000 caracteres.</li>';
 
 	return errores;
 }

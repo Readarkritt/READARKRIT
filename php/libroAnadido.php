@@ -14,19 +14,25 @@
 
 	if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'listar' ){
 
-		$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.f_baja is null';
+		$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.f_baja is null';
 
 		$respuesta['librosAnadidos'] = consulta( '', '', '', $sql);
 		$respuesta['error']          = ($respuesta['librosAnadidos'] === false);
 
 	} else if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'listarTodos' ){
+		if(tienePermiso('admin')){
 
-		$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria';
+			$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria';
 
-		$respuesta['librosAnadidos'] = consulta( '', '', '', $sql);
-		$respuesta['error']          = ($respuesta['librosAnadidos'] === false);
+			$respuesta['librosAnadidos'] = consulta( '', '', '', $sql);
+			$respuesta['error']          = ($respuesta['librosAnadidos'] === false);
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
+		}
 	} else if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'modificar' ){
-		if(tienePermiso('profesor')){
+		if(tienePermiso('admin')){
 
 			$libro = array();
 			$libro['idLibro'] 			= $obj['idLibro'];
@@ -39,17 +45,18 @@
 			$libro['portadaAñadida']	= ($obj['portadaAñadida'] === 'true');
 
 			$libroAnadido = array();
-			$libroAnadido['idPais'] = $obj['idPais'];
-			$libroAnadido['idCategoria'] = $obj['idCategoria'];
-			$libroAnadido['posicionRanking'] = $obj['posicionRanking'];
-			$libroAnadido['nivelEspecializacion'] = $obj['nivelEspecializacion'];
-			$libroAnadido['idLibroAnadido'] = $obj['idLibroAnadido'];
+			$libroAnadido['idPais'] 				= $obj['idPais'];
+			$libroAnadido['idCategoria'] 			= $obj['idCategoria'];
+			$libroAnadido['posicionRanking'] 		= $obj['posicionRanking'];
+			$libroAnadido['nivelEspecializacion'] 	= $obj['nivelEspecializacion'];
+			$libroAnadido['resena'] 				= $obj['resena'];
+			$libroAnadido['idLibroAnadido'] 		= $obj['idLibroAnadido'];
 
 
 
 			$libroValidado = validarCamposLibro($libro);
 			$libroAnadidoValidado = validarCamposLibroAnadido($libroAnadido);
-			$portadaValidada = (!$libro['portadaAñadida'] || ( $libro['portadaAñadida']&& isset($_FILES["portada"]))); 
+			$portadaValidada = (!$libro['portadaAñadida'] || ( $libro['portadaAñadida'] && isset($_FILES["portada"]))); 
 
 			if($libroValidado && $libroAnadidoValidado && $portadaValidada){
 
@@ -91,6 +98,10 @@
 					$libroAnadidoOriginal->cambiarPosicionRanking($libroAnadido['posicionRanking']);
 				}
 
+				if($libroAnadidoOriginal->obtenerResena() != $libroAnadido['resena']){
+					$libroAnadidoOriginal->cambiarResena($libroAnadido['resena']);
+				}
+
 				if($libro['portadaAñadida']){
 					$folder = '../img/portadasLibros/';
 
@@ -108,7 +119,7 @@
 
 
 
-				$sql = 'select a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.id_libro = '.$libro['idLibro'];
+				$sql = 'select a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.id_libro = '.$libro['idLibro'];
 
 				$respuesta['libro'] = consulta( '', '', '', $sql);
 
@@ -125,7 +136,7 @@
 	}
 
 	if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'eliminar' ){
-		if(tienePermiso('profesor')){
+		if(tienePermiso('admin')){
 
 			$obj['idLibroAnadido'] = (int) $obj['idLibroAnadido'];
 
@@ -162,7 +173,7 @@
 	}
 
 	if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'reactivar' ){
-		if(tienePermiso('profesor')){
+		if(tienePermiso('admin')){
 
 			$obj['idLibroAnadido'] = (int) $obj['idLibroAnadido'];
 
@@ -181,7 +192,7 @@
 					$libro->cargar( $obj['idLibroAnadido'] );
 					$libro->reactivar();
 
-					$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where a.id_libro_anadido = '.$obj['idLibroAnadido'];
+					$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where a.id_libro_anadido = '.$obj['idLibroAnadido'];
 
 					$respuesta['libro'] = consulta( '', '', '', $sql);
 					$respuesta['error'] = false;
@@ -200,9 +211,14 @@
 	}
 
 	if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'obtener' ){
-		$respuesta['libroAnadido']	= consulta('*',"libro_anadido","id_libro_anadido = ".$obj['idLibroAnadido']);
-		$respuesta['libro']			= consulta('*',"libro","id_Libro = ".$respuesta['libroAnadido']['ID_LIBRO']);
-		$respuesta['error'] 		= false;
+		if(tienePermiso('admin')){
+			$respuesta['libroAnadido']	= consulta('*',"libro_anadido","id_libro_anadido = ".$obj['idLibroAnadido']);
+			$respuesta['libro']			= consulta('*',"libro","id_Libro = ".$respuesta['libroAnadido']['ID_LIBRO']);
+			$respuesta['error'] 		= false;
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
+		}
 	}
 
 	echo json_encode( $respuesta );

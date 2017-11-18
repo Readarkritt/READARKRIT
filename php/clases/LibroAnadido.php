@@ -10,6 +10,7 @@
 		private $posicionRanking 		= 0;
 		private $mediaNumUsuarios		= 0;
 		private $nivelEspecializacion 	= '';
+		private $resena					= '';
 
 		private $libro;
 
@@ -18,7 +19,7 @@
 
 		public function __construct(){
 			$this->tablaSQL = 'libro_anadido';
-			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, posicion_ranking, media_num_usuarios, nivel_especializacion';
+			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, posicion_ranking, media_num_usuarios, nivel_especializacion, resena';
 
 			$this->libro = new Libro();
 		}
@@ -31,6 +32,7 @@
 			$this->posicionRanking 			= $valores['posicionRanking'];
 			$this->mediaNumUsuarios 		= $valores['mediaNumUsuarios'];
 			$this->nivelEspecializacion 	= $valores['nivelEspecializacion'];
+			$this->resena 					= $valores['resena'];
 
 			$this->idLibroAnadido = insertar($this->camposSQL, $valores, $this->tablaSQL);
 
@@ -49,13 +51,14 @@
 
 			$resultado = consulta($this->camposSQL, $this->tablaSQL, $condicion);
 
-			$this->idLibroAnadido 	= $idLibroAnadido;
-			$this->idLibro 			= $resultado['id_libro'];
-			$this->idPais 			= $resultado['id_pais'];
-			$this->idCategoria		= $resultado['id_categoria'];
-			$this->posicionRanking	= $resultado['posicion_ranking'];
-			$this->mediaNumUsuarios	= $resultado['media_num_usuarios'];
-			$this->nivelEspecializacion	= $resultado['nivel_especializacion'];
+			$this->idLibroAnadido 			= $idLibroAnadido;
+			$this->idLibro 					= $resultado['id_libro'];
+			$this->idPais 					= $resultado['id_pais'];
+			$this->idCategoria				= $resultado['id_categoria'];
+			$this->posicionRanking			= $resultado['posicion_ranking'];
+			$this->mediaNumUsuarios			= $resultado['media_num_usuarios'];
+			$this->nivelEspecializacion		= $resultado['nivel_especializacion'];
+			$this->resena					= $resultado['resena'];
 
 			$this->libro->cargar($this->idLibro);
 		}
@@ -106,6 +109,10 @@
 			return $this->libro;
 		}
 
+		public function obtenerResena(){
+			return $this->resena;
+		}
+
 
 		public function cambiarIdPais($idPais){
 			$condicion = 'id_libro_anadido = '.$this->idLibroAnadido;
@@ -147,6 +154,14 @@
 			actualizar('nivel_especializacion', $this->nivelEspecializacion, $this->tablaSQL, $condicion);
 		}
 
+		public function cambiarResena($resena){
+			$condicion = 'id_libro_anadido = '.$this->idLibroAnadido;
+
+			$this->resena = $resena;
+
+			actualizar('resena', $this->resena, $this->tablaSQL, $condicion);
+		}
+
 
 
 		public function toArray(){
@@ -158,6 +173,7 @@
 				'posicionRanking' 		=> $this->posicionRanking,
 				'mediaNumUsuarios' 		=> $this->mediaNumUsuarios,
 				'nivelEspecializacion' 	=> $this->nivelEspecializacion,
+				'resena' 				=> $this->resena,
 				'libro' 				=> $this->libro->toArray()
 			);
 
@@ -175,6 +191,7 @@
 				'posicionRanking' 		=> $this->posicionRanking,
 				'mediaNumUsuarios' 		=> $this->mediaNumUsuarios,
 				'nivelEspecializacion' 	=> $this->nivelEspecializacion,
+				'resena' 				=> $this->resena,
 
 				'portada'				=> $libro['portada'],
 				'titulo'				=> $libro['titulo'],

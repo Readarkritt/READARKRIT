@@ -106,6 +106,7 @@ angular.module('readArkrit')
 				$scope.modLibroAnadido.idCategoria 			=data.libroAnadido.ID_CATEGORIA;
 				$scope.modLibroAnadido.nivelEspecializacion =data.libroAnadido.NIVEL_ESPECIALIZACION;
 				$scope.modLibroAnadido.posicionRanking		=data.libroAnadido.POSICION_RANKING;
+				$scope.modLibroAnadido.resena				=data.libroAnadido.RESENA;
 
 				$('#modPortadaImg').attr("src", "./img/portadasLibros/"+$scope.modLibro.portada);
 			}
@@ -137,6 +138,7 @@ angular.module('readArkrit')
       	datosLibroAnadido.idCategoria 			= $scope.modLibroAnadido.idCategoria;
       	datosLibroAnadido.posicionRanking 		= $scope.modLibroAnadido.posicionRanking;
       	datosLibroAnadido.nivelEspecializacion 	= $scope.modLibroAnadido.nivelEspecializacion;
+      	datosLibroAnadido.resena 				= $scope.modLibroAnadido.resena;
 
       	if($('#modInputPortada').get(0).files.length > 0){
       		portada = $('#modInputPortada').prop('files')[0];
@@ -150,7 +152,7 @@ angular.module('readArkrit')
       	console.log(datosLibroAnadido);
 
 	     //VALIDAR
-	     errores = validarCamposLibro(datosLibro);
+	     errores = validarCamposLibro(datosLibro, false);
 	     errores += validarCamposLibroAnadido(datosLibroAnadido);
 
 
@@ -176,6 +178,7 @@ angular.module('readArkrit')
 			formData.append('idCategoria', 			datosLibroAnadido.idCategoria);
 			formData.append('posicionRanking', 		datosLibroAnadido.posicionRanking);
 			formData.append('nivelEspecializacion',	datosLibroAnadido.nivelEspecializacion);
+			formData.append('resena',				datosLibroAnadido.resena);
 			
 			formData.append('token', sessionStorage.getItem('tokenREADARKRIT'));
 
@@ -306,6 +309,7 @@ angular.module('readArkrit')
       	datosLibroAnadido.posicionRanking 		= $scope.libroAnadido.posicionRanking;
       	datosLibroAnadido.mediaNumUsuarios 		= '';
       	datosLibroAnadido.nivelEspecializacion 	= $scope.libroAnadido.nivelEspecializacion;
+      	datosLibroAnadido.resena 				= $scope.libroAnadido.resena;
 
       	var portada = $('#inputPortada').prop('files')[0];
 
@@ -332,6 +336,7 @@ angular.module('readArkrit')
 			formData.append('idCategoria', 			datosLibroAnadido.idCategoria);
 			formData.append('posicionRanking', 		datosLibroAnadido.posicionRanking);
 			formData.append('nivelEspecializacion',	datosLibroAnadido.nivelEspecializacion);
+			formData.append('resena',				datosLibroAnadido.resena);
 
 			formData.append('token', sessionStorage.getItem('tokenREADARKRIT'));
 

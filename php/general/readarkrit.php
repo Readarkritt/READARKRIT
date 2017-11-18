@@ -15,7 +15,7 @@
 
 				if($permiso == 'admin' && $rol == 'admin')
 					return true;
-				else if($permiso == 'profesor' && ($rol=='admin' || $rol=='profesor') )
+				else if($permiso == 'profesor' && ($rol=='admin' || $rol=='profesor' || $rol =='profesorInvitado') )
 					return true;
 				else if($permiso == 'alumno')
 					return true;
@@ -316,6 +316,9 @@
 			return false;
 
 		if($libroAnadido['nivelEspecializacion'] =! 'basico' && $libroAnadido['nivelEspecializacion'] != 'especialidad')
+			return false;
+
+		if( strlen($libroAnadido['resena']) > 5000 )
 			return false;
 			
 		return $libroAnadido;
