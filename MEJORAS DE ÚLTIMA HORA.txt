@@ -1,7 +1,7 @@
 MEJORAS DE ÚLTIMA HORA
 
-1) Reactivar la autenticación
-2) Añadir la ruta de las páginas con sus privilegios
+HECHO 1) Reactivar la autenticación
+HECHO 2) Añadir la ruta de las páginas con sus privilegios
 3) Spinner entre la pantalla de Estadísticas y Mi biblioteca
 4) Borrar pruebas.php
 5) Implementar servidor de correo para poder mandar emails a los usuarios.
@@ -15,5 +15,9 @@ MEJORAS DE ÚLTIMA HORA
 		Y quitar el $scope.$apply();
 		Quitar dt-options dt-instance de las tablas (HTML)
 		Quitar DTOptionsBuilder de los controladores
-11) Si libro propuesto eliminado e intentan añadirlo de nuevo (propuesta o añadido) ???
-12) Ajustes/Cerrar Sesión -> Login/Conectarse (si Visitante)
+11) Tamaño de portadas de los libros
+HECHO 12) Ajustes/Cerrar Sesión -> Login/Conectarse (si Visitante)
+13) Comentarios: Si es visitante, desactivar el formulario de alta comentario.
+14) Libros propuestos: añadir reactivar libro (y mostrar en "Eliminar" -> "Administrar libros propuestos")
+15) cargarModificarLibro -> no hace falta llamar al servidor
+16) Definir permiso vista formProfesor (compartido entre profesor y profesorInvitado)
