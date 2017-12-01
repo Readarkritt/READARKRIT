@@ -50,13 +50,14 @@
 
 			$resultado = consulta($this->camposSQL, $this->tablaSQL, $condicion);
 
-			$this->idLibroAnadido 	= $idLibroAnadido;
-			$this->idLibro 			= $resultado['id_libro'];
-			$this->idPais 			= $resultado['id_pais'];
-			$this->idCategoria		= $resultado['id_categoria'];
-			$this->posicionRanking	= $resultado['posicion_ranking'];
-			$this->mediaNumUsuarios	= $resultado['media_num_usuarios'];
-			$this->nivelEspecializacion	= $resultado['nivel_especializacion'];
+			$this->idLibroAnadido 			= $idLibroAnadido;
+			$this->idLibro 					= $resultado['id_libro'];
+			$this->idPais 					= $resultado['id_pais'];
+			$this->idCategoria				= $resultado['id_categoria'];
+			$this->posicionRanking			= $resultado['posicion_ranking'];
+			$this->mediaNumUsuarios			= $resultado['media_num_usuarios'];
+			$this->nivelEspecializacion		= $resultado['nivel_especializacion'];
+			$this->resena					= $resultado['resena'];
 
 			$this->libro->cargar($this->idLibro);
 		}
@@ -107,6 +108,10 @@
 			return $this->libro;
 		}
 
+		public function obtenerResena(){
+			return $this->resena;
+		}
+
 
 		public function cambiarIdPais($idPais){
 			$condicion = 'id_libro_anadido = '.$this->idLibroAnadido;
@@ -148,6 +153,14 @@
 			actualizar('nivel_especializacion', $this->nivelEspecializacion, $this->tablaSQL, $condicion);
 		}
 
+		public function cambiarResena($resena){
+			$condicion = 'id_libro_anadido = '.$this->idLibroAnadido;
+
+			$this->resena = $resena;
+
+			actualizar('resena', $this->resena, $this->tablaSQL, $condicion);
+		}
+
 
 
 		public function toArray(){
@@ -159,6 +172,7 @@
 				'posicionRanking' 		=> $this->posicionRanking,
 				'mediaNumUsuarios' 		=> $this->mediaNumUsuarios,
 				'nivelEspecializacion' 	=> $this->nivelEspecializacion,
+				'resena' 				=> $this->resena,
 				'libro' 				=> $this->libro->toArray()
 			);
 
@@ -176,6 +190,7 @@
 				'posicionRanking' 		=> $this->posicionRanking,
 				'mediaNumUsuarios' 		=> $this->mediaNumUsuarios,
 				'nivelEspecializacion' 	=> $this->nivelEspecializacion,
+				'resena' 				=> $this->resena,
 
 				'portada'				=> $libro['portada'],
 				'titulo'				=> $libro['titulo'],

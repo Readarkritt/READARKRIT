@@ -50,7 +50,7 @@
 					    </table>
 					</div>
 				</div>
-				<div id="comentarios" class="card-content hidden">
+				<div id="comentariosLibro" class="card-content hidden">
 					<div class="container-fluid">	
 						<div class="row">
 							<div class="col-md-12">
@@ -60,13 +60,12 @@
 												<label class="control-label">Nota: </label>
 												<div class="container-fluid">
 													<div class="row">
-														<div class="col-md-10">
-															<div class="input-group">
-																<input class="form-control" type="range" min="0" max="10" step="1" ng-model="resena.nota" id="slider" value="5" ng-change="cambiarValorSlider(resena.nota)"/>
-															</div>
+														<div class="col-md-12" id="valor_slider">
 														</div>
-														<div class="col-md-2">
-															<span id="valor_slider"></span>
+													</div>
+													<div class="row">
+														<div class="col-md-12">
+																<input type="range" min="0" max="10" step="1" ng-model="resena.nota" id="slider" value="5" ng-change="cambiarValorSlider(resena.nota)"/>
 														</div>
 													</div>
 												</div>
@@ -86,13 +85,13 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12" id="separadorFormulario">
 								<hr/>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-									<div class=" table-responsive">
+									<div class="table-responsive">
 										<table  id="listadoComentarios" class="table table-striped table-bordered dt-responsive nowrap row-border hover">
 											<thead>
 												<tr>	
@@ -102,22 +101,22 @@
 													<th>Nota</th>
 												</tr>
 											</thead>
-											<tbody ng-repeat="resena in resenas" id="resena{{resena.id_resena}}">
-												<tr class="comentario">
+											<tbody>
+												<tr ng-repeat-start="resena in resenas" id="resena{{resena.id_resena}}">
 													<td style="width:50px">
-														<img class="img-avatar img-circle mini-avatar" id="avatarResena{{resena.id_resena}}"/>
+														<img class="img-circle mini-avatar" id="avatarResena{{resena.id_resena}}"/>
 													</td>
 													<td>{{resena.nombre}}</td>
 													<td>{{resena.fecha_alta}}</td>
 													<td>{{resena.nota}}</td>
 												</tr>
-												<tr>
+												<tr ng-repeat-end>
 													<td class="comentarioContenido" colspan="4">{{resena.comentario}}</td>
 												</tr>
 											</tbody>
 										</table>
 								</div>
-											<button type="button" class="btn btn-info pull-right" ng-click="mostrarListaLibros()">Volver</button>
+									<button type="button" class="btn btn-info pull-right" ng-click="mostrarListaLibros()">Volver</button>
 							</div>
 						</div>					
 					</div>
@@ -142,8 +141,8 @@
 								<th>Eliminar</th>
 							</tr>
 						</thead>
-						<tbody ng-repeat="resena in misResenas" id="misComentariosBody" >
-							<tr>
+						<tbody>
+							<tr ng-repeat-start="resena in misResenas" id="misComentariosBody" >
 								<td rowspan="2"><div style="max-width:100px; min-width:50px;margin:auto"><img alt="portada" src="{{resena.portada}}"/></div></td>
 								<td>{{resena.titulo}}</td>
 								<td>{{resena.fecha_alta}}</td>
@@ -154,7 +153,7 @@
 									</button>
 								</td>
 							</tr>
-							<tr>
+							<tr ng-repeat-end>
 								<td class="comentarioContenido" colspan="4">{{resena.comentario}}</td>
 							</tr>
 						</tbody>

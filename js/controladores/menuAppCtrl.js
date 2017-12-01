@@ -1,24 +1,12 @@
 angular.module('readArkrit')
   .controller('menuAppCtrl', ['$scope', '$location', function ($scope, $location) {
+
       $scope.nombreUsuario = '';
       $scope.rol = '';
 
       // MENÚ
       cargarMenu($scope);
-      marcarMenu();
-
-      $(".sidebar-wrapper > .nav > li").click(function(e){
-
-        // 1) Quitamos la clase 'active' al elemento que esté marcado
-        // 2) Y se la ponemos al elemento en el que se ha hecho click
-
-        $("li.active").removeClass('active');
-
-        $(this).addClass('active');
-      });
-
-
-
+      //marcarMenu();
       
 
       //Comprobar si es invitado
@@ -33,11 +21,18 @@ angular.module('readArkrit')
       respuesta.done(function(data, textStatus, jqXHR ){
         $scope.rol = data.rol;
       });
+      
       //Redireccionar si es profesor invitado
       if( $scope.rol != null){
-        if( $scope.rol == 'invitado'){
-          $location.path('/profesor/terminar');
-          $scope.$apply();    
+        if( $scope.rol == 'profesorInvitado'){
+            if($location.path() != '/profesor/terminar'){
+              $location.path('/profesor/terminar');
+            } else{
+              var html = '<li>'+
+                      '<a href="#" id="cerrarSesion"><i class="fa fa-power-off" aria-hidden="true"></i>&nbsp; Cerrar Sesión</a>'+
+                    '</li>';
+              $('#ajustesCuenta').html(html);
+            }
 
         //Pintar ajustesCuenta
         } else if($scope.rol == 'visitante'){

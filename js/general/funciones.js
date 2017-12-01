@@ -45,8 +45,7 @@ function crearAvatarElemento(nombre,idElemento){
 	 	height: 20,
 	 	width: 20,
 	 	fontSize: 16
-	});
-}
+	});}
 
 
 // Pasa los datos de un formulario a un objeto JS
@@ -117,7 +116,13 @@ function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 
 function marcarMenu(){
 	
-	var actual = (window.location.href).split("/")[4];
+	var loc = (window.location.href).split("/");
+	var actual = "";
+	for (var i = 4 ; i < loc.length; i++){
+		actual+=loc[i];
+	}
+
+	console.log($('#'+actual));
 
 	$("li.active").removeClass('active');
 	$("#"+actual).addClass('active');
@@ -135,9 +140,13 @@ function cargarMenu($scope){
         		sessionStorage.removeItem('tokenREADARKRIT');
        			window.location.replace('./');
         	} else{
-        		if(data.menu != ''){
+        		/*if(data.menu != ''){
         			$('#navBarGeneral').addClass('navBarDivisor');
         			$('#navBarParticular').append(data.menu);
+        		}*/
+        		if(data.menu != ''){
+        			//$('#navBarGeneral').addClass('navBarDivisor');
+        			$('#navBarGeneral').append(data.menu);
         		}
 
         		if(data.nombre != ''){
@@ -146,7 +155,18 @@ function cargarMenu($scope){
         			crearAvatar(data.nombre);
         		}
         	}
-        });
+        	 $(".sidebar-wrapper > .nav > li").click(function(e){
+
+        // 1) Quitamos la clase 'active' al elemento que esté marcado
+        // 2) Y se la ponemos al elemento en el que se ha hecho click
+
+        $("li.active").removeClass('active');
+
+        $(this).addClass('active');
+      });
+        marcarMenu();
+      });
+
 }
 
 function cerrarAlerta(elemento){

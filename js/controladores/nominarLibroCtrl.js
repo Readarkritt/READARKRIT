@@ -20,7 +20,8 @@ angular.module('readArkrit')
 		peticionAJAX('./php/libroPropuesto.php', {
 			opcion: 'libroPropuesto',
 			accion: 'listar',
-			propuestoPara:'añadir'
+			propuestoPara:'añadir',
+			activos: true
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
 
@@ -41,7 +42,8 @@ angular.module('readArkrit')
 		peticionAJAX('./php/libroPropuesto.php', {
 			opcion: 'libroPropuesto',
 			accion: 'listar',
-			propuestoPara:'eliminar'
+			propuestoPara:'eliminar',
+			activos: true
 		}, false)
 		.done(function( data, textStatus, jqXHR ){
 

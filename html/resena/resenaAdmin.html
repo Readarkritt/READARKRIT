@@ -14,23 +14,24 @@
 									<th>Usuario</th>
 									<th>Fecha de comentario</th>
 									<th>Nota</th>
-									<th>Comentario</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
-							<tbody ng-repeat="resena in resenas">
-								<tr class="comentario">
+							<tbody>
+								<tr ng-repeat-start="resena in resenas">
 									<td>{{resena.titulo}}</td>
 									<td>{{resena.nombre}}</td>
 									<td>{{resena.fecha_alta}}</td>
 									<td>{{resena.nota}}</td>
-									<td>{{resena.comentario}}</td>
 					        		<td>
 										<button type="button" rel="tooltip" title="Eliminar" id="botonPrueba" class="btn btn-default btn-simple acciones-registro" ng-click="eliminarResena(resena.id_resena, $index)">
 											<i class="fa fa-trash" aria-hidden="true"></i>
 										</button>
 					        		</td>
-							</tr>
+					        	</tr>
+					        	<tr ng-repeat-end>
+									<td colspan=5>{{resena.comentario}}</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

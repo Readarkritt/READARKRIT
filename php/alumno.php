@@ -57,6 +57,9 @@
 			$respuesta['idUsuario'] = $alumno->obtenerIdUsuario();
 			$respuesta['idAlumno']  = $alumno->obtenerId();
 
+			//CREAR TOKEN
+			$respuesta['token'] = generarToken($alumno->obtenerIdUsuario(), $alumno->obtenerUsuario()->obtenerNombre(), $alumno->obtenerUsuario()->obtenerNombreUsuario(), 'alumno', $alumno->obtenerUsuario()->obtenerCorreo());
+
 			$respuesta['error']     = false;
 		} else {
 

@@ -5,6 +5,7 @@
 	require_once("./general/readarkrit.php");
 	require_once("./clases/Hash.php");
 	require_once("./clases/Profesor.php");
+	require_once("./clases/Estanteria.php");
 
 	// CONTROLADOR
 
@@ -48,6 +49,10 @@
 				$profesor = new Profesor();
 				$profesor->rellenar( $usuarioValidado, $profesorValidado );
 
+				// Crear la estantería por defecto
+				$estanteria = new Estanteria();
+				$estanteria->rellenarDefault( $profesor->obtenerIdUsuario() );
+				
 				$respuesta['idUsuario']  = $profesor->obtenerIdUsuario();
 				$respuesta['idProfesor'] = $profesor->obtenerId();
 				$respuesta['error']      = false;
@@ -118,6 +123,9 @@
 				$respuesta['error'] = true;
 				$respuesta['descripcionError'] = 'Datos manipulados.';		
 			}	
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
 		}
 	}
 	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'modificarConectado' ){
@@ -190,10 +198,31 @@
 			$usuarioValidado  = validarCamposUsuario($usuario);
 			$profesorValidado = validarCamposProfesor($profesor);
 
-			if($usuarioValidado && $profesorValidado){
+			if($usuarioValidado && $profesorValidado  && count($obj['librosLeidos']) != 0  ){
 				unset($usuarioValidado['contrasenaRepetida']);
 				$profesor = new Profesor();
 				$profesor->rellenar($usuarioValidado, $profesorValidado);
+
+				// Crear la estantería por defecto
+				$estanteria = new Estanteria();
+				$estanteria->rellenarDefault( $profesor->obtenerIdUsuario() );
+
+				// Relacionar la estantería con los libros leídos
+				$camposSQL = 'id_rel_libro_estanteria, id_libro, id_estanteria, libro_leido';
+				$arrValores = array();
+
+				for($i=0; $i<count($obj['librosLeidos']); $i++){
+				//$idLibro = consulta( 'id_libro', 'libro_anadido', 'id_libro_anadido = '. $obj['librosLeidos'][$i] );
+
+				$arrValores[0] = ''; // id_rel_libro_estanteria
+				$arrValores[1] = $obj['librosLeidos'][$i]; 
+				$arrValores[2] = $estanteria->obtenerId();
+				$arrValores[3] = 1;
+
+					insertar( $camposSQL, $arrValores, 'rel_libro_estanteria' );
+				}
+
+				
 
 				$tabla = 'invitacion';
 				$condicion = 'correo = "'.$profesor->obtenerUsuario()->obtenerCorreo().'"';

@@ -144,8 +144,36 @@ angular.module('readArkrit')
 
 				swal("Propuesta Eliminada", "Propuesta eliminada con éxito.", "success");
 
-				$scope.librosPropuestos.splice(indexScope, 1);					
-					
+				data.libro.portada = './img/portadasLibros/'+data.libro.portada;
+				$scope.librosPropuestos[indexScope] = data.libro;
+				
+				var table = $('#tablaPropuestos').DataTable();
+				table.draw( false );
+
+				table = $('#tablaAñadir').DataTable();
+				table.draw( false );
+			}
+		});
+	}
+
+	$scope.reactivarLibroPropuesto = function(idLibroPropuesto, indexScope){
+		peticionAJAX('./php/libroPropuesto.php', {
+
+			opcion : 'libroPropuesto',
+			accion : 'reactivar',
+			idLibroPropuesto: idLibroPropuesto
+		}, false)
+		.done(function( data, textStatus, jqXHR ){
+
+			if( data.error )
+				swal("Reactivar Propuesta", "Error en la transacción.", "error");
+			else{
+
+				swal("Propuesta Reactivada", "Propuesta reactivada con éxito.", "success");
+
+				data.libro.portada = './img/portadasLibros/'+data.libro.portada;
+				$scope.librosPropuestos[indexScope] = data.libro;
+				
 				var table = $('#tablaPropuestos').DataTable();
 				table.draw( false );
 
@@ -154,6 +182,12 @@ angular.module('readArkrit')
 
 			}
 		});
+
+	}
+
+	$scope.mostrarListadoAnadir = function(){
+		$('#formAñadir').removeClass('active');
+		$('#añadirColeccion').addClass('active');
 	}
 
 	$scope.cargarAnadir = function(idLibro){
@@ -180,7 +214,8 @@ angular.module('readArkrit')
 
 			peticionAJAX('./php/libroPropuesto.php', {
 
-				opcion: 'libroPropuesto',
+			//	opcion: 'libroPropuesto',
+						opcion: '',
 				accion: 'anadirColeccion',
 				libroAnadido: $scope.libroAnadir
 
@@ -191,22 +226,24 @@ angular.module('readArkrit')
 
 					swal("Datos incorrectos", data.descripcionError, "error");
 				} else {
+					//BUSCAR EN EL ARRAY Y BORRAR POR ID LIBRO	
+					var index = buscarValorEnArrObj($scope.librosPropuestos, 'id_libro', $scope.libroAnadir.idLibro);		
+					$scope.librosPropuestos.splice(index,1);
 					$scope.libroAnadir = {};
-					//BUSCAR EN EL ARRAY Y BORRAR POR ID LIBRO			
-					$scope.librosPropuestos.splice($scope.libroAnadirIndex,1);
 
 					console.log($scope.librosPropuestos);
 					
 					var table = $('#tablaPropuestos').DataTable();
-					table.rows().invalidate( 'data' ).draw(false);
+					table.draw(false);
 
 					table = $('#tablaAñadir').DataTable();
-					table.rows().invalidate( 'data' ).draw(false);
-
-				    $('#añadirColeccion').addClass('active');
-				    $('#formAñadir').removeClass('active');
+					table.draw(false);
 					
 					swal("Añadir a Colección", "Libro añadido correctamente", "success");
+
+				    $('#formAñadir').removeClass('active');
+				    $('#añadirColeccion').addClass('active');
+				    $('#botonAñadir').click();
 				}
 
 			});

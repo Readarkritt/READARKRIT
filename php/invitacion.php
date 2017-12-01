@@ -3,6 +3,7 @@
 	require_once("./general/bbdd.php");
 	require_once("./general/funciones.php");
 	require_once("./general/token.php");
+	require_once("./general/readarkrit.php");
 	require_once("./clases/Hash.php");
 
 	$obj       = $_POST;

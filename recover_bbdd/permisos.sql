@@ -59,8 +59,8 @@ INSERT INTO `permisos` (`ID_PERMISO`, `RUTA_FICHERO`, `ROL`) VALUES
 (18, '/READARKRIT/html/resena/resenaAdmin.html', 'profesor'),
 (19, '/READARKRIT/html/load.html', 'visitante'),
 (20, '/READARKRIT/html/almasGemelas/listarAlmasGemelas.html', 'alumno'),
-(21, '/READARKRIT/html/clubLecura/adminClubLectura.html', 'profesor'),
-(22, '/READARKRIT/html/clubLecura/anadirComentarioClub.html', 'alumno'),
+(21, '/READARKRIT/html/clubLectura/adminClubLectura.html', 'profesor'),
+(22, '/READARKRIT/html/clubLectura/anadirComentarioClub.html', 'alumno'),
 (23, '/READARKRIT/html/seguirEstanteria/listarSeguirEstanteria.html', 'alumno');
 
 --

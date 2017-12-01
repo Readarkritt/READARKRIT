@@ -15,7 +15,7 @@
 
 				if($permiso == 'admin' && $rol == 'admin')
 					return true;
-				else if($permiso == 'profesor' && ($rol=='admin' || $rol=='profesor') )
+				else if($permiso == 'profesor' && ($rol=='admin' || $rol=='profesor' || $rol =='profesorInvitado') )
 					return true;
 				else if($permiso == 'alumno')
 					return true;
@@ -255,13 +255,13 @@
 		$libro['anadidoPor'] 		= (int) $libro['anadidoPor'];
 
 		//VALIDACIÓN
-		if( $libro['titulo'] == '' || strlen($libro['titulo']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $libro['titulo']) )
+		if( $libro['titulo'] == '' || strlen($libro['titulo']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_,.&\s]+$/', $libro['titulo']) )
 			return false;
 
-		if( $libro['tituloOriginal'] == '' || strlen($libro['tituloOriginal']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $libro['tituloOriginal']) )
+		if( $libro['tituloOriginal'] == '' || strlen($libro['tituloOriginal']) > 100 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_,.&\s]+$/', $libro['tituloOriginal']) )
 			return false;
 
-		if( $libro['autor'] == '' || strlen($libro['autor']) > 50 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/', $libro['autor']) )
+		if( $libro['autor'] == '' || strlen($libro['autor']) > 50 || !preg_match('/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_,\s]+$/', $libro['autor']) )
 			return false;	
 
 		if($libro['ano'] < 1900 || $libro['ano'] > date("Y"))
@@ -316,6 +316,9 @@
 			return false;
 
 		if($libroAnadido['nivelEspecializacion'] =! 'basico' && $libroAnadido['nivelEspecializacion'] != 'especialidad')
+			return false;
+
+		if( strlen($libroAnadido['resena']) > 5000 )
 			return false;
 			
 		return $libroAnadido;

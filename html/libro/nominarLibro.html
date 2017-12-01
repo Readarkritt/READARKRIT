@@ -148,17 +148,17 @@
 						<table id="tablaAlta" class="table table-striped table-bordered dt-responsive nowrap row-border hover hidden" width="100%" datatable="ng" cellspacing="0" dt-options="dtOptions" dt-instance="dtInstance">
 					        <thead>
 					            <tr>
-					                <th>TÍTULO</th>
-					                <th>MOTIVO</th>
+					                <th class="all">TÍTULO</th>
 					                <th>VOTOS</th>
-					                <th>VOTAR</th>
+					                <th>MOTIVO</th>
+					                <th class="all">VOTAR</th>
 					            </tr>
 					        </thead>
 					        <tbody>
 					        	<tr ng-repeat="libro in librosPropuestosAlta">
 					        		<td>{{libro.titulo}}</td>
-					        		<td>{{libro.motivo}}</td>
 					        		<td>{{libro.num_votos}}</td>
+					        		<td>{{libro.motivo}}</td>
 					        		<td>
 					        			<button type="button" rel="tooltip" title="Modificar" class="btn btn-primary btn-simple acciones-registro" ng-click="votar(libro.id_libro_propuesto, $index, 'alta')">
 											<i class="fa fa-plus" aria-hidden="true"></i>
@@ -180,17 +180,17 @@
 						<table id="tablaBaja" class="table table-striped table-bordered dt-responsive nowrap row-border hover hidden" width="100%" datatable="ng" cellspacing="0" dt-options="dtOptions" dt-instance="dtInstance">
 					        <thead>
 					            <tr>
-					                <th>TÍTULO</th>
-					                <th>MOTIVO</th>
+					                <th class="all">TÍTULO</th>
 					                <th>VOTOS</th>
-					                <th>VOTAR</th>
+					                <th>MOTIVO</th>
+					                <th class="all">VOTAR</th>
 					            </tr>
 					        </thead>
 					        <tbody>
 					        	<tr ng-repeat="libro in librosPropuestosBaja">
 					        		<td>{{libro.titulo}}</td>
-					        		<td>{{libro.motivo}}</td>
 					        		<td>{{libro.num_votos}}</td>
+					        		<td>{{libro.motivo}}</td>
 					        		<td>
 					        			<button type="button" rel="tooltip" title="Modificar" class="btn btn-primary btn-simple acciones-registro" ng-click="votar(libro.id_libro_propuesto, $index, 'baja')">
 											<i class="fa fa-plus" aria-hidden="true"></i>
