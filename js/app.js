@@ -27,6 +27,12 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function ($ro
             templateUrl: './html/estadistica/listarEstadistica.html'
         })
 
+        // COLECCIÓN ARKRIT
+        .when('/coleccionArkrit', {
+            templateUrl: './html/coleccionArkrit/listarColeccionArkrit.html',
+            controller: 'coleccionArkritCtrl'
+        })
+
         // ESTADÍSTICAS
         .when('/estadisticas', {
             templateUrl: './html/estadistica/listarEstadistica.html',

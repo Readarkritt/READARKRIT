@@ -22,7 +22,7 @@
 		for( $i=0; $i < count($arrLibros); $i++ ) { 
 
 			$ficheroTmp = $rutaTmp . $arrLibros[$i]['PORTADA'];
-			
+	
 			if( file_exists( $ficheroTmp ) ){
 
 				$nuevoNombre = generarFechaMicrosegundos() . '.' . obtenerExtension($arrLibros[$i]['PORTADA']);
@@ -66,8 +66,12 @@
 									$arrLibros[$i]['MEDIA_NUM_USUARIOS'] = 0;
 
 									// 8) NIVEL_ESPECIALIZACION se comprueba si es básico o especialidad
-									if( $arrLibros[$i]['NIVEL_ESPECIALIZACION'] == 'Básico' || $arrLibros[$i]['NIVEL_ESPECIALIZACION'] == 'Especialidad' )
-										$libroProblematico = false;
+									if( $arrLibros[$i]['NIVEL_ESPECIALIZACION'] == 'Básico' || $arrLibros[$i]['NIVEL_ESPECIALIZACION'] == 'Especialidad' ){
+
+										// 9) RESEÑA se comprueba si no se sale del límite
+										if( (strlen($arrLibros[$i]['RESENA']) <= 2000 && preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ ,.;_\s]+$/', $arrLibros[$i]['RESENA'])) || $arrLibros[$i]['RESENA'] == '' )
+											$libroProblematico = false;
+									}
 								}
 							}
 						}
@@ -102,6 +106,7 @@
 				$valoresLibroAnadido['posicionRanking'] 	 = $arrLibros[$i]['POSICION_RANKING'];
 				$valoresLibroAnadido['mediaNumUsuarios']     = $arrLibros[$i]['MEDIA_NUM_USUARIOS'];
 				$valoresLibroAnadido['nivelEspecializacion'] = $arrLibros[$i]['NIVEL_ESPECIALIZACION'];
+				$valoresLibroAnadido['resena'] 				 = $arrLibros[$i]['RESENA'];
 
 				// 12) Creamos el libro
 
@@ -155,7 +160,7 @@
 			} else {
 
 				$respuesta['error'] = true;
-				$respuesta['descripcionError'] = 'Los ficheros subidos sólo pueden ser .xls, .xlsx o .zip.';
+				$respuesta['descripcionError'] = 'Es necesario un fichero .xls, .xlsx, y otro .zip.';
 			}
 		} else{
 			$respuesta['error'] = true;

@@ -76,7 +76,7 @@ function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 	var parametros = {};
 	var peticion   = {};
 	var respuesta  = false;
-	/*var opcionAr   = {};
+	var opcionAr   = {};
 	var opcion     = '';
 
 
@@ -88,7 +88,7 @@ function existeRegistro(campoSQL, valor, tablaSQL, conAngular){
 		opcion += opcionAr[i];
 	}
 
-	tablaSQL = tablaSQL.toLowerCase();*/
+	tablaSQL = tablaSQL.toLowerCase();
 
 	if (typeof conAngular === 'undefined')
 		phpUrl = './php/' + opcion + '.php'; // url del controlador

@@ -165,7 +165,7 @@
 
 		if( $longitudMax > 0 ){
 
-			if( $texto == '' || strlen($texto) > $longitudMax || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ _\s]+$/', $texto) )
+			if( $texto == '' || strlen($texto) > $longitudMax || !preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ ,.;_\s]+$/', $texto) )
 				return false;
 			else
 				return $texto;
@@ -186,7 +186,7 @@
 	    foreach( $objPHPExcel->getWorksheetIterator() as $worksheet ){
 
 		    $highestRow    = $worksheet->getHighestRow();
-		    $highestColumn = PHPExcel_Cell::columnIndexFromString( $worksheet->getHighestColumn() ) - 1;
+		    $highestColumn = PHPExcel_Cell::columnIndexFromString( $worksheet->getHighestColumn() );
 
 		    for( $i = 0; $i < $highestColumn; $i++ ){
 
@@ -218,13 +218,38 @@
 	function descomprimirZIP( $rutaZIP, $rutaDestino = '' ){
 
 		if( $rutaDestino == '' )
-			$rutaDestino = '../img/tmp';
+			$rutaDestino = 'C:/xampp/htdocs/READARKRIT/img/tmp/';
 
-		$zip = new ZipArchive;
+		$arrRutasFicheros = array();
+		$zip 			  = new ZipArchive;
 
 		if( $zip->open($rutaZIP) === TRUE ){
 
-		    $zip->extractTo( $rutaDestino );
+			for ($i = 0; $i < $zip->numFiles; $i++) {
+
+			    $filename = $zip->getNameIndex($i);
+
+			    if( substr($filename, -1) != '/' ) // si el último caracter de la cadena es /, es un directorio
+			    	array_push($arrRutasFicheros, $filename);
+
+			}
+
+			$zip->extractTo( $rutaDestino );
+
+			if( count($arrRutasFicheros) != 0 ){
+
+				for ($i=0; $i < count($arrRutasFicheros); $i++){
+
+					$partesFilename = explode('/', $arrRutasFicheros[$i]);
+					$fichero        = array_pop($partesFilename);
+
+					if( extensionValida($fichero, 'img') )
+						rename($rutaDestino.$arrRutasFicheros[$i], $rutaDestino.$fichero);
+				}
+
+				rmdir($rutaDestino.$zip->getNameIndex(0));
+			}
+
 		    $zip->close();
 
 		    return true;
@@ -249,13 +274,14 @@
 				- rar
 				- excel --> xls, xlsx
 				- zip
-				- img --> jpg
+				- img --> jpg, jpeg, png, pneg
 		*/
 
 		$formatosExcel    = array('xls', 'xlsx');
-		$formatosImagenes = array('jpg', 'png', 'pneg');
+		$formatosImagenes = array('jpg', 'png', 'pneg', 'jpeg');
 
 		$extensionObtenida = obtenerExtension( $fichero );
+		$extensionObtenida = strtolower($extensionObtenida);
 
 		switch ($extension) {
 			case 'rar':

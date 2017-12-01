@@ -99,99 +99,77 @@
 		$respuesta['error']               = ($respuesta['idsLibrosEstanteria'] === false);
 	}
 
-	if( $obj['opcion'] == 'estanteria' && $obj['accion'] == 'modificarEstanteria' ){
-		if(tienePermiso('alumno')){
 
-			$librosNuevos           = [];
-			$conteoLibrosExistentes = 0;
-			$conteoLibrosNuevos     = 0;
-			$campos 				= 'id_rel_libro_estanteria, id_libro, id_estanteria, libro_leido';
-			$tabla                  = 'rel_libro_estanteria';
-			$condicion              = 'id_estanteria = ' . $obj['idEstanteria'];
-			$hayError               = false;
+	if( $obj['opcion'] == 'estanteria' && $obj['accion'] == 'altaLibro' ){
 
-			if( isset($obj['libros']) ){
+		$valores             = '';
+		$idslibrosErroneos   = [];
+		$idsLibrosInsertar   = [];
+		$condicion           = 'id_estanteria = ' . $obj['idEstanteria'];
+		$idsLibrosEstanteria = consulta( 'id_libro', 'rel_libro_estanteria', $condicion);
 
-				$librosNuevos = $obj['libros'];
-				$conteoLibrosNuevos = count($librosNuevos);
+		if( is_array( $obj['idsLibros'] ) )
+			$idsLibrosInsertar = $obj['idsLibros'];
+		else
+			$idsLibrosInsertar[0] = $obj['idsLibros'];
+
+
+		if( !is_array( $idsLibrosEstanteria ) )
+			$idsLibrosEstanteria[0] = $idsLibrosEstanteria;
+
+
+		for ($i=0; $i < count($idsLibrosInsertar); $i++) { 
+			
+			if( in_array($idsLibrosInsertar[$i], $idsLibrosEstanteria) )
+				array_push($idslibrosErroneos, $idsLibrosInsertar[$i]);
+			else {
+
+				$valores = '"", ' . $idsLibrosInsertar[$i] . ', ' . $obj['idEstanteria'] . ', false';
+
+				if( is_bool( insertar( 'id_rel_libro_estanteria, id_libro, id_estanteria, libro_leido', $valores, 'rel_libro_estanteria' ) ) )
+					array_push($idslibrosErroneos, $idsLibrosInsertar[$i]);
 			}
+		}
 
 
-			$librosExistentes = consulta( $campos, $tabla, $condicion);
-			$conteoLibrosExistentes = dimensionArray($librosExistentes);
+		if( count($idslibrosErroneos) != 0 ){
 
-			if( $conteoLibrosExistentes == 1 )	// array de una dimensión
-				$librosExistentes = array( $librosExistentes );
-
-
-			if( $conteoLibrosNuevos > 0 ){
-
-				if( $conteoLibrosExistentes > 0 ){	// caso 1: libros nuevos X, libros existentes Y	
-
-					for( $i=0; $i<$conteoLibrosNuevos; $i++ ){
-
-						$index = buscarValorEnArrObj( $librosExistentes, 'id_libro', $librosNuevos[$i]['idLibro'] );
-
-						if( $index > -1 ){
-
-							// el libro sigue estando en la estantería, comprobar si es distinto libro_leído
-
-							if( strTObool($librosNuevos[$i]['libroLeido']) != (bool) $librosExistentes[$index]['libro_leido'] ){
-
-								$hayError = actualizar( 'libro_leido', strTObool($librosNuevos[$i]['libroLeido']), $tabla, 'id_rel_libro_estanteria = ' . $librosExistentes[$index]['id_rel_libro_estanteria'] );
-							}
-
-						} else {
-
-							// el libro no existe, se añade a la estantería
-
-							$valores = '"", ' . $librosNuevos[$i]['idLibro'] . ', ' . $obj['idEstanteria'] . ', ' . $librosNuevos[$i]['libroLeido'];
-
-							$hayError = insertar( $campos, $valores, $tabla );
-						}
-					}
-
-
-					for( $i=0; $i<$conteoLibrosExistentes; $i++ ){
-
-						$index = buscarValorEnArrObj( $librosNuevos, 'idLibro', $librosExistentes[$i]['id_libro'] );
-
-						if( $index == -1 )	// el libro ya no está en la estantería, se elimina de ella
-							$hayError = borrar( $tabla, 'id_rel_libro_estanteria = ' . $librosExistentes[$i]['id_rel_libro_estanteria'] );
-					}
-
-
-				} else {							// caso 2: libros nuevos X, libros existentes 0 --> insert
-
-					for( $i=0; $i<$conteoLibrosNuevos; $i++ ){
-
-						$valores = '"", ' . $librosNuevos[$i]['idLibro'] . ', ' . $obj['idEstanteria'] . ', ' . $librosNuevos[$i]['libroLeido'];
-
-						$hayError = insertar( $campos, $valores, $tabla );
-					}
-				}
-
-			} else 
-				$hayError = borrar( $tabla, $condicion );		// caso 3: libros nuevos 0, libros existentes X --> delete
-
-			// caso 4: libros nuevos 0, libros existentes 0
-			// No hay cambios, no se hace nada
-
-			if( $hayError === false ){
-
-				$respuesta['error'] = true;
-				$respuesta['descripcionError'] = 'No se han podido hacer los cambios en la estantería.';
-			}
-			else 
-				
-				$respuesta['error'] = false;
-
-		
-		} else{
+			$respuesta['descripcionError'] = 'Algunos libros de los que has seleccionado ya los tienes, los demás se han añadido';
 			$respuesta['error'] = true;
-			$respuesta['descripcionError'] = 'Falta de permisos';				
+		} else 
+			$respuesta['error'] = false;
+	}
+
+
+	if( $obj['opcion'] == 'estanteria' && $obj['accion'] == 'eliminarLibro' ){
+
+		$condicion            = 'id_estanteria = ' . $obj['idEstanteria'] . ' and id_libro = ' . $obj['idLibro'];
+		$idRelLibroEstanteria = consulta( 'id_rel_libro_estanteria', 'rel_libro_estanteria', $condicion);
+
+		if( !is_bool( $idRelLibroEstanteria ) && !is_null( $idRelLibroEstanteria ) ){
+
+			$respuesta['error'] = !borrar( 'rel_libro_estanteria', 'id_rel_libro_estanteria = ' . $idRelLibroEstanteria );
+
+			if( $respuesta['error'] )
+				$respuesta['descripcionError'] = 'No se ha podido eliminar el libro de la estantería';
 		}
 	}
+
+
+	if( $obj['opcion'] == 'estanteria' && $obj['accion'] == 'marcarLibroComoLeido' ){
+
+		$condicion = 'id_estanteria = ' . $obj['idEstanteria'] . ' and id_libro = ' . $obj['idLibro'];
+		$registro  = consulta( 'id_rel_libro_estanteria, libro_leido', 'rel_libro_estanteria', $condicion);
+
+		if( !is_bool( $registro ) && !is_null( $registro ) ){
+
+			$respuesta['error'] = !actualizar( 'libro_leido', !$registro['libro_leido'], 'rel_libro_estanteria', 'id_rel_libro_estanteria = ' . $registro['id_rel_libro_estanteria'] );
+
+			if( $respuesta['error'] )
+				$respuesta['descripcionError'] = 'No se ha podido cambiar el estado del libro';
+		}
+	}
+
 
 	// Recomendaciones ARKRIT
 

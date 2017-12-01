@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="row">
+    	<div class="col-md-12">
+            <div class="card">
+                <div class="card-header" data-background-color="blue">
+                    <h4 class="title">Mis estanterías</h4>
+					<p class="category">Crea tus propias estanterías</p>
+					<div class="anadirRegistro" ng-click="modalAltaEstanteria()">
+						<i class="fa fa-plus-square" aria-hidden="true"></i>
+					</div>
+                </div>
+                <div class="card-content">
+                	<div class="row">
+    					<div class="col-md-3">
+    						Selecciona una de tus estanterías: </br></br>
+				            <ul>
+				                <li ng-repeat="estanteria in estanterias" class="cabecera" ng-click="listarLibrosEstanteria()" id="listadoEstanterias">
+				                	<input type="radio" name="estanterias" value={{estanteria.id_estanteria}}> {{estanteria.nombre}} <i>({{estanteria.cantidad_libros}})</i>
+				                	<button type="button" rel="tooltip" title="Cambiar Nombre a la Estantería" class="btn btn-primary btn-simple acciones-registro pull-right" ng-click="modalAltaEstanteria(estanteria.id_estanteria, estanteria.nombre)">
+										<i class="fa fa-pencil" aria-hidden="true"></i>
+									</button>
+				                </li>
+				            </ul>
+    					</div>
+    					<div class="col-md-6">
+    						Selecciona y deselecciona a tu gusto:</br></br>
+							<div class="tab-pane active table-responsive" height="30%">
+								<table id="tablaListado" class="table table-striped table-bordered dt-responsive nowrap row-border hover hidden" width="100%" datatable="ng" cellspacing="0" dt-options="dtOptions" dt-instance="dtInstance">
+							        <thead>
+							            <tr>
+							            	<th class="no-sort all">PORTADA</th>
+							                <th class="all">TÍTULO</th>
+							                <th>TÍTULO ORIGINAL</th>
+							                <th>AUTOR</th>
+							                <th>AÑO</th>
+							            </tr>
+							        </thead>
+							        <tbody>
+										<tr ng-repeat="libro in librosAnadidos" ng-click="modificarEstanteria($event)" data-idLibro={{libro.id_libro}}>
+											<td><img src="{{libro.portada}}" alt="portada" class="portada"></td>
+											<td>{{libro.titulo}}</td>
+											<td>{{libro.titulo_original}}</td>
+											<td>{{libro.autor}}</td>
+											<td>{{libro.ano}}</td>
+							            </tr>	 
+							        </tbody>
+							   </table>
+							</div>
+    					</div>
+    					<div class="col-md-3">
+    						El contenido de tu estantería: </br></br>
+    						<ul>
+				                <li ng-repeat="libros in librosEstanteria" class="cabecera" data-idLibro={{libros.id_libro}}>
+				                	<i class="fa fa-angle-double-down text-info" aria-hidden="true"></i> {{libros.titulo}}
+				                	<button type="button" rel="tooltip" title="Libro leído" class="btn btn-primary btn-simple acciones-registro pull-right" ng-click="marcarLibroComoLeido($event)">
+										<i class="fa" ng-class="libros.libro_leido == 1 ? 'fa-eye' : 'fa-eye-slash'" aria-hidden="true"></i>
+									</button>
+				                </li>
+					        </ul>
+					        <button type="button" class="btn btn-success pull-right" ng-click="guardarModificacionEstanteria()">GUARDAR CAMBIOS</button>
+    					</div>
+    				</div>
+    				<div class="row">
+				        <div class="col-md-12">
+				            <div class="alert hidden" id="erroresMisEstanterias">
+				                <button type="button" aria-hidden="true" class="close" onclick="cerrarAlerta(this)">×</button>
+				                <span>
+				                	<!-- Errores -->
+				                </span>
+				            </div>
+				        </div>
+				    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" data-background-color="orange">
+                    <h4 class="title">Estanterías que sigo</h4>
+					<p class="category">Listado de estanterías que te interesan</p>
+                </div>
+                <div class="card-content">
+                	<ol ng-show="estanteriasSeguidas.length != 0">
+                		<li ng-repeat="estanteriaSeguida in estanteriasSeguidas">{{estanteriaSeguida.nombre}} - <i>{{estanteriaSeguida.nombre_usuario}}</i></li>
+                	</ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" data-background-color="green">
+                    <h4 class="title">Recomendaciones ARKRIT</h4>
+					<p class="category">Los profesores te recomiendan</p>
+                </div>
+                <div class="card-content">
+                	<ol ng-show="recomendaciones.length != 0">
+                		<li ng-repeat="recomendacion in recomendaciones">{{recomendacion.titulo}}</li>
+                	</ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

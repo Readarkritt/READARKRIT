@@ -10,6 +10,7 @@
 		private $posicionRanking 		= 0;
 		private $mediaNumUsuarios		= 0;
 		private $nivelEspecializacion 	= '';
+		private $resena					= '';
 
 		private $libro;
 
@@ -18,7 +19,7 @@
 
 		public function __construct(){
 			$this->tablaSQL = 'libro_anadido';
-			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, posicion_ranking, media_num_usuarios, nivel_especializacion';
+			$this->camposSQL = 'id_libro_anadido, id_libro, id_pais, id_categoria, posicion_ranking, media_num_usuarios, nivel_especializacion, resena';
 
 			$this->libro = new Libro();
 		}
@@ -31,9 +32,9 @@
 			$this->posicionRanking 			= $valores['posicionRanking'];
 			$this->mediaNumUsuarios 		= $valores['mediaNumUsuarios'];
 			$this->nivelEspecializacion 	= $valores['nivelEspecializacion'];
+			$this->resena 					= $valores['resena'];
 
 			$this->idLibroAnadido = insertar($this->camposSQL, $valores, $this->tablaSQL);
-
 		}
 
 		public function rellenar($valoresLibro, $valoresLibroAnadido){

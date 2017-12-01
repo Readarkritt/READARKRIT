@@ -1,5 +1,5 @@
 angular.module('readArkrit')
-  .controller('libroCtrl', function ($scope) {
+  .controller('libroCtrl', function ($scope, DTOptionsBuilder) {
 
     $scope.librosAnadidos 	= [];
 	$scope.libroAnadido 	= {};
@@ -229,15 +229,19 @@ angular.module('readArkrit')
 
     $scope.procesarLibrosExcel = function(){
 
-    	var ficheroExcel = $('#inputExcel').prop('files')[0];
+    	var ficheroExcel 	  = $('#inputExcel').prop('files')[0];
     	var ficheroComprimido = $('#inputComprimido').prop('files')[0];
+    	var html              = '';
+
+    	$('#erroresProcesamientoLibros').removeClass('alert-danger')
+    									.removeClass('alert-success');
 
     	if( ficheroExcel === undefined || ficheroComprimido === undefined ){
 
-    		var html = 'No has subido todos los ficheros.';
+    		$('#erroresProcesamientoLibros span').html('No has subido todos los ficheros.');
 
-    		$('#erroresProcesamientoLibros span').html(html);
-			$('#erroresProcesamientoLibros').removeClass('hidden');
+	    	$('#erroresProcesamientoLibros').addClass('alert-danger')
+											.removeClass('hidden');
 
     	} else {
 
@@ -252,7 +256,7 @@ angular.module('readArkrit')
 		    formData.append('ficheroComprimido', ficheroComprimido);
 		    formData.append('opcion', 'libro');
 		    formData.append('accion', 'procesarLibrosExcel');
-
+		    formData.append('token', sessionStorage.getItem('tokenREADARKRIT'));
 
 	    	if( (extensionExcel == 'xls' || extensionExcel == 'xlsx') && extensionComprimido == 'zip' ){
 
@@ -265,16 +269,33 @@ angular.module('readArkrit')
 	                data: formData,                         
 	                type: 'POST',
 	                success: function(data){
-	                    console.log(data);
+	                    
+	                    if(!data.error){
+
+	                    	$scope.listarLibrosAnadidos();
+
+	                    	
+
+	                    	$('#erroresProcesamientoLibros span').html('Libros creados correctamente.');
+
+	                    	$('#erroresProcesamientoLibros').addClass('alert-success');
+	                    } else {
+
+	                    	$('#erroresProcesamientoLibros span').html(data.descripcionError);
+
+	                    	$('#erroresProcesamientoLibros').addClass('alert-danger');
+	                    }
+
+	                    $('#erroresProcesamientoLibros').removeClass('hidden');
 	                }
 	     		});
 
 	    	} else {
 
-	    		var html = 'Ficheros con formato incorrecto.';
+	    		$('#erroresProcesamientoLibros span').html('Ficheros con formato incorrecto.');
 
-	    		$('#erroresProcesamientoLibros span').html(html);
-				$('#erroresProcesamientoLibros').removeClass('hidden');
+	    		$('#erroresProcesamientoLibros').addClass('alert-danger')
+												.removeClass('hidden');
 	    	}
     	}
     };

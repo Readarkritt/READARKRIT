@@ -118,8 +118,7 @@
 				$respuesta['error'] = true;
 				$respuesta['descripcionError'] = 'Datos manipulados.';		
 			}	
-
-
+		}
 	}
 	else if( $obj['opcion'] == 'profesor' && $obj['accion'] == 'modificarConectado' ){
 		if(tienePermiso('profesor')){

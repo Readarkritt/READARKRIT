@@ -41,12 +41,12 @@ angular.module('readArkrit')
 
         for (var i = 0; i < $scope.comentarios.length; i++){
 
-          if( $scope.comentarios[i].id_usuario == 64 ) // ID_USUARIO
+          if( $scope.comentarios[i].nombre_usuario == 'Yo' )
             html += '<div class="comentario me">';
           else
             html += '<div class="comentario">';
 
-          html += '<div class="usuario">' + $scope.comentarios[i].primer_apellido + ', ' + $scope.comentarios[i].nombre + ': </div>';
+          html += '<div class="usuario">' + $scope.comentarios[i].nombre_usuario + ': </div>';
           html += $scope.comentarios[i].comentario;
           html += '<div class="fecha">' + $scope.comentarios[i].fecha + '</div>';
           html += '</div>';
@@ -106,7 +106,7 @@ angular.module('readArkrit')
         if( !data.error ){
 
           var html = '<div class="comentario me">';
-          html += '<div class="usuario">' + 64 + ': </div>'; /* PRIMER APELLIDO Y NOMBRE DEL ID_USUARIO */
+          html += '<div class="usuario">Yo: </div>';
           html += $scope.comentario;
           html += '<div class="fecha">' + fechaActual() + '</div>';
           html += '</div>';

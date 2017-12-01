@@ -17,7 +17,7 @@
 
 		if( !is_null( consulta( 'id_usuario', 'miembro_club', 'id_usuario = ' . $idUsuario . ' and id_club = ' . $obj['idClub']) ) ){
 
-			$sql = 'SELECT cc.id_comentario_club, cc.id_club, cc.id_usuario, u.nombre, u.primer_apellido, cc.fecha, cc.comentario FROM comentario_club cc INNER JOIN usuario u ON cc.id_usuario = u.id_usuario WHERE cc.id_club = ' . $obj['idClub'];
+			$sql = 'SELECT cc.id_comentario_club, cc.id_club, cc.id_usuario, CASE WHEN u.id_usuario = ' . $idUsuario . ' THEN "Yo" ELSE u.nombre_usuario END AS nombre_usuario, cc.fecha, cc.comentario FROM comentario_club cc INNER JOIN usuario u ON cc.id_usuario = u.id_usuario WHERE cc.id_club = ' . $obj['idClub'];
 
 			$respuesta['comentarios'] = consulta( '', '', '', $sql);
 			$respuesta['error']       = ($respuesta['comentarios'] === false);

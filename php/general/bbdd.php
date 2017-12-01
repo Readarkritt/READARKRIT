@@ -28,7 +28,7 @@
 	}
 
 
-	function consulta( $campos, $tabla, $condicion = '', $sql = '' ,$debug = false){
+	function consulta( $campos, $tabla, $condicion = '', $sql = '' , $debug = false){
 
 		$link = conectar();
 
@@ -45,9 +45,9 @@
 		
       		$sql = 'SELECT ' . $campos . ' FROM ' . $tabla . $condicion;
 		}
-		if($debug){
+
+		if($debug)
 			echo $sql;
-		}
 
       	$result = $link->query($sql);
 

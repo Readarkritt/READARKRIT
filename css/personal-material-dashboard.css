@@ -19,7 +19,7 @@ form select option {
 
 img.portada {
   height: 180px !important;
-  width: 160px !important;
+  width: 120px !important;
 }
 
 .acciones-registro{
@@ -146,6 +146,10 @@ table.dataTable td.child span.dtr-data{
   word-break: normal;
 }
 
+.table-responsive{
+  border-color: transparent;
+}
+
 /* BOTONES */
 
     /* Para añadir registro */
@@ -269,6 +273,23 @@ table.dataTable td.child span.dtr-data{
 
 .carousel img {
   margin: auto;
+}
+
+/* ESTILO DE LA VISTA DE MI BIBLIOTECA */
+.contenedorLibro{
+  float: left;
+  height: 200px;
+  width: 140px; 
+  margin: 10px;
+  background-color: #EEEEEE;
+}
+
+.contenedorLibro .portada{
+  margin: 10px;
+}
+
+.contenedorLibro .infoLibro{
+  display: inline-block;
 }
 
 /* GENERALES */
