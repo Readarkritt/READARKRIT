@@ -253,11 +253,11 @@ angular.module('readArkrit')
 					.done(function(data2,textStatus,jqXHR){
 						console.log(data2.alumno);
 						$scope.alumnos.push(data2.alumno);
-						$scope.$apply();
+						//$scope.$apply();
 						console.log($scope.alumnos);
 					});
 
-					$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
+					/*$scope.dtOptions = DTOptionsBuilder.fromFnPromise( $scope.librosAnadidos ).withOption('stateSave', true).withDataProp('data');
 
 				    $scope.reloadData = reloadData;
 				    $scope.dtInstance = {};
@@ -265,7 +265,7 @@ angular.module('readArkrit')
 				    function reloadData() {
 				        var resetPaging = false;
 				        $scope.dtInstance.reloadData(callback, resetPaging);
-				    }
+				    }*/
 					$scope.usuario = {};
 					$scope.alumno = {};
 

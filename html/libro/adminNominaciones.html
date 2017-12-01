@@ -128,13 +128,13 @@
 						        <thead>
 						            <tr>
 						            	<th class="all">PORTADA</th>
-						                <th>TÍTULO</th>
-						               <th>TÍTULO ORIGINAL</th>
+						                <th class="all">TÍTULO</th>
+						                <th>TÍTULO ORIGINAL</th>
 						                <th>AUTOR</th>
 						                <th>AÑO</th>
 						                <th>TITULACIÓN</th>
 						                <th>PROPUESTO_PARA</th>
-						                <th>MOTIVOS</th>
+						                <th class="none">MOTIVOS</th>
 						                <th>VOTOS</th>
 						                <th class="all">ACCIONES</th>
 						            </tr>
@@ -151,8 +151,11 @@
 						        		<td>{{libro.motivo}}</td>
 						        		<td>{{libro.num_votos}}</td>
 						        		<td>
-											<button type="button" rel="tooltip" title="Eliminar" id="botonPrueba" class="btn btn-danger btn-simple acciones-registro" ng-click="eliminarLibroPropuesto(libro.id_libro_propuesto, $index)">
+											<button type="button" rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple acciones-registro" ng-click="eliminarLibroPropuesto(libro.id_libro_propuesto, $index)" ng-if="libro.f_baja == null">
 												<i class="fa fa-trash" aria-hidden="true"></i>
+											</button>
+											<button type="button" rel="tooltip" title="Reactivar" class="btn btn-primary btn-simple acciones-registro" ng-click="reactivarLibroPropuesto(libro.id_libro_propuesto, $index)" ng-if="libro.f_baja != null">
+												<i class="fa fa-plus" aria-hidden="true"></i>
 											</button>
 						        		</td>
 						        	</tr>
@@ -164,12 +167,12 @@
 						        <thead>
 						            <tr>
 						            	<th class="all">PORTADA</th>
-						                <th>TÍTULO</th>
+						                <th class="all">TÍTULO</th>
 						            	<th>TÍTULO ORIGINAL</th>
 						                <th>AUTOR</th>
 						                <th>AÑO</th>
 						                <th>TITULACIÓN</th>
-						                <th>MOTIVOS</th>
+						                <th class="none">MOTIVOS</th>
 						                <th>NUM_VOTOS</th>
 						                <th class="all">ACCIONES</th>
 						            </tr>
@@ -255,7 +258,8 @@
 							                        </span>
 							                    </div>
 									        </div>
-									    </div>									    
+									    </div>				
+											<button type="button" class="btn btn-default pull-left" ng-click="mostrarListadoAnadir()">Volver</button>					    
 											<button id="botonEnviar" type="submit" class="btn btn-info pull-right" ng-click="anadirAColeccion()">Añadir libro</button>
 									    <div class="clearfix"></div>
 				                    </form>

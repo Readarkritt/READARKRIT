@@ -190,15 +190,15 @@ function validarCamposLibro(campos, comprobarExistente=true){
 			errores += '<li>El título no se ha proporcionado.</li>';
 			else if(campos.titulo.length>100)
 				errores += '<li>El título no puede superar los 100 caracteres.</li>';
-			else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,\s]+$/) )
-				errores += '<li>El título sólo puede contener letras o dígitos.</li>';
+			else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,:;&\s]+$/) )
+				errores += '<li>El título sólo puede contener letras, dígitos, signos de puntuación o &.</li>';
 
 		if(campos.tituloOriginal === undefined || campos.tituloOriginal == '')
 			errores += '<li>El título original no se ha proporcionado.</li>';
 			else if(campos.tituloOriginal.length>100)
 				errores += '<li>El título original no puede superar los 100 caracteres.</li>';
-			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,\s]+$/) )
-				errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
+			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,:;&\s]+$/) )
+				errores += '<li>El título original sólo puede contener letras, dígitos, signos de puntuación o &.</li>';
 
 	if(errores=='' && comprobarExistente && existeRegistro('titulo', campos.titulo, 'libro') && existeRegistro('titulo_original',campos.tituloOriginal, 'libro')){
 			errores += '<li>Ya existe un libro registrado con el título y el título original indicado.</li>';
@@ -208,8 +208,8 @@ function validarCamposLibro(campos, comprobarExistente=true){
 			errores += '<li>El autor no se ha proporcionado.</li>';
 			else if(campos.autor.length>50)
 				errores += '<li>El autor no puede superar los 50 caracteres.</li>';
-			else if( !campos.autor.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
-				errores += '<li>El autor sólo puede contener letras o dígitos.</li>';
+			else if( !campos.autor.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_,.:;\s]+$/) )
+				errores += '<li>El autor sólo puede contener letras, dígitos o signos de puntuación.</li>';
 
 		if( campos.ano === undefined || campos.ano == '' )
 				errores += '<li>El año no se ha completado.</li>';
@@ -366,12 +366,12 @@ function obtenerNivelesEspecializacion(){
 
 	niveles[0] = {
 		'nombre' : 'Básico',
-		'id_nivel' : 'basico'
+		'id_nivel' : 'Básico'
 	};
 
 	niveles[1] ={
 		'nombre' : 'Especialidad',
-		'id_nivel' : 'especialidad'		
+		'id_nivel' : 'Especialidad'		
 	};
 
 	return niveles;

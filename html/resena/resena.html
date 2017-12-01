@@ -65,7 +65,7 @@
 													</div>
 													<div class="row">
 														<div class="col-md-12">
-																<input class="form-control" type="range" min="0" max="10" step="1" ng-model="resena.nota" id="slider" value="5" ng-change="cambiarValorSlider(resena.nota)"/>
+																<input type="range" min="0" max="10" step="1" ng-model="resena.nota" id="slider" value="5" ng-change="cambiarValorSlider(resena.nota)"/>
 														</div>
 													</div>
 												</div>
@@ -85,7 +85,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12" id="separadorFormulario">
 								<hr/>
 							</div>
 						</div>
@@ -116,7 +116,7 @@
 											</tbody>
 										</table>
 								</div>
-											<button type="button" class="btn btn-info pull-right" ng-click="mostrarListaLibros()">Volver</button>
+									<button type="button" class="btn btn-info pull-right" ng-click="mostrarListaLibros()">Volver</button>
 							</div>
 						</div>					
 					</div>

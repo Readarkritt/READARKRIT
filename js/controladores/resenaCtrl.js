@@ -6,10 +6,10 @@ angular.module('readArkrit')
     $scope.resena 				= {};
     $scope.misResenas			= [];
     $scope.libroSeleccionado;
-
 	$scope.titulaciones = obtenerValores('titulacion');
 	$scope.paises 		= obtenerValores('pais');
 	$scope.categorias 	= obtenerValores('categoriaLibro');
+    $scope.rol;
 
     // FUNCIONES
     $scope.listarLibrosAnadidos = function(){
@@ -100,8 +100,9 @@ angular.module('readArkrit')
     $scope.mostrarLibro = function(idLibro){
     	$scope.resenas = {};
     	$scope.resena.nota = 5;
+
     	$('#valor_slider span').html(5);
-    	$('#slider').val(5);
+    	$('input[type="range"]').val(5).change();
     	$('#erroresAlta').addClass('hidden');
     	$scope.resena.comentario = '';
 
@@ -120,9 +121,9 @@ angular.module('readArkrit')
     			$('#listadoLibros').addClass('hidden');
     			$('#comentariosLibro').removeClass('hidden');
 
-				/*var table = $('#listadoComentarios').draw;
-				table.draw( true );*/
-    			pintarAvataresResenas();
+				setTimeout(function(){
+    				pintarAvataresResenas();
+    			},10);
 			}		
 		});
 
@@ -130,7 +131,6 @@ angular.module('readArkrit')
     }
 
     function pintarAvataresResenas(){    
-    alert(123);	
 		$.each($scope.resenas, function(index, value){
 			crearAvatarElemento(value.nombre, 'avatarResena'+value.id_resena);
 		});
@@ -209,6 +209,25 @@ angular.module('readArkrit')
 
      // EVENTOS
     cargarJS("./js/clases/Resena.js");
+    $('input[type=range]').rangeslider({  polyfill: false});
+
+    //Recuperar rol
+      var parametros = {};
+      var respuesta = {};
+      parametros.opcion = 'usuario';
+      parametros.accion = 'getRol';
+
+      respuesta = peticionAJAX('./php/usuario.php', parametros, false);
+
+
+      respuesta.done(function(data, textStatus, jqXHR ){
+        $scope.rol = data.rol;
+      });
+
+      if($scope.rol == null || $scope.rol == 'visitante'){
+      	$('#formComentario').addClass('hidden');
+      	$('#separadorFormulario').addClass('hidden');
+      }
 
     	// Listar
     $scope.listarLibrosAnadidos();

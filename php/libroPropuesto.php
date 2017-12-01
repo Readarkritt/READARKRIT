@@ -69,14 +69,26 @@
 
 	} else if( $obj['opcion'] == 'libroPropuesto' && $obj['accion'] == 'listar' ){
 
-		$sql = 'select count(id_libro_propuesto) from libro_propuesto p inner join libro l on p.id_libro = l.id_libro where f_baja is null';
+
+		$sql = 'select count(id_libro_propuesto) from libro_propuesto p inner join libro l on p.id_libro = l.id_libro';
 		
+		if(isset($obj['activos']) && $obj['activos']){
+			$sql .=  'where f_baja is null';
+		}
+
 		if(consulta('','','',$sql)>0){
-			$sql = 'select pr.id_libro_propuesto, pr.id_libro, pr.propuesto_para, pr.motivo, count(cv.ID_CONTROL_VOTACION) as num_votos, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, t.nombre as titulacion from libro_propuesto pr inner join libro l on pr.id_libro = l.id_libro left join control_votacion cv on  pr.id_libro_propuesto = cv.id_libro_propuesto left join titulacion t on l.id_titulacion = t.id_titulacion where l.f_baja is null GROUP BY pr.ID_LIBRO_PROPUESTO';
+			$sql = 'select pr.id_libro_propuesto, pr.id_libro, pr.propuesto_para, pr.motivo, count(cv.ID_CONTROL_VOTACION) as num_votos, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, t.nombre as titulacion from libro_propuesto pr inner join libro l on pr.id_libro = l.id_libro left join control_votacion cv on  pr.id_libro_propuesto = cv.id_libro_propuesto left join titulacion t on l.id_titulacion = t.id_titulacion ';
 
 			if(isset($obj['propuestoPara'])){
-				$sql = $sql.' and pr.propuesto_para = "'.$obj['propuestoPara'].'"';
+				$sql = $sql.' where pr.propuesto_para = "'.$obj['propuestoPara'].'"';
+				if(isset($obj['activos']) && $obj['activos']){
+					$sql .=  ' and f_baja is null';
+				}
+			} else if(isset($obj['activos']) && $obj['activos']){
+				$sql .=  ' where f_baja is null';
 			}
+
+			$sql .= 'GROUP BY pr.ID_LIBRO_PROPUESTO';
 			
 			$respuesta['librosPropuestos'] = consulta('','','',$sql);
 		} else{
@@ -91,9 +103,52 @@
 
 			$libro = new LibroPropuesto();
 			$libro->cargar( $obj['idLibroPropuesto'] );
-			//var_dump($libro);
 
 			$respuesta['error'] = !$libro->eliminar();
+
+			if(!$respuesta['error']){
+				$sql = 'select pr.id_libro_propuesto, pr.id_libro, pr.propuesto_para, pr.motivo, count(cv.ID_CONTROL_VOTACION) as num_votos, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, t.nombre as titulacion from libro_propuesto pr inner join libro l on pr.id_libro = l.id_libro left join control_votacion cv on  pr.id_libro_propuesto = cv.id_libro_propuesto left join titulacion t on l.id_titulacion = t.id_titulacion where pr.id_libro_propuesto = '.$obj['idLibroPropuesto'];
+
+					$respuesta['libro'] = consulta( '', '', '', $sql);
+			}
+
+		} else{
+			$respuesta['error'] = true;
+			$respuesta['descripcionError'] = 'Falta de permisos';				
+		}
+	} else if( $obj['opcion'] == 'libroPropuesto' && $obj['accion'] == 'reactivar' ){
+		if(tienePermiso('admin')){
+
+			$obj['idLibroPropuesto'] = (int) $obj['idLibroPropuesto'];
+
+			$sql = 'select id_libro from libro_propuesto where id_libro_propuesto = '.$obj['idLibroPropuesto'];
+
+			$existeLibro = consulta('','','',$sql);
+
+			if($existeLibro){
+
+				$sql = 'select f_baja from libro l inner join libro_propuesto p on l.id_libro = p.id_libro where id_libro_propuesto = '.$obj['idLibroPropuesto'];
+				$fBaja = consulta('','','',$sql);
+
+				if($fBaja != null){
+
+					$libro = new LibroPropuesto();
+					$libro->cargar( $obj['idLibroPropuesto'] );
+					$respuesta['error'] = $libro->reactivar();
+
+					if(!$respuesta['error']){
+						$sql = 'select pr.id_libro_propuesto, pr.id_libro, pr.propuesto_para, pr.motivo, count(cv.ID_CONTROL_VOTACION) as num_votos, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, t.nombre as titulacion from libro_propuesto pr inner join libro l on pr.id_libro = l.id_libro left join control_votacion cv on  pr.id_libro_propuesto = cv.id_libro_propuesto left join titulacion t on l.id_titulacion = t.id_titulacion where pr.id_libro_propuesto = '.$obj['idLibroPropuesto'];
+
+						$respuesta['libro'] = consulta( '', '', '', $sql);
+					}
+				} else{
+					$respuesta['descripcionError'] = "El libro ya está reactivado.";
+					$respuesta['error'] = true;
+				}
+			} else{
+				$respuesta['descripcionError'] = "El libro no existe.";
+				$respuesta['error'] = true;
+			}
 		} else{
 			$respuesta['error'] = true;
 			$respuesta['descripcionError'] = 'Falta de permisos';				

@@ -74,43 +74,12 @@ angular.module('readArkrit')
     $scope.cargarModificarLibro = function(idLibroAnadido, indexScope){
 		$scope.indexModificando = indexScope;
 		$scope.modLibro = {};
-		$scope.modLibroAnadido = {};
 
     	$('#menu-adminLibro li').removeClass('active');
-
-    	peticionAJAX('./php/libroAnadido.php', {
-
-			opcion : 'libroAnadido',
-			accion : 'obtener',
-			idLibroAnadido: idLibroAnadido
-		}, false)
-		.done(function( data, textStatus, jqXHR ){
-
-			if( data.error )
-				swal("Editar libro", "Error recuperando los datos.", "error");
-			else{
-
-				console.log(data.libroAnadido);
-				console.log(data.libro);
-
-				$scope.modLibro.id 				= data.libro.ID_LIBRO
-				$scope.modLibro.titulo 			= data.libro.TITULO;
-				$scope.modLibro.tituloOriginal 	= data.libro.TITULO_ORIGINAL;
-				$scope.modLibro.autor 			= data.libro.AUTOR;
-				$scope.modLibro.ano 			= data.libro.ANO;
-				$scope.modLibro.idTitulacion	= data.libro.ID_TITULACION;
-				$scope.modLibro.portada			= data.libro.PORTADA;
-
-				$scope.modLibroAnadido.idLibroAnadido		=data.libroAnadido.ID_LIBRO_ANADIDO;
-				$scope.modLibroAnadido.idPais 				=data.libroAnadido.ID_PAIS;
-				$scope.modLibroAnadido.idCategoria 			=data.libroAnadido.ID_CATEGORIA;
-				$scope.modLibroAnadido.nivelEspecializacion =data.libroAnadido.NIVEL_ESPECIALIZACION;
-				$scope.modLibroAnadido.posicionRanking		=data.libroAnadido.POSICION_RANKING;
-				$scope.modLibroAnadido.resena				=data.libroAnadido.RESENA;
-
-				$('#modPortadaImg').attr("src", "./img/portadasLibros/"+$scope.modLibro.portada);
-			}
-		});
+    	$scope.librosAnadidos[indexScope]
+    	console.log($scope.librosAnadidos[indexScope]);
+    	$scope.modLibro = $scope.librosAnadidos[indexScope];
+		$('#modPortadaImg').attr("src", $scope.librosAnadidos[indexScope].portada);
 
     }
 
@@ -126,19 +95,19 @@ angular.module('readArkrit')
       	$('#exitoModificar span').html('');
 
       //Preparar datos
-      	datosLibro.idLibro 			= $scope.modLibro.id;
+      	datosLibro.idLibro 			= $scope.modLibro.id_libro;
       	datosLibro.titulo 			= $scope.modLibro.titulo;
-      	datosLibro.tituloOriginal 	= $scope.modLibro.tituloOriginal;
+      	datosLibro.tituloOriginal 	= $scope.modLibro.titulo_original;
       	datosLibro.autor 			= $scope.modLibro.autor;
       	datosLibro.ano 				= $scope.modLibro.ano;
-      	datosLibro.idTitulacion 	= $scope.modLibro.idTitulacion;
+      	datosLibro.idTitulacion 	= $scope.modLibro.id_titulacion;
 
-      	datosLibroAnadido.idLibroAnadido 		= $scope.modLibroAnadido.idLibroAnadido;
-      	datosLibroAnadido.idPais				= $scope.modLibroAnadido.idPais;
-      	datosLibroAnadido.idCategoria 			= $scope.modLibroAnadido.idCategoria;
-      	datosLibroAnadido.posicionRanking 		= $scope.modLibroAnadido.posicionRanking;
-      	datosLibroAnadido.nivelEspecializacion 	= $scope.modLibroAnadido.nivelEspecializacion;
-      	datosLibroAnadido.resena 				= $scope.modLibroAnadido.resena;
+      	datosLibroAnadido.idLibroAnadido 		= $scope.modLibro.id_libro_anadido;
+      	datosLibroAnadido.idPais				= $scope.modLibro.id_pais;
+      	datosLibroAnadido.idCategoria 			= $scope.modLibro.id_categoria;
+      	datosLibroAnadido.posicionRanking 		= $scope.modLibro.posicion_ranking;
+      	datosLibroAnadido.nivelEspecializacion 	= $scope.modLibro.nivel_especializacion;
+      	datosLibroAnadido.resena 				= $scope.modLibro.resena;
 
       	if($('#modInputPortada').get(0).files.length > 0){
       		portada = $('#modInputPortada').prop('files')[0];
@@ -182,6 +151,7 @@ angular.module('readArkrit')
 			
 			formData.append('token', sessionStorage.getItem('tokenREADARKRIT'));
 
+			console.log(formData);
       		$.ajax({
       		 	url:'./php/libroAnadido.php',                    
 	            type: 'POST',
@@ -357,7 +327,10 @@ angular.module('readArkrit')
 				   		data.libro.portada = './img/portadasLibros/'+data.libro.portada;
 				   		$scope.librosAnadidos.push(data.libro);
 
-						$scope.$apply();
+				   		$scope.libro = {};
+				   		$scope.libroAnadido = {};
+
+						/*$scope.$apply();
 
 						console.log($scope.librosAnadidos);
 
@@ -373,7 +346,7 @@ angular.module('readArkrit')
 					    function reloadData() {
 					        var resetPaging = false;
 					        $scope.dtInstance.reloadData(callback, resetPaging);
-					    }
+					    }*/
 
 				   	}
 	            }

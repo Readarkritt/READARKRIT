@@ -7,7 +7,7 @@
 	define("rolProfesor", "profesor");
 	define("rolAdmin", "admin");
 	define("rolAlumno", "alumno");
-	define("rolInvitado", "invitado");
+	define("rolInvitado", "profesorInvitado");
 	define("rolVisitante", "visitante");
 
 
@@ -34,7 +34,11 @@
 				if(!is_null($rol)){
 					//Si el profesor no está terminado, redireccionar
 					if($rol == rolInvitado){
-						$autorizado = true;
+						if($url == '/READARKRIT/html/menuApp/menuApp.html' || $url == '/READARKRIT/html/profesor/formProfesor.html'){
+							$autorizado = true;
+						} else{
+							$autorizado = false;
+						}
 					}else{				
 
 						if($permisoPagina == rolAdmin && $rol == rolAdmin){

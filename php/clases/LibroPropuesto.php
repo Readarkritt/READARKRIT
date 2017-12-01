@@ -56,6 +56,10 @@
 			return $this->libro->eliminar();
 		}
 
+		public function reactivar(){
+			return $this->libro->reactivar();
+		}
+
 
 	}
 ?>

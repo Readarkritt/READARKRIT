@@ -275,17 +275,10 @@ table.dataTable td.child span.dtr-data{
 .display-inline {
   display: inline;
 }
-
-.portadaContainer{
-    max-width: 200px !important;
-    display: block;
-    position: relative;
-    overflow: hidden;
-}
-
-.portadaContainer img{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+/*Slider de Reseñas*/
+#valor_slider{
+  text-align:center;
+  font-size:2em;
+  font-weight:5;
+  margin-bottom:20px;
 }

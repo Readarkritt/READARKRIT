@@ -1,28 +1,40 @@
-MEJORAS DE ÚLTIMA HORA
+DESPLIEGUE
+S 1) Implementar servidor de correo para poder mandar emails a los usuarios.
+S 2) Descomentar las líneas en PHP que sean de la función mail().
+S 3) Ruta para almacenar las imágenes de los libros en el servidor de ARKRIT.
+S 4) Ruta temporal para almacenar los excel y zip de la subida masiva de libros.
 
-		HECHO 1) Reactivar la autenticación
-		HECHO 2) Añadir la ruta de las páginas con sus privilegios
-3) Spinner entre la pantalla de Estadísticas y Mi biblioteca
-4) Borrar pruebas.php
-S 5) Implementar servidor de correo para poder mandar emails a los usuarios.
-S 6) Descomentar las líneas en PHP que sean de la función mail().
-S 7) Ruta para almacenar las imágenes de los libros en el servidor de ARKRIT.
-S 8) Ruta temporal para almacenar los excel y zip de la subida masiva de libros.
-9) Limitar el tamaño de los ficheros a subir --> http://php.net/manual/es/features.file-upload.errors.php
-10) DATATABLES: Refrescar	
+MEJORAS DE ÚLTIMA HORA
+5) Spinner entre la pantalla de Estadísticas y Mi biblioteca
+6) Borrar pruebas.php
+7) Limitar el tamaño de los ficheros a subir --> http://php.net/manual/es/features.file-upload.errors.php
+8) DATATABLES: Refrescar	
 			var table = $('#tablaListado').DataTable();
 			table.draw( false );
 		Y quitar el $scope.$apply();
 		Quitar dt-options dt-instance de las tablas (HTML)
 		Quitar DTOptionsBuilder de los controladores
-11) Tamaño de portadas de los libros
-		HECHO 12) Ajustes/Cerrar Sesión -> Login/Conectarse (si Visitante)
-13) Comentarios: Si es visitante, desactivar el formulario de alta comentario.
-14) Libros propuestos: añadir reactivar libro (y mostrar en "Eliminar" -> "Administrar libros propuestos")
-15) cargarModificarLibro -> no hace falta llamar al servidor
-16) Definir permiso vista formProfesor (compartido entre profesor y profesorInvitado)
-17) Diseño DataTables
-18) Comprobar si hay errores de autenticación y carga
-19) Redireccionar profesor sin terminar
-20) Añadir estantería a alta profesor
-21) Añadir libros a terminar profesor
+9) Tamaño de portadas de los libros
+10) Definir permiso vista formProfesor (compartido entre profesor y profesorInvitado) (Solved?)
+11) Diseño DataTables
+
+		HECHO a - 12) Ajustes/Cerrar Sesión -> Login/Conectarse (si Visitante)
+		HECHO A - 13) Comentarios: Si es visitante, desactivar el formulario de alta comentario.
+		HECHO A - 14) Libros propuestos: añadir reactivar libro (y mostrar en "Eliminar" -> "Administrar libros propuestos")
+		HECHO A - 15) cargarModificarLibro -> no hace falta llamar al servidor
+		HECHO A - 16) Reactivar la autenticación
+		HECHO A - 17) Añadir la ruta de las páginas con sus privilegios
+		HECHO A - 18) Comprobar terminar profesor
+		HECHO A - 19) Redireccionar profesor sin terminar
+		HECHO A - 20) Añadir estantería a alta profesor
+		HECHO A - 21) Añadir libros a terminar profesor
+		HECHO A - 22) Revisar marcarMenu()
+		HECHO A - 23) Cambiar slider: http://rangeslider.js.org/
+		HECHO A - 24) Arreglar avatares comentarios
+		HECHO A - 25) Nominaciones -> reactivar nominaciones desactivadas
+		HECHO A - 26) Quitar juegos de menús 
+		HECHO A - 27) Añadir a Colección (nominación) -> Botón "Atrás"
+		HECHO A - 28) Agregar token a registro alumno
+
+PRUEBAS
+A - 29) Comprobar si hay errores de autenticación y carga

@@ -103,6 +103,8 @@ function altaAlumno(){
 				usuario.idUsuario = data.idUsuario;
 				alumno.idAlumno   = data.idAlumno;
 				alumno.idUsuario  = data.idUsuario;
+				
+                sessionStorage.setItem('tokenREADARKRIT', data.token);
 
 				swal("Alta Alumno", "Alumno creado correctamente, ¡bienvenido!", "success")
 				.then((value) => {

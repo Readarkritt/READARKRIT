@@ -24,7 +24,6 @@
 			$usuario = new Usuario();
 
 			$usuario->cargar($idUsuario);
-
 			if( $usuario->estaBloqueado() ){
 
 				$respuesta['error']            = true;
@@ -58,7 +57,7 @@
 					
 					//CREAR TOKEN
 					$respuesta['token'] = generarToken($idUsuario, $usuario->obtenerNombre(), $usuario->obtenerNombreUsuario(), $rol, $obj['correo']);
-					$respuesta['invitado'] = false;
+					$respuesta['profesorInvitado'] = false;
 
 					//CERRAR SESIÓN
 					session_destroy();
@@ -102,10 +101,10 @@
 				session_start();
 
 				if( Hash::esValido( $obj['contrasena'], $contrasena) ){
-					$rol = 'invitado';
+					$rol = 'profesorInvitado';
 					//CREAR TOKEN
-					$respuesta['token'] = generarToken(0,'', 'Invitado', $rol, $obj['correo']);
-					$respuesta['invitado'] = true;
+					$respuesta['token'] = generarToken(0,'', 'profesorInvitado', $rol, $obj['correo']);
+					$respuesta['profesorInvitado'] = true;
 					//CERRAR SESIÓN
 					session_destroy();
 

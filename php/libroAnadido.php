@@ -14,7 +14,7 @@
 
 	if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'listar' ){
 
-		$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.f_baja is null';
+		$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original, l.id_titulacion, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.f_baja is null';
 
 		$respuesta['librosAnadidos'] = consulta( '', '', '', $sql);
 		$respuesta['error']          = ($respuesta['librosAnadidos'] === false);
@@ -22,7 +22,7 @@
 	} else if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'listarTodos' ){
 		if(tienePermiso('admin')){
 
-			$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria';
+			$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original,  l.id_titulacion, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria';
 
 			$respuesta['librosAnadidos'] = consulta( '', '', '', $sql);
 			$respuesta['error']          = ($respuesta['librosAnadidos'] === false);
@@ -119,7 +119,7 @@
 
 
 
-				$sql = 'select a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.id_libro = '.$libro['idLibro'];
+				$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original, l.id_titulacion, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.id_libro = '.$libro['idLibro'];
 
 				$respuesta['libro'] = consulta( '', '', '', $sql);
 
@@ -155,7 +155,7 @@
 
 					$respuesta['error'] = !$libro->eliminar();
 
-					$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where a.id_libro_anadido = '.$obj['idLibroAnadido'];
+					$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original, l.id_titulacion, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where a.id_libro_anadido = '.$obj['idLibroAnadido'];
 
 					$respuesta['libro'] = consulta( '', '', '', $sql);
 				} else{
@@ -192,7 +192,7 @@
 					$libro->cargar( $obj['idLibroAnadido'] );
 					$libro->reactivar();
 
-					$sql = 'select l.id_libro, a.id_libro_anadido, l.portada, l.titulo, l.titulo_original, l.autor, l.ano, l.f_baja, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where a.id_libro_anadido = '.$obj['idLibroAnadido'];
+					$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original, l.id_titulacion, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where a.id_libro_anadido = '.$obj['idLibroAnadido'];
 
 					$respuesta['libro'] = consulta( '', '', '', $sql);
 					$respuesta['error'] = false;
