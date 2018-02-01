@@ -44,6 +44,7 @@
 						$mensaje .= 'Saludos ;)';
 
 						//mail($obj['correo'], $asunto, $mensaje);
+						enviarMail($obj['correo'], $asunto, $mensaje);
 
 						$respuesta['error'] = false;
 					}else{

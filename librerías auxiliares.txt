@@ -3,3 +3,4 @@ sweet alert --> https://github.com/t4t5/sweetalert
 avatar google --> https://github.com/judesfernando/initial.js
 masked input --> http://digitalbush.com/projects/masked-input-plugin/
 phpExcel --> https://github.com/PHPOffice/PHPExcel
+phpMailer --> https://github.com/PHPMailer/PHPMailer

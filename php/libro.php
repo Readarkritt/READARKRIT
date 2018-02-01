@@ -13,10 +13,18 @@
 
 	function asignarPortadaALibro( $arrLibros ){
 
-		$libroProblematico   = true;
-		$librosProblematicos = array();
-		$rutaTmp 			 = 'C:/xampp/htdocs/READARKRIT/img/tmp/';
-		$rutaDefinitiva 	 = 'C:/xampp/htdocs/READARKRIT/img/portadasLibros/';
+		$libroProblematico = true;
+		$libroRepetido     = false;
+		$resultado		   = array();		// Array que contiene las filas del excel que están repetidas en la BBDD o han sido problemáticas
+		$rutaTmp 		   = 'C:/xampp/htdocs/READARKRIT/img/tmp/';
+		$rutaDefinitiva    = 'C:/xampp/htdocs/READARKRIT/img/portadasLibros/';
+
+		// 0) Creamos la estructura del array $resultado
+
+		$resultado['numLibrosAInsertar']  = count($arrLibros);
+		$resultado['numLibrosInsertados'] = 0;
+		$resultado['librosRepetidos']     = array();
+		$resultado['librosProblematicos'] = array();
 
 		// 1) Asignamos el nombre de la portada que hay en el servidor al $arrLibros
 		for( $i=0; $i < count($arrLibros); $i++ ) { 
@@ -32,7 +40,7 @@
 				$arrLibros[$i]['PORTADA'] = $nuevoNombre;
 
 				// 1.2) Comprobamos que los datos que no requieren de ID son válidos
-				if( $arrLibros[$i]['TITULO'] != '' && $arrLibros[$i]['TITULO_ORIGINAL'] != '' && $arrLibros[$i]['AUTOR'] != '' && ( (int)$arrLibros[$i]['ANO'] >= 1900 && (int)$arrLibros[$i]['ANO'] <= (int) date('Y') ) ){
+				if( $arrLibros[$i]['TITULO'] != '' && $arrLibros[$i]['TITULO_ORIGINAL'] != '' && !existeRegistro('titulo', $arrLibros[$i]['TITULO'], 'libro') && !existeRegistro('titulo_original', $arrLibros[$i]['TITULO_ORIGINAL'], 'libro') && $arrLibros[$i]['AUTOR'] != '' && ( (int)$arrLibros[$i]['ANO'] >= 1500 && (int)$arrLibros[$i]['ANO'] <= (int) date('Y') ) ){
 
 					// 2) Comprobar quién lo ha subido
 
@@ -53,7 +61,7 @@
 							if( $arrLibros[$i]['ID_PAIS'] ){
 
 								// 5) Obtener el id de la categoría
-								$condicion = 'nombre LIKE "' . $arrLibros[$i]['CATEGORIA'] . '"';
+								$condicion = 'nombre LIKE "%' . $arrLibros[$i]['CATEGORIA'] . '%"';
 								$arrLibros[$i]['ID_CATEGORIA'] = consulta('id_categoria', 'categoria_libro', $condicion);
 
 								if( $arrLibros[$i]['ID_CATEGORIA'] ){
@@ -76,15 +84,23 @@
 							}
 						}
 					} 
-				}
-
+				} else
+					$libroRepetido = true;
 			}
 
 			// 9) Compruebo que el libro no haya dado ningún problema y lo inserto en la BBDD
-			if( $libroProblematico ){
+
+			if( $libroRepetido || $libroProblematico ){
 
 				unlink($rutaDefinitiva.$nuevoNombre);	// borro la portada del libro del servidor
-				array_push($librosProblematicos, $i+2);
+
+				if( $libroRepetido ){
+
+					array_push($resultado['librosRepetidos'], $i+2);
+					$libroRepetido = false;
+				} else
+					array_push($resultado['librosProblematicos'], $i+2);
+
 			} else {
 
 				// 10) Separamos los valores de libro y libroAnadido
@@ -113,20 +129,25 @@
 				$libroAnadido = new LibroAnadido();
 				$libroAnadido->rellenar($valoresLibro, $valoresLibroAnadido);
 
+				$resultado['numLibrosInsertados']++;
+
 				// 13) establezco de nuevo el valor de libro problemático
 				$libroProblematico = true;
 			}
 
 		} // fin del for
 
+		// Borro todo el contenido de la ruta tmp
+		borrarDirectorio($rutaTmp, true);
 
 		// Devolvemos los elementos que han dado problemas
-		return $librosProblematicos;
+		return $resultado;
 	}
 
 
 
 	if( $obj['opcion'] == 'libro' && $obj['accion'] == 'procesarLibrosExcel' ){
+
 		if(tienePermiso('admin')){
 
 			if( isset($_FILES['ficheroExcel'], $_FILES['ficheroComprimido']) ){
@@ -134,17 +155,25 @@
 				if( extensionValida( $_FILES['ficheroExcel']['name'], 'excel' ) && extensionValida( $_FILES['ficheroComprimido']['name'], 'zip' ) ){
 
 					$arrLibros = excelTOarray( $_FILES['ficheroExcel']['tmp_name'] );
-					descomprimirZIP( $_FILES['ficheroComprimido']['tmp_name'] );
+					descomprimirZIP( $_FILES['ficheroComprimido']['tmp_name'], '', 'img' );
 
-					$librosProblematicos = asignarPortadaALibro( $arrLibros );
+					$resultado = asignarPortadaALibro( $arrLibros );
 
-					if( count($librosProblematicos) == 0 ){
-
+					if( $resultado['numLibrosAInsertar'] == $resultado['numLibrosInsertados'] )
 						$respuesta['error'] = false;
-					} else {
+					else {
+
+						$respuesta['descripcionError'] = 'Se han encontrado algunos problemas en la subida: </br></br><ul>';
+
+						if( count($resultado['librosRepetidos']) != 0 )
+							$respuesta['descripcionError'] .= '<li>Los libros situados en las filas ' . implode(', ', $resultado['librosRepetidos']) . ' del fichero Excel, ya se encuentran registrados.</li>';
+
+						if( count($resultado['librosProblematicos']) != 0 )
+							$respuesta['descripcionError'] .= '<li>No se han podido insertar los libros situados en las filas ' . implode(', ', $resultado['librosProblematicos']) . ' del fichero Excel, por favor, revise los campos.</li>';
+
+						$respuesta['descripcionError'] .= '</ul>';
 
 						$respuesta['error'] = true;
-						$respuesta['descripcionError'] = 'No se han podido insertar los libros situados en las filas ' . implode(', ', $librosProblematicos) . ' del fichero Excel, por favor, revise los campos.';
 					}
 
 					// borrar archivos excel y zip de la ruta temporal

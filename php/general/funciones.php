@@ -1,5 +1,23 @@
 <?php
 
+	function enviarMail($destinatario, $asunto, $mensaje){
+
+		require_once("../clases/PHPMailer.php");
+
+		$mail = new PHPMailer;
+
+		$mail->setFrom('gi.arkrit@upm.es', 'Grupo ARKRIT');
+
+		$mail->addAddress($destinatario);
+
+		$mail->Subject = $asunto;
+
+		$mail->isHTML(true);
+		$mail->Body = $mensaje;
+
+		return $mail->send();
+	}
+
 	function generarFechaActual(){
 
 		return date('d/m/Y');
@@ -215,7 +233,31 @@
 	}
 
 
-	function descomprimirZIP( $rutaZIP, $rutaDestino = '' ){
+	function borrarDirectorio($dir, $borrarSoloContenido = false) {
+
+		// Borra un directorio y todo el contenido que tiene en él
+
+	    if (!file_exists($dir))
+	        return true;
+
+	    if (!is_dir($dir))
+	        return unlink($dir);
+
+	    foreach (scandir($dir) as $item) {
+
+	        if ($item == '.' || $item == '..')
+	            continue;
+
+	        if (!borrarDirectorio($dir . DIRECTORY_SEPARATOR . $item))
+	            return false;
+	    }
+
+	    if(!$borrarSoloContenido)
+	    	return rmdir($dir);
+	}
+
+
+	function descomprimirZIP( $rutaZIP, $rutaDestino = '', $extensionDatoAExtraer = '' ){
 
 		if( $rutaDestino == '' )
 			$rutaDestino = 'C:/xampp/htdocs/READARKRIT/img/tmp/';
@@ -231,7 +273,6 @@
 
 			    if( substr($filename, -1) != '/' ) // si el último caracter de la cadena es /, es un directorio
 			    	array_push($arrRutasFicheros, $filename);
-
 			}
 
 			$zip->extractTo( $rutaDestino );
@@ -240,14 +281,18 @@
 
 				for ($i=0; $i < count($arrRutasFicheros); $i++){
 
-					$partesFilename = explode('/', $arrRutasFicheros[$i]);
-					$fichero        = array_pop($partesFilename);
+					/*$partesFilename = explode('/', $arrRutasFicheros[$i]);
+					$fichero        = array_pop($partesFilename);*/
 
-					if( extensionValida($fichero, 'img') )
+					$fichero = basename($arrRutasFicheros[$i]);	// obtiene el nombre de un fichero de una ruta
+
+					if( $extensionDatoAExtraer != '' && extensionValida($fichero, $extensionDatoAExtraer) )
 						rename($rutaDestino.$arrRutasFicheros[$i], $rutaDestino.$fichero);
 				}
 
-				rmdir($rutaDestino.$zip->getNameIndex(0));
+				//rmdir($rutaDestino.$zip->getNameIndex(0));
+
+				borrarDirectorio($rutaDestino.$zip->getNameIndex(0));
 			}
 
 		    $zip->close();

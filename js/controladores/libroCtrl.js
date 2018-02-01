@@ -153,13 +153,17 @@ angular.module('readArkrit')
 
 			console.log(formData);
       		$.ajax({
-      		 	url:'./php/libroAnadido.php',                    
+      		 	url:'./php/libroAnadido.php',   
+      		 	dataType: 'json',                 
 	            type: 'POST',
 		        data:formData,
 	            contentType: false,
-	            processData: false,     
+	            processData: false,   
+	            beforeSend: function(){
+				    // Muestra el spinner de loading
+				    activarLoading();
+				},
 	            success: function(data){
-	            	data = $.parseJSON(data);
 				   	if(data.error){
 				   		errores = 'Error: datos manipulados.';
 				   	} else {				   		
@@ -179,7 +183,11 @@ angular.module('readArkrit')
 					        $scope.dtInstance.reloadData(callback, resetPaging);
 					    }
 				   	}
-	            }
+	            },
+		        complete:function(){
+		   			// Oculta el spinner de loading
+		    		desactivarLoading();
+		   		}
 	     	});
 		   
       	}
@@ -235,19 +243,21 @@ angular.module('readArkrit')
 
 				$.ajax({
 	                url: './php/libro.php',
-	                dataType: 'text',
+	                dataType: 'json',
 	                cache: false,
 	                contentType: false,
 	                processData: false,
 	                data: formData,                         
 	                type: 'POST',
-	                success: function(data){
-	                    
+	                beforeSend:function(){
+					    // Muestra el spinner de loading
+					    activarLoading();
+					},
+	                success:function(data){
+
 	                    if(!data.error){
 
 	                    	$scope.listarLibrosAnadidos();
-
-	                    	
 
 	                    	$('#erroresProcesamientoLibros span').html('Libros creados correctamente.');
 
@@ -260,7 +270,11 @@ angular.module('readArkrit')
 	                    }
 
 	                    $('#erroresProcesamientoLibros').removeClass('hidden');
-	                }
+	                },
+			        complete:function(){
+			   			// Oculta el spinner de loading
+			    		desactivarLoading();
+			   		}
 	     		});
 
 	    	} else {
@@ -332,15 +346,18 @@ angular.module('readArkrit')
 			formData.append('token', sessionStorage.getItem('tokenREADARKRIT'));
 
       		 $.ajax({
-      		 	url:'./php/libro.php',                    
+      		 	url:'./php/libro.php', 
+      		 	dataType: 'json',                   
 	            type: 'POST',
 		        data:formData,
 	            contentType: false,
 	            processData: false,
 	            async: false,     
+	            beforeSend:function(){
+				    // Muestra el spinner de loading
+				    activarLoading();
+				},
 	            success: function(data){
-	            	data = $.parseJSON(data);
-	            	console.log(data);
 				   	if(data.error){
 				   		errores = data.descripcionError;
 				   	} else {
@@ -370,7 +387,11 @@ angular.module('readArkrit')
 					    }*/
 
 				   	}
-	            }
+	            },
+		        complete:function(){
+		   			// Oculta el spinner de loading
+		    		desactivarLoading();
+		   		}
 	     	});
 		   
       	}

@@ -16,9 +16,17 @@ function peticionAJAX(phpUrl, parameterObject, async){
         async: async,
         method: 'POST',
         dataType: 'json',
+        beforeSend:function(){
+		    // Muestra el spinner de loading
+		    activarLoading();
+		},
         success:function(data, textStatus, jqXHR){
             console.log("success");
-        }
+        },
+        complete:function(){
+   			// Oculta el spinner de loading
+    		desactivarLoading();
+   		}
     });
 }
 
@@ -311,4 +319,42 @@ function fechaActual(formato){
 		return f.getDate() + '-' + (f.getMonth() +1) + '-' + f.getFullYear();
 	else // yyyy-mm-dd
 		return f.getFullYear() + '-' + (f.getMonth() +1) + '-' + f.getDate();
+}
+
+// activa un div con un icono de "loading"
+
+function activarLoading(){
+
+	$('.container-fluid').addClass('hidden');
+
+	if( $('#divLoading').length == 0 ){
+
+		var html = '<div class="container-fluid" id="divLoading">' +
+    					'<div class="row">' +
+    						'<div class="col-md-12">' +
+            					'<div class="card">' +
+									'<div class="card-content" style="text-align: center; margin: 5% auto 5% auto;">' +
+					                	'<div class="row">' +
+					    					'<div class="col-md-12">' +
+					                            '<i class="fa fa-spinner fa-spin fa-3x fa-fw text-primary" aria-hidden="true" style="font-size: 20em;"></i>' +
+					    					'</div>' +
+					    				'</div>' +
+					    			'</div>' +
+					    		'</div>' +
+					    	'</div>' +
+					    '</div>' +
+					'</div>';
+
+		$('.content').append(html);
+	}else
+		$('#divLoading').removeClass('hidden');
+}
+
+// desactiva un div con un icono de "loading"
+
+function desactivarLoading(){
+
+	$('.container-fluid').removeClass('hidden');
+
+	$('#divLoading').addClass('hidden');
 }
