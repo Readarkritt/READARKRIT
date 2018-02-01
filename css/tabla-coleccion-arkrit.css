@@ -1,32 +1,77 @@
 #tablaColeccionArkrit, #tablaColeccionArkrit th, #tablaColeccionArkrit td{
+
 	border-color: transparent;
+
 }
+
+
 
 #tablaColeccionArkrit tr{
+
 	background-color: transparent;
+
 }
+
+
 
 #tablaColeccionArkrit tr:hover{
+
 	background-color: #f3f3f3;
+
 }
+
+
 
 #tablaColeccionArkrit .sorting_asc, #tablaColeccionArkrit .sorting_desc{
+
 	background-color: #DBAA64;
+
 }
+
+
 
 #tablaColeccionArkrit thead > tr:hover{
+
 	background-color: transparent;
+
 }
+
+
 
 #tablaColeccionArkrit thead > tr > th:hover{
+
 	background-color: #DBAA64;
+
 }
 
-.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+
+
+#tablaColeccionArkrit_paginate>.pagination>.active>a, #tablaColeccionArkrit_paginate>.pagination>.active>a:focus, #tablaColeccionArkrit_paginate>.pagination>.active>a:hover, #tablaColeccionArkrit_paginate>.pagination>.active>span, #tablaColeccionArkrit_paginate>.pagination>.active>span:focus, #tablaColeccionArkrit_paginate>.pagination>.active>span:hover {
+
     background-color: #DBAA64;
+
     border-color: #DBAA64;
+
 }
+
+
 
 .cursorInfo{
+
 	cursor: pointer;
+
+	width:100%;
+
+	height:100%
+
 }
+
+
+
+/*#tablaColeccionArkrit tbody > tr > td{
+
+	width:100%;
+
+	height:100%
+
+}*/

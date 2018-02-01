@@ -27,6 +27,7 @@
 		$resultado['librosProblematicos'] = array();
 
 		// 1) Asignamos el nombre de la portada que hay en el servidor al $arrLibros
+		print_r($arrLibros);
 		for( $i=0; $i < count($arrLibros); $i++ ) { 
 
 			$ficheroTmp = $rutaTmp . $arrLibros[$i]['PORTADA'];
@@ -36,6 +37,7 @@
 				$nuevoNombre = generarFechaMicrosegundos() . '.' . obtenerExtension($arrLibros[$i]['PORTADA']);
 
 				rename($ficheroTmp, $rutaDefinitiva.$nuevoNombre);
+				redimensionarImagen($rutaDefinitiva.$nuevoNombre, 120,180);
 
 				$arrLibros[$i]['PORTADA'] = $nuevoNombre;
 
@@ -77,7 +79,7 @@
 									if( $arrLibros[$i]['NIVEL_ESPECIALIZACION'] == 'Básico' || $arrLibros[$i]['NIVEL_ESPECIALIZACION'] == 'Especialidad' ){
 
 										// 9) RESEÑA se comprueba si no se sale del límite
-										if( (strlen($arrLibros[$i]['RESENA']) <= 2000 && preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ ,.;_\s]+$/', $arrLibros[$i]['RESENA'])) || $arrLibros[$i]['RESENA'] == '' )
+										if( (strlen($arrLibros[$i]['RESENA']) <= 2000 && preg_match('/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ ,.;_\s]+$/', $arrLibros[$i]['RESENA'])) || $arrLibros[$i]['RESENA'] == '')
 											$libroProblematico = false;
 									}
 								}
@@ -229,30 +231,43 @@
 				$libroValidado = validarCamposLibro($libro);
 				$libroAnadidoValidado = validarCamposLibroAnadido($libroAnadido,true);
 				$portadaVacia = !isset($_FILES["portada"]);
-
-
-				if($libroValidado && $libroAnadidoValidado && !$portadaVacia){
-
-					//Inserción imagen
-					$folder = '../img/portadasLibros/';
+				if(!$portadaVacia){
+					$temporalFolder = '../img/tmp/';
 					$nuevoNombre = generarFechaMicrosegundos() . '.' . obtenerExtension($_FILES['portada']['name']);
-					move_uploaded_file($_FILES["portada"]["tmp_name"], $folder.$nuevoNombre);
+					move_uploaded_file($_FILES["portada"]["tmp_name"], $temporalFolder.$nuevoNombre);
 
-					$libro['portada'] = $nuevoNombre;
-					//Inserción libro
-					$libroAnadidoObj = new LibroAnadido();
-					$libroAnadidoObj->rellenar($libro, $libroAnadido);
-					$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original, l.id_titulacion, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.id_libro = '.$libroAnadidoObj->obtenerIdLibro();
+					if( extensionValida($_FILES["portada"]["name"], 'img')){
+						if($libroValidado && $libroAnadidoValidado){
+							//Inserción imagen
+							$folder = '../img/portadasLibros/';
+							redimensionarImagen($temporalFolder.$nuevoNombre, 120,180);
+							rename($temporalFolder.$nuevoNombre, $folder.$nuevoNombre);
+							//Redimensionar imagen
 
-					$respuesta['libro'] = consulta( '', '', '', $sql);
-					$respuesta['error'] = false;
+							$libro['portada'] = $nuevoNombre;
+							//Inserción libro
+							$libroAnadidoObj = new LibroAnadido();
+							$libroAnadidoObj->rellenar($libro, $libroAnadido);
+							$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original, l.id_titulacion, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.id_libro = '.$libroAnadidoObj->obtenerIdLibro();
+
+							$respuesta['libro'] = consulta( '', '', '', $sql);
+							$respuesta['error'] = false;
+						} else{
+							$respuesta['error'] = true;
+							$respuesta['descripcionError'] = 'Datos manipulados.';
+						}
+					} else{
+						unlink($temporalFolder.$nuevoNombre);
+						$respuesta['error'] = true;
+						$respuesta['descripcionError'] = 'Formato de imagen no válido.';
+					}
 				} else{
 					$respuesta['error'] = true;
 					$respuesta['descripcionError'] = 'Datos manipulados.';
 				}
 			} else{
 				$respuesta['error'] = true;
-				$respuesta['descripcionError'] = 'Datos manipulados.';
+				$respuesta['descripcionError'] = 'Portada vacía.';
 			}
 		} else{
 			$respuesta['error'] = true;

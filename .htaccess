@@ -1,5 +1,6 @@
 Options +FollowSymLinks -MultiViews
 RewriteEngine On
+RewriteBase /READARKRIT/
 
 #Si se intenta acceder a un directorio redirigir a error
 RewriteCond %{REQUEST_FILENAME} -d
@@ -8,15 +9,15 @@ RewriteRule ^ /READARKRIT/html/error/error.html
 
 #Si se solicita un fichero diferente a las listadas, redirigir al control de acceso
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteCond %{REQUEST_FILENAME} ^(.+).html [NC]
+RewriteCond %{REQUEST_FILENAME} \.html
 
 RewriteCond %{REQUEST_URI} !^/READARKRIT/html/error/error.html
 RewriteCond %{REQUEST_URI} !^/READARKRIT/index.html
 RewriteCond %{REQUEST_URI} !^/READARKRIT/html/alumno/altaAlumno.html
 
-RewriteRule ^ /READARKRIT/php/access.php [L]
+RewriteRule ^(.*)$ php/access.php [L]
 
-#Si se solicita una dirección no existente, redirigir al control de acceso
+#Si se solicita una direccion no existente, redirigir al control de acceso
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ /READARKRIT/php/access.php

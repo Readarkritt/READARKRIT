@@ -49,8 +49,12 @@
 		
 		if($headers && isset($headers['token'])){
 			$token = $headers['token'];
+		} else if(isset($headers['Token'])){
+			$token = $headers['Token'];
 		} else if(isset($obj['token'])){
 			$token = $obj['token'];
+		} else if(isset($obj['Token'])){
+			$token = $obj['Token'];
 		}
 		return $token;
 	}

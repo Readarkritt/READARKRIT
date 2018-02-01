@@ -1,5 +1,5 @@
 angular.module('readArkrit')
-  .controller('coleccionArkritCtrl', function ($scope) {
+  .controller('coleccionArkritCtrl', function ($scope, DTOptionsBuilder) {
 
     $scope.coleccionArkrit = [];
 
@@ -11,7 +11,7 @@ angular.module('readArkrit')
 
 			opcion: 'libroAnadido',
 			accion: 'listar'
-		})
+		},false)
 		.done(function( data, textStatus, jqXHR ){
 
 			if( !data.error ){
@@ -19,12 +19,13 @@ angular.module('readArkrit')
                 var rutaDefinitiva = './img/portadasLibros/';
                 
                 $('#tablaColeccionArkrit').removeClass('hidden');
-
-				$scope.coleccionArkrit = $.makeArray(data.librosAnadidos);
+                
+                $scope.coleccionArkrit = $.makeArray(data.librosAnadidos);
 
                 $.each( $scope.coleccionArkrit, function( index, value ){
                     $scope.coleccionArkrit[index].portada = rutaDefinitiva + $scope.coleccionArkrit[index].portada;
                 });
+
             }
 		});
     };

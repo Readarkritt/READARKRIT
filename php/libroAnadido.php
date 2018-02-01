@@ -16,6 +16,24 @@
 		$sql = 'select l.id_libro, a.id_libro_anadido, a.id_pais, a.id_categoria, l.portada, l.titulo, l.titulo_original, l.id_titulacion, l.autor, l.ano, CASE WHEN l.anadido_por = 0 THEN "ARKRIT" ELSE concat(u.primer_apellido, " ", u.segundo_apellido, ", ", u.nombre) END as anadido_por, t.nombre as titulacion, p.nombre as pais, cl.nombre as categoria, a.posicion_ranking, a.media_num_usuarios, a.nivel_especializacion, a.resena from libro l inner join libro_anadido a on l.id_libro = a.id_libro left join usuario u on l.anadido_por = u.id_usuario inner join titulacion t on l.id_titulacion = t.id_titulacion inner join pais p on a.id_pais = p.id_pais inner join categoria_libro cl on a.id_categoria = cl.id_categoria where l.f_baja is null';
 
 		$respuesta['librosAnadidos'] = consulta( '', '', '', $sql);
+
+		for ($i=0; $i < count($respuesta['librosAnadidos']); $i++) { 
+			$notas = consulta( 'nota', 'resena', 'id_libro = '.$respuesta['librosAnadidos'][$i]['id_libro'] );
+			if(!empty($notas)){
+				$suma = 0;
+				for($j=0; $j<count($notas);$j++){
+					$suma+=$notas[$j];
+				}
+				$respuesta['librosAnadidos'][$i]['promedio'] = round($suma/count($notas),1);
+				$respuesta['librosAnadidos'][$i]['votos'] = count($notas);
+			} else{
+				$respuesta['librosAnadidos'][$i]['promedio'] = 0;
+				$respuesta['librosAnadidos'][$i]['votos'] = 0;
+			}
+
+		}
+
+
 		$respuesta['error']          = ($respuesta['librosAnadidos'] === false);
 
 	} else if( $obj['opcion'] == 'libroAnadido' && $obj['accion'] == 'listarTodos' ){

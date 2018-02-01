@@ -70,8 +70,8 @@ angular.module('readArkrit')
       erroresComentarioClub += '<li>El comentario no se ha completado.</li>';
     else if( $scope.comentario.length > 1000 )
       erroresComentarioClub += '<li>El comentario no puede exceder de los 1000 caracteres.</li>';
-    else if( !$scope.comentario.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
-      erroresComentarioClub += '<li>El comentario sólo puede contener letras.</li>';
+    else if( !$scope.comentario.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\-.,:;'&\s]+$/) )
+      erroresComentarioClub += '<li>El comentario sólo puede contener letras, dígitos y signos de puntuación.</li>';
 
     if( erroresComentarioClub != '' ){
 

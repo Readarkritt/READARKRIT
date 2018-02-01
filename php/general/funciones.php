@@ -18,6 +18,49 @@
 		return $mail->send();
 	}
 
+	function imagecreatefromfile( $filename ) {
+	    if (!file_exists($filename)) {
+	        throw new InvalidArgumentException('File "'.$filename.'" not found.');
+	    }
+	    switch ( strtolower( pathinfo( $filename, PATHINFO_EXTENSION ))) {
+	        case 'jpeg':
+	        case 'jpg':
+	            return imagecreatefromjpeg($filename);
+	        break;
+
+	        case 'png':
+	        case 'pneg':
+	            return imagecreatefrompng($filename);
+	        break;
+
+	        case 'gif':
+	            return imagecreatefromgif($filename);
+	        break;
+
+	        default:
+	            throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
+	        break;
+	    }
+	}
+
+	function redimensionarImagen($file, $w, $h, $crop=FALSE) {
+	    list($width, $height) = getimagesize($file);
+	    $r = $width / $height;
+	    $src = imagecreatefromfile($file);
+	    $dst = imagecreatetruecolor($w, $h);
+
+	   	$ext = strtolower( pathinfo( $file, PATHINFO_EXTENSION ));
+
+	   	if($ext == 'png' || $ext == 'pneg'){
+	   		$kek=imagecolorallocate($dst, 255, 255, 255);
+     		imagefill($dst,0,0,$kek);
+	   	}
+
+	    imagecopyresampled($dst, $src, 0, 0, 0, 0, $w, $h, $width, $height);
+
+		imagejpeg($dst, $file);
+	}
+
 	function generarFechaActual(){
 
 		return date('d/m/Y');
@@ -205,7 +248,7 @@
 
 		    $highestRow    = $worksheet->getHighestRow();
 		    $highestColumn = PHPExcel_Cell::columnIndexFromString( $worksheet->getHighestColumn() );
-
+		    
 		    for( $i = 0; $i < $highestColumn; $i++ ){
 
 		    	$cell = $worksheet->getCellByColumnAndRow($i, 1);
@@ -289,6 +332,7 @@
 					if( $extensionDatoAExtraer != '' && extensionValida($fichero, $extensionDatoAExtraer) )
 						rename($rutaDestino.$arrRutasFicheros[$i], $rutaDestino.$fichero);
 				}
+
 
 				//rmdir($rutaDestino.$zip->getNameIndex(0));
 

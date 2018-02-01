@@ -7,17 +7,16 @@ S 4) Ruta temporal para almacenar los excel y zip de la subida masiva de libros.
 MEJORAS DE ÚLTIMA HORA
 5) Spinner entre la pantalla de Estadísticas y Mi biblioteca
 6) Borrar pruebas.php
-7) Limitar el tamaño de los ficheros a subir --> http://php.net/manual/es/features.file-upload.errors.php
-8) DATATABLES: Refrescar	
+		HECHO 7) Limitar el tamaño de los ficheros a subir --> http://php.net/manual/es/features.file-upload.errors.php
+8) A- DATATABLES: Refrescar	
 			var table = $('#tablaListado').DataTable();
 			table.draw( false );
 		Y quitar el $scope.$apply();
 		Quitar dt-options dt-instance de las tablas (HTML)
 		Quitar DTOptionsBuilder de los controladores
-9) Tamaño de portadas de los libros
-10) Definir permiso vista formProfesor (compartido entre profesor y profesorInvitado) (Solved?)
+		HECHO 9) Tamaño de portadas de los libros
+		HECHO 10) Definir permiso vista formProfesor (compartido entre profesor y profesorInvitado) (Solved?)
 11) Diseño DataTables
-
 		HECHO a - 12) Ajustes/Cerrar Sesión -> Login/Conectarse (si Visitante)
 		HECHO A - 13) Comentarios: Si es visitante, desactivar el formulario de alta comentario.
 		HECHO A - 14) Libros propuestos: añadir reactivar libro (y mostrar en "Eliminar" -> "Administrar libros propuestos")
@@ -38,3 +37,4 @@ MEJORAS DE ÚLTIMA HORA
 
 PRUEBAS
 A - 29) Comprobar si hay errores de autenticación y carga
+A - 30) Comprobar rutas

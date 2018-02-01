@@ -3,9 +3,9 @@
 	function conectar(){
 
 		$servername  = "localhost";
-		$db_username = "root";
-		$db_password = "";
-		$db_name     = "readarkrit";
+		$db_username = "erdbussb_readark";
+		$db_password = "read123";
+		$db_name     = "erdbussb_readarkrit";
 
 		$conn = new mysqli($servername, $db_username, $db_password, $db_name);
 		// Con puerto: new mysqli("127.0.0.1", "usuario", "contraseña", "basedatos", 3306);
@@ -242,5 +242,18 @@
 			return (bool) consulta( '', '', '', $sql);
 		}
 	}
+	
+	function existeCondicion( $tabla, $condicion ){
 
+		if( $condicion == '' || $tabla == '' ){
+
+			return false;
+
+		} else {
+
+			$sql = 'SELECT COUNT(*) FROM ' . $tabla . ' WHERE ' . $condicion . '"';
+			
+			return (bool) consulta( '', '', '', $sql);
+		}
+	}
 ?>
