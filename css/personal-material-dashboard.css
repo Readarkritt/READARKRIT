@@ -303,3 +303,10 @@ table.dataTable td.child span.dtr-data{
   font-weight:5;
   margin-bottom:20px;
 }
+
+/* MENÚ LATERAL */
+div.sidebar-wrapper{
+  background-image:url('../img/menu.png');
+  background-position:center;
+  background-repeat: no-repeat;
+}

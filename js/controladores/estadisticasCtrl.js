@@ -27,10 +27,20 @@ angular.module('readArkrit')
 			}else{
 				$scope.miembrosComunidad   = data.miembrosComunidad;
 				$scope.totalLibros 		   = data.totalLibros;
-			    $scope.numResenas 		   = data.numResenas;
-			    $scope.numGrupos 		   = data.numGrupos;
-			    $scope.numSeguidores 	   = data.numSeguidores;
-			    $scope.numPersonasSeguidas = data.numPersonasSeguidas;
+
+				if($scope.rol == null || $scope.rol != 'visitante'){
+				    $scope.numResenas 		   = data.numResenas;
+				    $scope.numGrupos 		   = data.numGrupos;
+				    $scope.numSeguidores 	   = data.numSeguidores;
+				    $scope.numPersonasSeguidas = data.numPersonasSeguidas;
+				} else{
+				    $scope.numResenas 		   = 0;
+				    $scope.numGrupos 		   = 0;
+				    $scope.numSeguidores 	   = 0;
+				    $scope.numPersonasSeguidas = 0;					
+				}
+
+
 			}
 
 		});

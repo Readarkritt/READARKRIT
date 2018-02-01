@@ -89,19 +89,19 @@ function validarCamposUsuario(campos, comprobarExistente = true, comprobarContra
 		errores += '<li>El nombre no se ha completado.</li>';
 		else if( campos.nombre.length > 40 )
 			errores += '<li>El nombre no puede exceder de los 40 caracteres.</li>';
-		else if( !campos.nombre.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+		else if( !campos.nombre.match(/^[a-zA-ZñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß'\s]+$/) )
 			errores += '<li>El nombre sólo puede contener letras.</li>';
 	if( campos.primerApellido === undefined || campos.primerApellido == '' )
 		errores += '<li>El primer apellido no se ha completado.</li>';
 		else if( campos.primerApellido.length > 30 )
 			errores += '<li>El primer apellido no puede exceder de los 30 caracteres.</li>';
-		else if( !campos.primerApellido.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+		else if( !campos.primerApellido.match(/^[a-zA-ZñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß'\s]+$/) )
 			errores += '<li>El primer apellido sólo puede contener letras.</li>';
 	if( campos.segundoApellido === undefined || campos.segundoApellido == '' )
 		errores += '<li>El segundo apellido no se ha completado.</li>';
 		else if( campos.segundoApellido.length > 30 )
 			errores += '<li>El segundo apellido no puede exceder de los 30 caracteres.</li>';
-		else if( !campos.segundoApellido.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+		else if( !campos.segundoApellido.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß'\s]+$/) )
 			errores += '<li>El segundo apellido sólo puede contener letras.</li>';
 	if( campos.fNacimiento === undefined || campos.fNacimiento == '' )
 			errores += '<li>La fecha de nacimiento no se ha completado.</li>';
@@ -125,7 +125,7 @@ function validarCamposUsuario(campos, comprobarExistente = true, comprobarContra
 		errores += '<li>El nombre de usuario no se ha completado.</li>';
 		else if( campos.nombreUsuario.length > 20 )
 			errores += '<li>El nombre de usuario no puede exceder de los 20 caracteres.</li>';
-		else if( !campos.nombreUsuario.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+		else if( !campos.nombreUsuario.match(/^[a-zA-ZñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß'\s]+$/) )
 			errores += '<li>El nombre de usuario sólo puede contener letras.</li>';
 		else if( comprobarExistente && existeRegistro('nombre_usuario', campos.nombreUsuario, 'usuario') )
 			errores += '<li>El nombre de usuario se encuentra ya en uso.</li>';
@@ -190,14 +190,14 @@ function validarCamposLibro(campos, comprobarExistente=true){
 			errores += '<li>El título no se ha proporcionado.</li>';
 			else if(campos.titulo.length>100)
 				errores += '<li>El título no puede superar los 100 caracteres.</li>';
-			else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,:;&\s]+$/) )
+			else if( !campos.titulo.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\-.,:;'&\s]+$/) )
 				errores += '<li>El título sólo puede contener letras, dígitos, signos de puntuación o &.</li>';
 
 		if(campos.tituloOriginal === undefined || campos.tituloOriginal == '')
 			errores += '<li>El título original no se ha proporcionado.</li>';
 			else if(campos.tituloOriginal.length>100)
 				errores += '<li>El título original no puede superar los 100 caracteres.</li>';
-			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.,:;&\s]+$/) )
+			else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\-.,:;'&\s]+$/) )
 				errores += '<li>El título original sólo puede contener letras, dígitos, signos de puntuación o &.</li>';
 
 	if(errores=='' && comprobarExistente && existeRegistro('titulo', campos.titulo, 'libro') && existeRegistro('titulo_original',campos.tituloOriginal, 'libro')){
@@ -208,7 +208,7 @@ function validarCamposLibro(campos, comprobarExistente=true){
 			errores += '<li>El autor no se ha proporcionado.</li>';
 			else if(campos.autor.length>50)
 				errores += '<li>El autor no puede superar los 50 caracteres.</li>';
-			else if( !campos.autor.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_,.:;\s]+$/) )
+			else if( !campos.autor.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\-.;'\s]+$/) )
 				errores += '<li>El autor sólo puede contener letras, dígitos o signos de puntuación.</li>';
 
 		if( campos.ano === undefined || campos.ano == '' )
@@ -272,7 +272,7 @@ function validarCamposClubLectura(campos){
 		errores += '<li>El nombre del club no se ha proporcionado.</li>';
 		else if( campos.nombre.length > 20 )
 			errores += '<li>El nombre del club no puede superar los 20 caracteres.</li>';
-		else if( !campos.nombre.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
+		else if( !campos.nombre.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß\s]+$/) )
 			errores += '<li>El nombre del club sólo puede contener letras o dígitos.</li>';
 		else if( existeRegistro('nombre',campos.nombre, 'clubLectura') )
 			errores += '<li>El nombre del club ya existe.</li>';
@@ -295,22 +295,22 @@ function validarCamposNominacion(campos){
 		errores += '<li>El título no se ha proporcionado.</li>';
 		else if(campos.titulo.length>100)
 			errores += '<li>El título no puede superar los 100 caracteres.</li>';
-		else if( !campos.titulo.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
-			errores += '<li>El título sólo puede contener letras o dígitos.</li>';
+		else if( !campos.titulo.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\-.:;'&\s]+$/) )
+			errores += '<li>El título sólo puede contener letras, dígitos, signos de puntuación o &.</li>';
 
 	if(campos.tituloOriginal === undefined || campos.tituloOriginal == '')
 		errores += '<li>El título original no se ha proporcionado.</li>';
 		else if(campos.tituloOriginal.length>100)
 			errores += '<li>El título original no puede superar los 100 caracteres.</li>';
-		else if( !campos.tituloOriginal.match(/^[a-zA-Z0-9áéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
-			errores += '<li>El título original sólo puede contener letras o dígitos.</li>';
+		else if( !campos.titulo.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\-.:;'&\s]+$/) )
+			errores += '<li>El título original sólo puede contener letras, dígitos, signos de puntuación o &.</li>';
 
 	if(campos.autor=== undefined || campos.autor == '')
 		errores += '<li>El autor no se ha proporcionado.</li>';
 		else if(campos.autor.length>50)
 			errores += '<li>El autor no puede superar los 50 caracteres.</li>';
-		else if( !campos.autor.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
-			errores += '<li>El autor sólo puede contener letras o dígitos.</li>';
+		else if( !campos.autor.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\-.;'\s]+$/) )
+			errores += '<li>El autor sólo puede contener letras, dígitos o signos de puntuación.</li>';
 
 	if(campos.motivo === undefined || campos.motivo == '')
 		errores += '<li>Se debe rellenar el campo motivo</li>';

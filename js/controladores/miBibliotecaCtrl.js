@@ -372,8 +372,8 @@ function altaModificarEstanteria(operacion, idEstanteria){
 		html += 'Ya tienes una estantería que se llama así.';
 	else if( nombreEstanteria.length > 20 )
 		html += 'El nombre de tu estantería no puede exceder de los 20 caracteres.</li>';
-	else if( !nombreEstanteria.match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/) )
-		html += 'El nombre de tu estantería sólo puede contener letras.</li>';
+	else if( !nombreEstanteria.match(/^[a-zA-Z0-9ñÑÁáÉéÍíÓóÚúÀàÈèÌìÒòÙùÄäËëÏïÖöÜüÂâÊêÎîÔôÛûÇçß_\s]+$/) )
+		html += 'El nombre de tu estantería sólo puede contener letras o dígitos.</li>';
 
 	if( html != '' ){
 

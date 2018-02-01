@@ -32,6 +32,7 @@ angular.module('readArkrit')
 				var rutaDefinitiva = './img/portadasLibros/';
 
 				$('#tablaListado').removeClass('hidden');
+				$scope.librosAnadidos = [];
 				$scope.librosAnadidos = $.makeArray(data.librosAnadidos);
 
 				$.each( $scope.librosAnadidos, function( index, value ){
@@ -67,8 +68,8 @@ angular.module('readArkrit')
 			}
 		});
 
-		var table = $('#tablaListado').DataTable();
-		table.draw( false );
+		/*var table = $('#tablaListado').DataTable();
+		table.draw( false );*/
     };
 
     $scope.cargarModificarLibro = function(idLibroAnadido, indexScope){
@@ -347,6 +348,8 @@ angular.module('readArkrit')
 				   		swal("Libro añadido", "");
 				   		data.libro.portada = './img/portadasLibros/'+data.libro.portada;
 				   		$scope.librosAnadidos.push(data.libro);
+
+				   		console.log($scope.librosAnadidos);
 
 				   		$scope.libro = {};
 				   		$scope.libroAnadido = {};
